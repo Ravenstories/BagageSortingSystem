@@ -14,13 +14,17 @@ namespace BagageSortingSystem
     {
         void Producer();
     }
-    public interface IItemsOnConveyor
+    public interface IItemsAtLocation
     {
-        public void ItemsOnConveyor(BagageItem[] conveyorArray);
+        public void ItemsAtLocation(BagageItem[] conveyorArray);
     }
     public interface ISortCheckIn
     {
         void SortCheckIn(List<BagageItem> bagageList, BagageItem[] conveyor);
+    }
+    public interface ISortArray
+    {
+        void SortArray(BagageItem[] conveyor, BagageItem[] gate, int gateDestination);
     }
     public interface IMoveArray
     {

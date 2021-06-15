@@ -8,6 +8,10 @@ namespace BagageSortingSystem
 {
     class CheckIn
     {
+        //Locks
+        public static object CheckInLockOne = new object();
+
+
         //CheckIn 1
         public static List<BagageItem> CheckInBagageListOne = new List<BagageItem>();
 
