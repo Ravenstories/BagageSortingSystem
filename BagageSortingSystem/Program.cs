@@ -19,13 +19,11 @@ namespace BagageSortingSystem
             SortCheckInTwo sortCheckInTwo = new SortCheckInTwo();
             Thread checkInTwoSortingThread = new Thread(new ThreadStart(sortCheckInTwo.Splitter));
 
-            //Sorting Conveyor 1 to Gate 1
-            SortGateOne sortGateOne = new SortGateOne();
+            //Sorting Conveyor 1 to Gates
+            SortToGates sortGateOne = new SortToGates();
             Thread gateOneSortingThread = new Thread(new ThreadStart(sortGateOne.Splitter));
 
-            //Sorting Conveyor 1 to Gate 2
-            SortGateTwo sortGateTwo = new SortGateTwo();
-            Thread gateTwoSortingThread = new Thread(new ThreadStart(sortGateTwo.Splitter));
+            
 
 
 
@@ -50,7 +48,6 @@ namespace BagageSortingSystem
             checkInOneSortingThread.Start();
             checkInTwoSortingThread.Start();
             gateOneSortingThread.Start();
-            gateTwoSortingThread.Start();
 
             Console.ReadKey();
         }

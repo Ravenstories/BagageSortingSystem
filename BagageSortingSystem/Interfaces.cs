@@ -24,7 +24,7 @@ namespace BagageSortingSystem
     }
     public interface ISortArray
     {
-        void SortArray(BagageItem[] conveyor, BagageItem[] gate, int gateDestination);
+        void SortArray(BagageItem[] conveyor);
     }
     public interface IMoveArray
     {

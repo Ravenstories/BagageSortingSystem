@@ -10,6 +10,7 @@ namespace BagageSortingSystem
     {
         //Locks
         public static object CheckInLockOne = new object();
+        public static object CheckInLockTwo = new object();
 
 
         //CheckIn 1
