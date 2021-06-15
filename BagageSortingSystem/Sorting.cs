@@ -9,32 +9,36 @@ using System.Threading;
 
 namespace BagageSortingSystem
 {
-    class SortCheckInOne : ISplitter, ISortCheckIn, IItemsAtLocation
+    class SortCheckInOne : ISplitter, ISortCheckIn, IItemsAtLocation, IMoveArray
     {
-        
         public void Splitter()
         {
             while (true)
             {
-                SortCheckIn(CheckIn.CheckInBagageListOne, ConveyorBelts.ConveyorOne);
+                SortCheckIn(CheckIn.CheckInOne, ConveyorBelts.ConveyorOne);
                 ItemsAtLocation(ConveyorBelts.ConveyorOne);
                 Thread.Sleep(4500);
                 Console.WriteLine("Number of bagage on conveyor 1: " + ConveyorBelts.ConveyorOneCounter + "\n");
             }
         }
 
-        public void SortCheckIn(List<BagageItem> bagageList, BagageItem[] conveyor)
+        //Check Sorting works here! Create CheckIn Counter
+        public void SortCheckIn(BagageItem[] checkIn, BagageItem[] conveyor)
         {
             BagageItem itemToMove = null;
-
-            if (bagageList.FirstOrDefault() != null)
+            
+            lock (CheckIn.CheckInLockOne)
             {
-                lock (CheckIn.CheckInLockOne)
+                if (conveyor[0] == null)
                 {
-                    itemToMove = bagageList.FirstOrDefault();
-                    BagageItem toRemove = bagageList.FirstOrDefault();
-                    bagageList.Remove(toRemove);
+                    Monitor.Wait(CheckIn.CheckInLockOne);
                 }
+
+                itemToMove = checkIn[0];
+                MoveArray(checkIn);
+                //ConveyorBelts.ConveyorOneCounter--;
+
+                Monitor.PulseAll(CheckIn.CheckInLockOne);
             }
 
             if (itemToMove != null)
@@ -53,7 +57,6 @@ namespace BagageSortingSystem
                 }
                 Thread.Sleep(100);
             }
-            
         }
         public void ItemsAtLocation(BagageItem[] conveyorArray)
         {
@@ -67,8 +70,20 @@ namespace BagageSortingSystem
                 }
             }
         }
+        public BagageItem[] MoveArray(BagageItem[] conveyorArray)
+        {
+            for (int i = 1; i < conveyorArray.Length; i++)
+            {
+                conveyorArray[i - 1] = conveyorArray[i];
+            }
+            conveyorArray[conveyorArray.Length - 1] = null;
+            return conveyorArray;
+        }
 
     }
+
+    #region Sort CheckIn 2
+    /*
     class SortCheckInTwo : ISplitter, ISortCheckIn, IItemsAtLocation
     {
         public void Splitter()
@@ -130,6 +145,8 @@ namespace BagageSortingSystem
         }
 
     }
+    */
+    #endregion // 
 
     class SortToGates : ISplitter, IMoveArray, IItemsAtLocation, ISortArray
     {

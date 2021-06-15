@@ -8,8 +8,8 @@ namespace BagageSortingSystem
 
         static void Main(string[] args)
         {
-            CheckIn checkIn = new CheckIn();
-            checkIn.AddBagageToList();
+            IncomingPassengers incomingPassengers = new IncomingPassengers();
+            incomingPassengers.AddBagageToList();
 
             //Sorting CheckIn 1 to Conveyor 1
             SortCheckInOne sortCheckInOne = new SortCheckInOne();

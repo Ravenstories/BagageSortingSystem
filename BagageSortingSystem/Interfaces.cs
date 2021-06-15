@@ -20,7 +20,7 @@ namespace BagageSortingSystem
     }
     public interface ISortCheckIn
     {
-        void SortCheckIn(List<BagageItem> bagageList, BagageItem[] conveyor);
+        void SortCheckIn(BagageItem[] bagageList, BagageItem[] conveyor);
     }
     public interface ISortArray
     {
