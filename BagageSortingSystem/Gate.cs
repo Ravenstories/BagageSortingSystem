@@ -2,19 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace BagageSortingSystem
 {
-    class CheckIn : IAddBagageToArray, IRemoveFromBagageArray
+    class Gate : IAddBagageToArray, IRemoveFromBagageArray
     {
-        //Thread
-        SortCheckInOne sortCheckIn = new SortCheckInOne();
-
         //Locks
-        public object CheckInLock = new object();
+        public object GateLock = new object();
 
-        //Variables
+        //Array
         private BagageItem[] _bagageArray = new BagageItem[50];
         private int _bagageArrayIndex = 0;
         
@@ -44,13 +41,8 @@ namespace BagageSortingSystem
             BagageArray[BagageArray.Length - 1] = null;
             BagageArrayIndex--;
             return bagageItem;
-
+            
         }
 
-        public void StartThread()
-        {
-            Thread checkInSortingThread = new Thread(new ThreadStart(sortCheckIn.Splitter));
-
-        }
     }
 }

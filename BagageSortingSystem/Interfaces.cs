@@ -30,4 +30,15 @@ namespace BagageSortingSystem
     {
         BagageItem[] MoveArray(BagageItem[] conveyorArray);
     }
+
+    public interface IAddBagageToArray
+    {
+        public bool AddToBagageArray(BagageItem bagageItem);
+    }
+
+    public interface IRemoveFromBagageArray
+    {
+        public BagageItem RemoveFromBagageArray();
+    }
+
 }
