@@ -20,23 +20,19 @@ namespace BagageSortingSystem
             Thread checkInTwoSortingThread = new Thread(new ThreadStart(sortCheckInTwo.Splitter));
 
             //Sorting Conveyor 1 to Gates
-            SortToGates sortGateOne = new SortToGates();
-            Thread gateOneSortingThread = new Thread(new ThreadStart(sortGateOne.Splitter));
+            SortToGates sortToGates = new SortToGates();
+            Thread sortToGatesThread = new Thread(new ThreadStart(sortToGates.Splitter));
 
-            
+            //Sorting from Passengers to Gates
+            SortPassengerToCheckIn sortPassengerToCheckIn = new SortPassengerToCheckIn();
+            Thread sortToCheckInThread = new Thread(new ThreadStart(sortPassengerToCheckIn.Splitter));
 
 
+             
 
             // Print list of items at CheckIn
-            Console.WriteLine("This is in Bagage List One: \n");
-            foreach (BagageItem item in CheckIn.CheckInBagageListOne)
-            {
-                Console.WriteLine(item.Name + ", " + item.PassengerNumber);
-
-            }
-
-            Console.WriteLine("\nThis is in Bagage List Two: \n");
-            foreach (BagageItem item in CheckIn.CheckInBagageListTwo)
+            Console.WriteLine("Passengers waiting to check in: \n");
+            foreach (BagageItem item in incomingPassengers.PassengersToCheckInList)
             {
                 Console.WriteLine(item.Name + ", " + item.PassengerNumber);
 
@@ -45,9 +41,11 @@ namespace BagageSortingSystem
             Console.WriteLine("\nSorting Bagage.");
 
             //Start the thread that starts sorting items at check in. 
+            sortToCheckInThread.Start();
             checkInOneSortingThread.Start();
+            sortToGatesThread.Start();
+            
             checkInTwoSortingThread.Start();
-            gateOneSortingThread.Start();
 
             Console.ReadKey();
         }

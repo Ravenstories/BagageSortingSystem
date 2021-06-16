@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace BagageSortingSystem
 {
-    class IncomingPassengers
+    public class IncomingPassengers
     {
+        //Lock
+        public static object PassengerLockOne = new object();
+
         //List to contain all passengers 1
-        public List<BagageItem> PassengersToCheckInList = new List<BagageItem>();
+        private static List<BagageItem> passengersToCheckInList = new List<BagageItem>();
+        public List<BagageItem> PassengersToCheckInList { get => passengersToCheckInList; set => passengersToCheckInList = value; }
 
         public void AddBagageToList()
         {
