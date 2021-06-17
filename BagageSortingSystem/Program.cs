@@ -19,17 +19,14 @@ namespace BagageSortingSystem
             IncomingPassengers incomingPassengers = new IncomingPassengers();
             incomingPassengers.AddBagageToList();
            
-            //Sorting from Passengers to Gates
-            PassengersToCheckIn sortPassengerToCheckIn = new PassengersToCheckIn();
-            Thread sortToCheckInThread = new Thread(new ThreadStart(sortPassengerToCheckIn.StartProcess));
+            //Random sorting from Passengers to CheckIn
+            PassengersToCheckIn PassengerToCheckIn = new PassengersToCheckIn();
+            Thread passengerToCheckInThread = new Thread(new ThreadStart(PassengerToCheckIn.StartProcess));
 
-            //Sorting Conveyor 1 to Gates
-            ConveyorToGates sortToGates = new ConveyorToGates();
-            Thread sortToGatesThread = new Thread(new ThreadStart(sortToGates.StartProcess));
+            //Sorting Conveyor to Gates
+            ConveyorToGates sortConveyorToGates = new ConveyorToGates();
+            Thread sortConveyorToGatesThread = new Thread(new ThreadStart(sortConveyorToGates.StartProcess));
 
-            //Transporting from Gate to Plane
-            
-            
             // Print list of passengers at the beginning
             Console.WriteLine("Passengers waiting to check in: \n");
             foreach (BagageItem item in incomingPassengers.PassengersToCheckInList)
@@ -37,12 +34,14 @@ namespace BagageSortingSystem
                 Console.WriteLine(item.Name + ", " + item.PassengerNumber);
 
             }
-
             
             //Creating Gates and CheckIns and starts checkIn threads
             for (int i = 0; i < GateArray.Length; i++)
             {
                 GateArray[i] = new Gate();
+                GateArray[i].GateNumber = i;
+                GateArray[i].StartThread();
+
             }
             for (int i = 0; i < CheckInArray.Length; i++)
             {
@@ -50,9 +49,13 @@ namespace BagageSortingSystem
                 CheckInArray[i].StartThread();
             }
 
+            //Thread for random generating Bagage
+            Thread generateRandomBagage = new Thread(new ThreadStart(incomingPassengers.GenerateRandomBagage));
+
             //Start the threads 
-            sortToCheckInThread.Start();
-            sortToGatesThread.Start();
+            passengerToCheckInThread.Start();
+            sortConveyorToGatesThread.Start();
+            generateRandomBagage.Start();
 
 
             Console.ReadKey();

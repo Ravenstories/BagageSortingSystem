@@ -10,8 +10,7 @@ namespace BagageSortingSystem.TransportersAndSorters
         {
             while (true)
             {
-                Thread.Sleep(2200);
-                Console.WriteLine("Conveyor To Gate is trying to sort");
+                Thread.Sleep(Random.rndNum.Next(2000, 10000));
                 Sorting(ConveyorBelt.Conveyor);
             }
         }
@@ -20,6 +19,7 @@ namespace BagageSortingSystem.TransportersAndSorters
         {
             //Lock one object at the time an move a component. 
             BagageItem itemToMove = null;
+
             lock (ConveyorBelt.ConveyorLock)
             {
                 if (conveyor[0] == null)
@@ -34,7 +34,7 @@ namespace BagageSortingSystem.TransportersAndSorters
                 Monitor.PulseAll(ConveyorBelt.ConveyorLock);
             }
 
-            Gate gate = Program.GateArray[itemToMove.TerminalNumber];
+            Gate gate = Program.GateArray[itemToMove.GateNumber];
             
             lock (gate.GateLock)
             {
@@ -48,9 +48,6 @@ namespace BagageSortingSystem.TransportersAndSorters
 
             Thread.Sleep(100);
 
-            Console.WriteLine("\nThis is the Bagage at Gate " + itemToMove.TerminalNumber + ": ");
-            ItemsAtLocation(gate.BagageArray);
-            Console.WriteLine("Number of bagage at Gate: " + Gates.GateOneCounter + "\n");
 
         }
         public void ItemsAtLocation(BagageItem[] locationArray)

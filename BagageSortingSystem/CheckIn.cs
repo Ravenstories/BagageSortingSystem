@@ -57,7 +57,6 @@ namespace BagageSortingSystem
         {
             Thread checkInSortingThread = new Thread(new ThreadStart(sortCheckIn.StartProcess));
             checkInSortingThread.Start();
-            Console.WriteLine("A CheckIn Thread has started");
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿
 
 Bagage Sorting To Do: 
-	1. Create Plane item.
-	2. Exit Bagage to Planes.
-	3. Create Random Bagage.
+Done	1. Create Plane item.		
+Done	2. Exit Bagage to Planes.
+Done	3. Create Random Bagage.
 	4. Make dynamic, so that user decide the number of checkins and gates. 
 	5. CheckIn give gate number based on passenger and plane destination.
 	6. Look into expanding with more Transporters, Sorters and Conveyors. 
+	7. Use the time variable, so the bagage time can be tracked. 
 
 Gui: 

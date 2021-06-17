@@ -10,9 +10,10 @@ namespace BagageSortingSystem
     {
         private int passengerNumber;
         private string name;
+        private string destination;
         private int bagageNumber;
         private int flightNumber;
-        private int terminalNumber;
+        private int gateNumber;
         private int timeCheckIn;
         private int timeSorted;
         private int timeBoarded;
@@ -26,6 +27,11 @@ namespace BagageSortingSystem
             get { return name; }
             set { name = value; }
         }
+        public string Destination 
+        {
+            get { return destination; }
+            set { destination = value; }
+        }
         public int BagageNumber
         {
             get { return bagageNumber; }
@@ -36,10 +42,10 @@ namespace BagageSortingSystem
             get { return flightNumber; }
             set { flightNumber = value; }
         }
-        public int TerminalNumber
+        public int GateNumber
         {
-            get { return terminalNumber; }
-            set { terminalNumber = value; }
+            get { return gateNumber; }
+            set { gateNumber = value; }
         }
         public int TimeCheckIn
         {
@@ -57,13 +63,15 @@ namespace BagageSortingSystem
             set { timeBoarded = value; }
         }
 
-        public BagageItem(int passengerNumber, string name, int bagageNumber, int flightNumber, int terminalNumber, int timeCheckIn, int timeSorted, int timeBoarded)
+
+        public BagageItem(int passengerNumber, string name, string destination, int bagageNumber, int flightNumber, int terminalNumber, int timeCheckIn, int timeSorted, int timeBoarded)
         {
             PassengerNumber = passengerNumber;
             Name = name;
+            Destination = destination;
             BagageNumber = bagageNumber;
             FlightNumber = flightNumber;
-            TerminalNumber = terminalNumber;
+            GateNumber = terminalNumber;
             TimeCheckIn = timeCheckIn;
             TimeSorted = timeSorted;
             TimeBoarded = timeBoarded;
@@ -71,7 +79,7 @@ namespace BagageSortingSystem
 
         public BagageItem Clone()
         {
-            return new BagageItem(PassengerNumber, Name, BagageNumber, FlightNumber, TerminalNumber, TimeCheckIn, TimeSorted, TimeBoarded);
+            return new BagageItem(PassengerNumber, Name, Destination, BagageNumber, FlightNumber, GateNumber, TimeCheckIn, TimeSorted, TimeBoarded);
         }
     }
 }

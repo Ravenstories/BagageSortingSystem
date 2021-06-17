@@ -18,21 +18,17 @@ namespace BagageSortingSystem.TransportersAndSorters
         {
             while (true)
             {
-                Console.WriteLine("CheckIn To Conveyor is trying to sort");
+                
                 Transport();
-                Thread.Sleep(4500);
-                Console.WriteLine("Number of bagage on conveyor 1: " + ConveyorBelt.ConveyorCounter + "\n");
+                Thread.Sleep(Random.rndNum.Next(2000, 10000));
             }
         }
 
         public void Transport()
         {
-            
-            Console.WriteLine("Gate trying to add bagage to plane");
-
             BagageItem itemToMove = null;
 
-
+            
             lock (gate.GateLock)
             {
                 if (gate.BagageArray[0] == null)
@@ -41,12 +37,10 @@ namespace BagageSortingSystem.TransportersAndSorters
                 }
 
                 itemToMove = gate.RemoveFromBagageArray();
+                Console.WriteLine(itemToMove.Name + " Have been transported to Plane");
                 Monitor.PulseAll(gate.GateLock);
             }
-
-
-            Console.WriteLine("\nThis is the Bagage at CheckIn " + gate + ": ");
-            Console.WriteLine("Number of bagage at Gate: " + gate.BagageArrayIndex + "\n");
+            
         }
     }
 }

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
+using BagageSortingSystem.TransportersAndSorters;
 
 namespace BagageSortingSystem
 {
@@ -11,13 +12,23 @@ namespace BagageSortingSystem
         //Locks
         public object GateLock = new object();
 
-        //Array
+        //Variables
         private BagageItem[] _bagageArray = new BagageItem[50];
         private int _bagageArrayIndex = 0;
-        
+        private int gateNumber;
+        private GateToPlane gateToPlane;
+
         //Properties
         public BagageItem[] BagageArray { get => _bagageArray; set => _bagageArray = value; }
         public int BagageArrayIndex { get => _bagageArrayIndex; set => _bagageArrayIndex = value; }
+        public int GateNumber { get => gateNumber; set => gateNumber = value; }
+
+        //Constructor
+        public Gate()
+        {
+            //Thread
+            gateToPlane = new GateToPlane(this);
+        }
 
         //Methods
         public bool AddToBagageArray(BagageItem bagageItem)
@@ -41,8 +52,14 @@ namespace BagageSortingSystem
             BagageArray[BagageArray.Length - 1] = null;
             BagageArrayIndex--;
             return bagageItem;
-            
+
         }
 
+        //Start Threads
+        public void StartThread()
+        {
+            Thread gateToPlaneThread = new Thread(new ThreadStart(gateToPlane.StartProcess));
+            gateToPlaneThread.Start();
+        }
     }
 }

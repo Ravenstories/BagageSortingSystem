@@ -11,11 +11,23 @@ namespace BagageSortingSystem
         private static List<PlaneItem> _planeItemsList = new List<PlaneItem>();
         internal static List<PlaneItem> PlaneItemsList { get => _planeItemsList; set => _planeItemsList = value; }
 
+        
+
+        //Creates Planes equal to the number of gates available. 
         static PlaneFactory()
         {
             for (int i = 0; i < Program.GateArray.Length; i++)
             {
-                BuildPlaneItem(10000+i, 0, null, 0, 0, 0);
+                if (DestinationNames.ArrayOfDestinations[i] != null)
+                {
+                    BuildPlaneItem(10000+i, i, DestinationNames.ArrayOfDestinations[i], 0, 0, 0);
+                }
+                else
+                {
+                    //Random Destination
+                    System.Random rndPlane = new System.Random();
+                    BuildPlaneItem(10000 + i, i, DestinationNames.ArrayOfDestinations[rndPlane.Next(0, DestinationNames.ArrayOfDestinations.Length)], 0, 0, 0);
+                }
             }
 
         }

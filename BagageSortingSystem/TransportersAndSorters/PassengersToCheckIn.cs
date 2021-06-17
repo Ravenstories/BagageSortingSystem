@@ -14,37 +14,32 @@ namespace BagageSortingSystem.TransportersAndSorters
             {
                 IncomingPassengers incomingPassengers = new IncomingPassengers();
 
-                Thread.Sleep(2200);
+                Thread.Sleep(Random.rndNum.Next(2000, 10000));
                 SortToCheckIn(incomingPassengers.PassengersToCheckInList);
-                                
             }
         }
 
         public void SortToCheckIn(List<BagageItem> bagage)
         {
-            Console.WriteLine("Passenger Sorter is trying to sort");
             //Lock one object at the time an move a component. 
             BagageItem itemToMove = null;
 
-            lock (IncomingPassengers.PassengerLockOne) //Need bagage lock
+            lock (IncomingPassengers.PassengerLock) 
             {
                 if (bagage.FirstOrDefault() == null)
                 {
-                    Console.WriteLine("Passenger couldnt find any bagage to sort");
-                    Monitor.Wait(IncomingPassengers.PassengerLockOne);
+                    Console.WriteLine("No passenger at gate... waiting.");
+                    Monitor.Wait(IncomingPassengers.PassengerLock);
                 }
 
                 itemToMove = bagage.FirstOrDefault();
                 bagage.Remove(itemToMove);
 
-                Monitor.PulseAll(IncomingPassengers.PassengerLockOne);
+                Monitor.PulseAll(IncomingPassengers.PassengerLock);
             }
             
-            //Get a random checkIn and save the number in variable so that we can find it to see what bagage it contains. 
-            System.Random randomCheckIn = new System.Random();
-            int rndCheckInNumber = randomCheckIn.Next(0, Program.CheckInArray.Length);
-
-            CheckIn checkIn = Program.CheckInArray[rndCheckInNumber];
+            //Sorting the bagage to a random CheckIn, to simulate people arriving at different gates.
+            CheckIn checkIn = Program.CheckInArray[Random.rndNum.Next(0, Program.CheckInArray.Length)];
 
             lock (checkIn.CheckInLock)
             {
@@ -55,12 +50,6 @@ namespace BagageSortingSystem.TransportersAndSorters
 
                 Monitor.PulseAll(checkIn.CheckInLock);
             }
-
-            Thread.Sleep(100);
-
-            Console.WriteLine("\nThis is the Bagage at CheckIn " + rndCheckInNumber + ": ");
-            ItemsAtLocation(checkIn.BagageArray);
-            Console.WriteLine("Number of bagage at CheckIn: " + checkIn.BagageArrayIndex + "\n");
 
             Thread.Sleep(100);
         }
