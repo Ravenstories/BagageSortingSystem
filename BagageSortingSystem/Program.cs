@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using BagageSortingSystem.TransportersAndSorters;
 
 namespace BagageSortingSystem
 {
@@ -18,15 +19,18 @@ namespace BagageSortingSystem
             IncomingPassengers incomingPassengers = new IncomingPassengers();
             incomingPassengers.AddBagageToList();
            
-            //Sorting Conveyor 1 to Gates
-            SortToGates sortToGates = new SortToGates();
-            Thread sortToGatesThread = new Thread(new ThreadStart(sortToGates.Splitter));
-
             //Sorting from Passengers to Gates
-            SortPassengerToCheckIn sortPassengerToCheckIn = new SortPassengerToCheckIn();
-            Thread sortToCheckInThread = new Thread(new ThreadStart(sortPassengerToCheckIn.Splitter));
+            PassengersToCheckIn sortPassengerToCheckIn = new PassengersToCheckIn();
+            Thread sortToCheckInThread = new Thread(new ThreadStart(sortPassengerToCheckIn.StartProcess));
 
-            // Print list of items at CheckIn
+            //Sorting Conveyor 1 to Gates
+            ConveyorToGates sortToGates = new ConveyorToGates();
+            Thread sortToGatesThread = new Thread(new ThreadStart(sortToGates.StartProcess));
+
+            //Transporting from Gate to Plane
+            
+            
+            // Print list of passengers at the beginning
             Console.WriteLine("Passengers waiting to check in: \n");
             foreach (BagageItem item in incomingPassengers.PassengersToCheckInList)
             {
@@ -34,9 +38,8 @@ namespace BagageSortingSystem
 
             }
 
-            Console.WriteLine("\nSorting Bagage.");
             
-            //Creating Gates and CheckIns 
+            //Creating Gates and CheckIns and starts checkIn threads
             for (int i = 0; i < GateArray.Length; i++)
             {
                 GateArray[i] = new Gate();
@@ -47,10 +50,10 @@ namespace BagageSortingSystem
                 CheckInArray[i].StartThread();
             }
 
-            //Start the thread that starts sorting items at check in. 
+            //Start the threads 
             sortToCheckInThread.Start();
             sortToGatesThread.Start();
-            
+
 
             Console.ReadKey();
         }

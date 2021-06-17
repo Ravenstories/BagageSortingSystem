@@ -3,24 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using BagageSortingSystem.TransportersAndSorters;
 
 namespace BagageSortingSystem
 {
     class CheckIn : IAddBagageToArray, IRemoveFromBagageArray
     {
-        //Thread
-        SortCheckInOne sortCheckIn = new SortCheckInOne();
-
         //Locks
         public object CheckInLock = new object();
 
-        //Variables
+        //Variables 
+        private CheckInToConveyor sortCheckIn;
         private BagageItem[] _bagageArray = new BagageItem[50];
         private int _bagageArrayIndex = 0;
-        
+
         //Properties
         public BagageItem[] BagageArray { get => _bagageArray; set => _bagageArray = value; }
         public int BagageArrayIndex { get => _bagageArrayIndex; set => _bagageArrayIndex = value; }
+        
+        //Constructor
+        public CheckIn()
+        {
+            //Thread
+            sortCheckIn = new CheckInToConveyor(this);
+        }
 
         //Methods
         public bool AddToBagageArray(BagageItem bagageItem)
@@ -49,8 +55,9 @@ namespace BagageSortingSystem
 
         public void StartThread()
         {
-            Thread checkInSortingThread = new Thread(new ThreadStart(sortCheckIn.Splitter));
-
+            Thread checkInSortingThread = new Thread(new ThreadStart(sortCheckIn.StartProcess));
+            checkInSortingThread.Start();
+            Console.WriteLine("A CheckIn Thread has started");
         }
     }
 }

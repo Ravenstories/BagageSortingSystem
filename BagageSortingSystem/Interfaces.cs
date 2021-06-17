@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace BagageSortingSystem
 {
-    public interface ISplitter
+    public interface IStartProcess
     {
-        void Splitter();
-    }
-    public interface IProducer
-    {
-        void Producer();
+        void StartProcess();
     }
     public interface IItemsAtLocation
     {
@@ -24,7 +20,7 @@ namespace BagageSortingSystem
     }
     public interface ISortArray
     {
-        void SortArray(BagageItem[] conveyor);
+        void Sorting(BagageItem[] conveyor);
     }
     public interface IMoveArray
     {
