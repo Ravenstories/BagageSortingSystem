@@ -5,8 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Bagage Sorting" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="1" Grid.Row="1" FontSize="18" Grid.ColumnSpan="2">Bagage Sorting</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="2" FontSize="11" Margin="10">Passengers</TextBlock>
+        <ListBox x:Name="Passengers" Grid.Column="1"  Grid.Row="3" Grid.RowSpan="5" Margin="5"></ListBox>
+
+        <TextBlock Grid.Column="2" Grid.Row="2" FontSize="11" Margin="10">Check Ins</TextBlock>
+        <ListBox x:Name="CheckIn" Grid.Column="2"  Grid.Row="3" Margin="5"></ListBox>
+
+        <TextBlock Grid.Column="3" Grid.Row="2" FontSize="11" Margin="10">Conveyour/Sorter</TextBlock>
+        <ListBox x:Name="Conveyor" Grid.Column="3"  Grid.Row="3" Grid.RowSpan="5" Margin="5"></ListBox>
+
+        <TextBlock Grid.Column="4" Grid.Row="2" FontSize="11" Margin="10">Gate</TextBlock>
+        <ListBox x:Name="Gate" Grid.Column="4"  Grid.Row="3" Margin="5"></ListBox>
+
+        <TextBlock Grid.Column="5" Grid.Row="2" FontSize="11" Margin="10">Plane</TextBlock>
+        <ListBox x:Name="Plane" Grid.Column="5"  Grid.Row="3" Margin="5"></ListBox>
+
+
     </Grid>
 </Window>
