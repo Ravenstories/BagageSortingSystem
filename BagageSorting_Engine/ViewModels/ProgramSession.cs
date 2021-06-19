@@ -6,11 +6,20 @@ namespace BagageSorting_Engine.ViewModels
 {
     public class ProgramSession 
     {
+        IncomingPassengers incomingPassengers = new IncomingPassengers();
+        ConveyorBelt conveyorBelt = new ConveyorBelt();
+        Controller_CheckIn arrayOfCheckIns = new Controller_CheckIn();
+        Controller_Gates arrayOfGates = new Controller_Gates();
+        public IncomingPassengers Current_IncomingPassengers { get => incomingPassengers; set => incomingPassengers = value; }
+        public ConveyorBelt Current_ConveyorBelt { get => conveyorBelt; set => conveyorBelt = value; }
+        public Controller_CheckIn Current_Controller_CheckIn { get => arrayOfCheckIns; set => arrayOfCheckIns = value; }
+        public Controller_Gates Current_Controller_Gate { get => arrayOfGates; set => arrayOfGates = value; }
+
+
         public void StartSession()
         {
             
-            IncomingPassengers incomingPassengers = new IncomingPassengers();
-            incomingPassengers.AddBagageToList();
+            Current_IncomingPassengers.AddBagageToList();
            
             //Random sorting from Passengers to CheckIn
             PassengersToCheckIn passengerToCheckIn = new PassengersToCheckIn();
@@ -20,22 +29,14 @@ namespace BagageSorting_Engine.ViewModels
             ConveyorToGates sortConveyorToGates = new ConveyorToGates();
             Thread sortConveyorToGatesThread = new Thread(new ThreadStart(sortConveyorToGates.StartProcess));
 
-            // Print list of passengers at the beginning
-            foreach (BagageItem item in incomingPassengers.PassengersToCheckInList)
-            {
-                Console.WriteLine(item.Name + ", " + item.PassengerNumber);
-            }
-
             //Creating Gates and CheckIns and starts checkIn threads
-            ArrayOfCheckIns arrayOfCheckIns = new ArrayOfCheckIns();
-            arrayOfCheckIns.CreateCheckIns();
+            Current_Controller_CheckIn.CreateCheckIns();
 
-            ArrayOfGates arrayOfGates = new ArrayOfGates();
-            arrayOfGates.CreateGates();
+            Current_Controller_Gate.CreateGates();
             
 
             //Thread for random generating Bagage
-            Thread generateRandomBagage = new Thread(new ThreadStart(incomingPassengers.GenerateRandomBagage));
+            Thread generateRandomBagage = new Thread(new ThreadStart(Current_IncomingPassengers.GenerateRandomBagage));
 
             //Start the threads 
             passengerToCheckInThread.Start();
@@ -45,10 +46,10 @@ namespace BagageSorting_Engine.ViewModels
 
         public void OpenCheckIn()
         {
-            ArrayOfCheckIns.CheckInArray[ArrayOfCheckIns.ArrayCounter].IsOpen = true;
-            if (ArrayOfCheckIns.ArrayCounter < ArrayOfCheckIns.CheckInArray.Length)
+            Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen = true;
+            if (Controller_CheckIn.ArrayCounter < Controller_CheckIn.CheckInArray.Length)
             {
-                ArrayOfCheckIns.ArrayCounter++;
+                Controller_CheckIn.ArrayCounter++;
             }
             else
             {
@@ -57,20 +58,19 @@ namespace BagageSorting_Engine.ViewModels
         }
         public void CloseCheckIn()
         {
-            ArrayOfCheckIns.CheckInArray[ArrayOfCheckIns.ArrayCounter].IsOpen = false;
-            if (ArrayOfCheckIns.ArrayCounter != 0)
+            Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen = false;
+            if (Controller_CheckIn.ArrayCounter != 0)
             {
-                ArrayOfCheckIns.ArrayCounter--;
+                Controller_CheckIn.ArrayCounter--;
 
             }
         }
-
         public void OpenGate()
         {
-            ArrayOfGates.GateArray[ArrayOfGates.ArrayCounter].IsOpen = true;
-            if (ArrayOfGates.ArrayCounter < ArrayOfGates.GateArray.Length)
+            Controller_Gates.GateArray[Controller_Gates.ArrayCounter].IsOpen = true;
+            if (Controller_Gates.ArrayCounter < Controller_Gates.GateArray.Length)
             {
-                ArrayOfGates.ArrayCounter++;
+                Controller_Gates.ArrayCounter++;
             }
             else
             {
@@ -79,16 +79,16 @@ namespace BagageSorting_Engine.ViewModels
         }
         public void CloseGate()
         {
-            ArrayOfGates.GateArray[ArrayOfGates.ArrayCounter].IsOpen = false;
-            if (ArrayOfGates.ArrayCounter != 0)
+            Controller_Gates.GateArray[Controller_Gates.ArrayCounter].IsOpen = false;
+            if (Controller_Gates.ArrayCounter != 0)
             {
-                ArrayOfGates.ArrayCounter--;
+                Controller_Gates.ArrayCounter--;
             }
         }
 
 
         ///UI Create a method for gates and check ins that can open and close them with user input. Make a boolean check on them to stop their while loop. 
-
+        
     }
         
 }

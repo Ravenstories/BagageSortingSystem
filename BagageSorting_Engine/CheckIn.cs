@@ -7,7 +7,7 @@ using BagageSorting_Engine.TransportersAndSorters;
 
 namespace BagageSorting_Engine
 {
-    class CheckIn : IAddBagageToArray, IRemoveFromBagageArray
+    public class CheckIn : IAddBagageToArray, IRemoveFromBagageArray
     {
         //Locks
         public object CheckInLock = new object();

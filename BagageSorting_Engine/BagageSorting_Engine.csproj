@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArrayOfCheckIns.cs" />
-    <Compile Include="ArrayOfGates.cs" />
+    <Compile Include="Controller_CheckIn.cs" />
+    <Compile Include="Controller_Gates.cs" />
     <Compile Include="BagageFactory.cs" />
     <Compile Include="BagageItem.cs" />
     <Compile Include="CheckIn.cs" />

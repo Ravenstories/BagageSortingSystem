@@ -16,12 +16,12 @@ namespace BagageSorting_Engine.TransportersAndSorters
 
         public void StartProcess()
         {
-            while (gate.IsOpen == true)
-            {
-                
-                Transport();
-                Thread.Sleep(Random.rndNum.Next(2000, 10000));
-            }
+            /*while (gate.IsOpen == true)
+            {}*/
+            Thread.Sleep(Random.rndNum.Next(2000, 10000));
+            Transport();
+            Thread.Sleep(Random.rndNum.Next(2000, 10000));
+
         }
 
         public void Transport()

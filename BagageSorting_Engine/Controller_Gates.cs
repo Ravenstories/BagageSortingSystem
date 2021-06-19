@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BagageSorting_Engine
 {
-    class ArrayOfGates
+    public class Controller_Gates
     {
         private static Gate[] gateArray = new Gate[10];
         public static Gate[] GateArray { get => gateArray; set => gateArray = value; }

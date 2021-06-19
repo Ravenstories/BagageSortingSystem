@@ -7,7 +7,7 @@ using BagageSorting_Engine.TransportersAndSorters;
 
 namespace BagageSorting_Engine
 {
-    class Gate : IAddBagageToArray, IRemoveFromBagageArray
+    public class Gate : IAddBagageToArray, IRemoveFromBagageArray
     {
         //Locks
         public object GateLock = new object();

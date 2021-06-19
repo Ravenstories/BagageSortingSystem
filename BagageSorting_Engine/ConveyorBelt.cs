@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BagageSorting_Engine
 {
-    class ConveyorBelt
+    public class ConveyorBelt
     {
         //Locks
         public static object ConveyorLock = new object();

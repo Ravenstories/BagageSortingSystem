@@ -25,32 +25,29 @@ namespace WPFUI
         private ProgramSession programSession = new ProgramSession();
         public MainWindow()
         {
-            InitializeComponent();
             programSession.StartSession();
+            InitializeComponent();
 
             DataContext = programSession;
         }
 
-        private void OnClick_OpenCheckIn()
+        private void OnClick_OpenCheckIn(object sender, RoutedEventArgs e)
         {
             programSession.OpenCheckIn();
         }
-        private void OnClick_CloseCheckIn()
+        private void OnClick_CloseCheckIn(object sender, RoutedEventArgs e)
         {
             programSession.CloseCheckIn();
         }
-        private void OnClick_OpenGate()
+        private void OnClick_OpenGate(object sender, RoutedEventArgs e)
         {
             programSession.OpenGate();
         }
-        private void OnClick_CloseGate()
+        private void OnClick_CloseGate(object sender, RoutedEventArgs e)
         {
             programSession.CloseGate();
         }
 
-        private void GatePlusButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
     }
 }

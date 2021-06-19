@@ -12,6 +12,8 @@ namespace BagageSorting_Engine.TransportersAndSorters
             {
                 Thread.Sleep(Random.rndNum.Next(2000, 10000));
                 Sorting(ConveyorBelt.Conveyor);
+                Thread.Sleep(Random.rndNum.Next(2000, 10000));
+
             }
         }
 
@@ -34,17 +36,14 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 Monitor.PulseAll(ConveyorBelt.ConveyorLock);
             }
 
-            Gate gate = ArrayOfGates.GateArray[itemToMove.GateNumber];
+            Gate gate = Controller_Gates.GateArray[itemToMove.GateNumber];
             
 
             lock (gate.GateLock)
             {
-                while (gate.IsOpen == false)
+                while (!gate.AddToBagageArray(itemToMove))
                 {
-                    while (!gate.AddToBagageArray(itemToMove))
-                    {
-                        Monitor.Wait(gate.GateLock);
-                    }
+                    Monitor.Wait(gate.GateLock);
                 }
                 
                 Monitor.PulseAll(gate.GateLock);
