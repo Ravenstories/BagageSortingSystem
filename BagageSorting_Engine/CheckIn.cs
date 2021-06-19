@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using BagageSortingSystem.TransportersAndSorters;
+using BagageSorting_Engine.TransportersAndSorters;
 
 namespace BagageSorting_Engine
 {
@@ -16,11 +16,13 @@ namespace BagageSorting_Engine
         private CheckInToConveyor sortCheckIn;
         private BagageItem[] _bagageArray = new BagageItem[50];
         private int _bagageArrayIndex = 0;
+        private bool _isOpen = false;
 
         //Properties
         public BagageItem[] BagageArray { get => _bagageArray; set => _bagageArray = value; }
         public int BagageArrayIndex { get => _bagageArrayIndex; set => _bagageArrayIndex = value; }
-        
+        public bool IsOpen { get => _isOpen; set => _isOpen = value; }
+
         //Constructor
         public CheckIn()
         {

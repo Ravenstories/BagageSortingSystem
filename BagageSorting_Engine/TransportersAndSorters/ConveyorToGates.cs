@@ -34,13 +34,17 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 Monitor.PulseAll(ConveyorBelt.ConveyorLock);
             }
 
-            Gate gate = ProgramSession.GateArray[itemToMove.GateNumber];
+            Gate gate = ArrayOfGates.GateArray[itemToMove.GateNumber];
             
+
             lock (gate.GateLock)
             {
-                while (!gate.AddToBagageArray(itemToMove))
+                while (gate.IsOpen == false)
                 {
-                    Monitor.Wait(gate.GateLock);
+                    while (!gate.AddToBagageArray(itemToMove))
+                    {
+                        Monitor.Wait(gate.GateLock);
+                    }
                 }
                 
                 Monitor.PulseAll(gate.GateLock);

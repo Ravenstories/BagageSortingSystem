@@ -13,15 +13,17 @@ namespace BagageSorting_Engine
         public object GateLock = new object();
 
         //Variables
-        private BagageItem[] _bagageArray = new BagageItem[50];
         private int _bagageArrayIndex = 0;
-        private int gateNumber;
+        private int _gateNumber;
+        private bool _isOpen = false;
+        private BagageItem[] _bagageArray = new BagageItem[50];
         private GateToPlane gateToPlane;
 
         //Properties
         public BagageItem[] BagageArray { get => _bagageArray; set => _bagageArray = value; }
         public int BagageArrayIndex { get => _bagageArrayIndex; set => _bagageArrayIndex = value; }
-        public int GateNumber { get => gateNumber; set => gateNumber = value; }
+        public int GateNumber { get => _gateNumber; set => _gateNumber = value; }
+        public bool IsOpen { get => _isOpen; set => _isOpen = value; }
 
         //Constructor
         public Gate()

@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFUI"
+        xmlns:viewModels="clr-namespace:BagageSorting_Engine.ViewModels;assembly=BagageSorting_Engine"
+        d:DataContext="{d:DesignInstance viewModels:ProgramSession}"
         mc:Ignorable="d"
         Title="Bagage Sorting" Height="450" Width="800">
     <Grid>
@@ -32,17 +33,21 @@
         <TextBlock Grid.Column="1" Grid.Row="2" FontSize="11" Margin="10">Passengers</TextBlock>
         <ListBox x:Name="Passengers" Grid.Column="1"  Grid.Row="3" Grid.RowSpan="5" Margin="5"></ListBox>
 
+        <Button x:Name="CheckInPlusButton" Click="OnClick_OpenCheckIn" Grid.Column="2" Grid.Row="2" Content="+" Width="20" Height="20" HorizontalAlignment="Center" Margin="5" ></Button>
+        <Button x:Name="CheckInMinusButton" Click="OnClick_CloseCheckIn" Grid.Column="2" Grid.Row="2" Content="-" Width="20" Height="20" HorizontalAlignment="Center" Margin="95,0,30,0" ></Button>
         <TextBlock Grid.Column="2" Grid.Row="2" FontSize="11" Margin="10">Check Ins</TextBlock>
         <ListBox x:Name="CheckIn" Grid.Column="2"  Grid.Row="3" Margin="5"></ListBox>
 
         <TextBlock Grid.Column="3" Grid.Row="2" FontSize="11" Margin="10">Conveyour/Sorter</TextBlock>
         <ListBox x:Name="Conveyor" Grid.Column="3"  Grid.Row="3" Grid.RowSpan="5" Margin="5"></ListBox>
 
-        <TextBlock Grid.Column="4" Grid.Row="2" FontSize="11" Margin="10">Gate</TextBlock>
-        <ListBox x:Name="Gate" Grid.Column="4"  Grid.Row="3" Margin="5"></ListBox>
+        <Button x:Name="GatePlusButton" Click="OnClick_OpenGate" Grid.Column="4" Grid.Row="2" Content="+" Width="20" Height="20" HorizontalAlignment="Center" Margin="0,0,30,0" ></Button>
+        <Button x:Name="GateMinusButton" Click="OnClick_CloseGate" Grid.Column="4" Grid.Row="2" Content="-" Width="20" Height="20" HorizontalAlignment="Center" Margin="65,0,30,0" ></Button>
+        <TextBlock  Grid.Column="4" Grid.Row="2" FontSize="11" Margin="10">Gate</TextBlock>
+        <ListBox ItemsSource="{Binding IncomingPassengers.PassengersToCheckInList}" x:Name="Gate" Grid.Column="4"  Grid.Row="3" Margin="5"></ListBox>
 
         <TextBlock Grid.Column="5" Grid.Row="2" FontSize="11" Margin="10">Plane</TextBlock>
-        <ListBox x:Name="Plane" Grid.Column="5"  Grid.Row="3" Margin="5"></ListBox>
+        <ListView x:Name="Plane" Grid.Column="5"  Grid.Row="3" Margin="5"></ListView>
 
 
     </Grid>

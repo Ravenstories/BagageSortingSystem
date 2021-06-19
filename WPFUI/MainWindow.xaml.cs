@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BagageSorting_Engine.ViewModels;
 
 
 namespace WPFUI
@@ -21,10 +22,35 @@ namespace WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
-       
+        private ProgramSession programSession = new ProgramSession();
         public MainWindow()
         {
             InitializeComponent();
+            programSession.StartSession();
+
+            DataContext = programSession;
+        }
+
+        private void OnClick_OpenCheckIn()
+        {
+            programSession.OpenCheckIn();
+        }
+        private void OnClick_CloseCheckIn()
+        {
+            programSession.CloseCheckIn();
+        }
+        private void OnClick_OpenGate()
+        {
+            programSession.OpenGate();
+        }
+        private void OnClick_CloseGate()
+        {
+            programSession.CloseGate();
+        }
+
+        private void GatePlusButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

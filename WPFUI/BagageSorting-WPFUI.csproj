@@ -93,5 +93,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BagageSorting_Engine\BagageSorting_Engine.csproj">
+      <Project>{ee26d28f-901e-4a04-858a-0b2db22fd7d8}</Project>
+      <Name>BagageSorting_Engine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

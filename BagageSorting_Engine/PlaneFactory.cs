@@ -16,7 +16,7 @@ namespace BagageSorting_Engine
         //Creates Planes equal to the number of gates available. 
         static PlaneFactory()
         {
-            for (int i = 0; i < ProgramSession.GateArray.Length; i++)
+            for (int i = 0; i < ArrayOfGates.GateArray.Length; i++)
             {
                 if (DestinationNames.ArrayOfDestinations[i] != null)
                 {

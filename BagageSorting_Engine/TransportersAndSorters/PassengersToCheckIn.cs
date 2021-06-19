@@ -39,16 +39,34 @@ namespace BagageSorting_Engine.TransportersAndSorters
             }
             
             //Sorting the bagage to a random CheckIn, to simulate people arriving at different gates.
-            CheckIn checkIn = ProgramSession.CheckInArray[Random.rndNum.Next(0, ProgramSession.CheckInArray.Length)];
+            CheckIn checkIn = ArrayOfCheckIns.CheckInArray[Random.rndNum.Next(0, ArrayOfCheckIns.CheckInArray.Length)];
 
-            lock (checkIn.CheckInLock)
+            if (checkIn.IsOpen == true)
             {
-                while (!checkIn.AddToBagageArray(itemToMove))
+                lock (checkIn.CheckInLock)
                 {
-                    Monitor.Wait(checkIn.CheckInLock);
-                }
+                    while (!checkIn.AddToBagageArray(itemToMove))
+                    {
+                        Monitor.Wait(checkIn.CheckInLock);
+                    }
 
-                Monitor.PulseAll(checkIn.CheckInLock);
+                    Monitor.PulseAll(checkIn.CheckInLock);
+                }
+            }
+            else
+            {
+                checkIn = ArrayOfCheckIns.CheckInArray[0];
+                if (checkIn.IsOpen == true)
+                {
+                    lock (checkIn.CheckInLock)
+                    {
+                        while (!checkIn.AddToBagageArray(itemToMove))
+                        {
+                            Monitor.Wait(checkIn.CheckInLock);
+                        }
+                        Monitor.PulseAll(checkIn.CheckInLock);
+                    }
+                }
             }
 
             Thread.Sleep(100);

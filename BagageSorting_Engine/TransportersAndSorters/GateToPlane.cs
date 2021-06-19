@@ -16,7 +16,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
 
         public void StartProcess()
         {
-            while (true)
+            while (gate.IsOpen == true)
             {
                 
                 Transport();
@@ -37,7 +37,6 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 }
 
                 itemToMove = gate.RemoveFromBagageArray();
-                Console.WriteLine(itemToMove.Name + " Have been transported to Plane");
                 Monitor.PulseAll(gate.GateLock);
             }
             

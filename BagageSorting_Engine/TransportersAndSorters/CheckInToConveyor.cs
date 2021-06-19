@@ -18,7 +18,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
 
         public void StartProcess()
         {
-            while (true)
+            while (checkIn.IsOpen == true)
             {
                 Transport(ConveyorBelt.Conveyor);
                 Thread.Sleep(Random.rndNum.Next(2000, 10000));

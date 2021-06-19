@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BagageSorting-WPFUI", "WPFUI\BagageSorting-WPFUI.csproj", "{2B9A0404-B7C8-43C3-BD7A-B5C32A59D119}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EE26D28F-901E-4A04-858A-0B2DB22FD7D8} = {EE26D28F-901E-4A04-858A-0B2DB22FD7D8}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BagageSorting_Engine", "BagageSorting_Engine\BagageSorting_Engine.csproj", "{EE26D28F-901E-4A04-858A-0B2DB22FD7D8}"
 EndProject

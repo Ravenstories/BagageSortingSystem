@@ -12,7 +12,7 @@ namespace BagageSorting_Engine
     }
     public interface IItemsAtLocation
     {
-        public void ItemsAtLocation(BagageItem[] conveyorArray);
+        void ItemsAtLocation(BagageItem[] conveyorArray);
     }
     public interface ISortCheckIn
     {
@@ -29,12 +29,12 @@ namespace BagageSorting_Engine
 
     public interface IAddBagageToArray
     {
-        public bool AddToBagageArray(BagageItem bagageItem);
+        bool AddToBagageArray(BagageItem bagageItem);
     }
 
     public interface IRemoveFromBagageArray
     {
-        public BagageItem RemoveFromBagageArray();
+        BagageItem RemoveFromBagageArray();
     }
 
 }
