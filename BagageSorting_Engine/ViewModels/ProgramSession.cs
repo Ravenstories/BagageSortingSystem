@@ -1,25 +1,36 @@
 ﻿using System;
 using System.Threading;
 using BagageSorting_Engine.TransportersAndSorters;
+using BagageSorting_Engine.Factories;
+using BagageSorting_Engine.Models;
 
 namespace BagageSorting_Engine.ViewModels
 {
-    public class ProgramSession 
+    public class ProgramSession : BaseNotificationClass
     {
         IncomingPassengers incomingPassengers = new IncomingPassengers();
+        GenerateNewPassengerBagage generateNewBagage = new GenerateNewPassengerBagage();
         ConveyorBelt conveyorBelt = new ConveyorBelt();
         Controller_CheckIn arrayOfCheckIns = new Controller_CheckIn();
         Controller_Gates arrayOfGates = new Controller_Gates();
-        public IncomingPassengers Current_IncomingPassengers { get => incomingPassengers; set => incomingPassengers = value; }
+        public IncomingPassengers Current_IncomingPassengers 
+        { 
+            get => incomingPassengers; 
+            set 
+            {
+                incomingPassengers = value;
+                OnPropertyChanged();
+            } 
+        }
+        internal GenerateNewPassengerBagage GenerateNewBagage { get => generateNewBagage; set => generateNewBagage = value; }
         public ConveyorBelt Current_ConveyorBelt { get => conveyorBelt; set => conveyorBelt = value; }
         public Controller_CheckIn Current_Controller_CheckIn { get => arrayOfCheckIns; set => arrayOfCheckIns = value; }
         public Controller_Gates Current_Controller_Gate { get => arrayOfGates; set => arrayOfGates = value; }
 
-
         public void StartSession()
         {
             
-            Current_IncomingPassengers.AddBagageToList();
+            //Current_IncomingPassengers.AddBagageToList();
            
             //Random sorting from Passengers to CheckIn
             PassengersToCheckIn passengerToCheckIn = new PassengersToCheckIn();
@@ -36,12 +47,13 @@ namespace BagageSorting_Engine.ViewModels
             
 
             //Thread for random generating Bagage
-            Thread generateRandomBagage = new Thread(new ThreadStart(Current_IncomingPassengers.GenerateRandomBagage));
+            Thread generateRandomBagage = new Thread(new ThreadStart(GenerateNewBagage.GenerateRandomBagage));
 
             //Start the threads 
             passengerToCheckInThread.Start();
             sortConveyorToGatesThread.Start();
             generateRandomBagage.Start();
+
         }
 
         public void OpenCheckIn()

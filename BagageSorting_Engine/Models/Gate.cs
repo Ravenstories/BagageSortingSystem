@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using BagageSorting_Engine.TransportersAndSorters;
 
-namespace BagageSorting_Engine
+namespace BagageSorting_Engine.Models
 {
     public class Gate : IAddBagageToArray, IRemoveFromBagageArray
     {

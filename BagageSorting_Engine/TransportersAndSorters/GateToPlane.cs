@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using BagageSorting_Engine.Models;
 
 namespace BagageSorting_Engine.TransportersAndSorters
+
 {
     class GateToPlane
     {

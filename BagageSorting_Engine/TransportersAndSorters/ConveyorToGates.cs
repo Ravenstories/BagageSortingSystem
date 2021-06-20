@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using BagageSorting_Engine.Models;
 
 namespace BagageSorting_Engine.TransportersAndSorters
 {

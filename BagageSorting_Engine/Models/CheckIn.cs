@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading;
 using BagageSorting_Engine.TransportersAndSorters;
 
-namespace BagageSorting_Engine
+
+namespace BagageSorting_Engine.Models
 {
-    public class CheckIn : IAddBagageToArray, IRemoveFromBagageArray
+    public class CheckIn : BaseNotificationClass, IAddBagageToArray, IRemoveFromBagageArray
     {
         //Locks
         public object CheckInLock = new object();
@@ -19,7 +20,15 @@ namespace BagageSorting_Engine
         private bool _isOpen = false;
 
         //Properties
-        public BagageItem[] BagageArray { get => _bagageArray; set => _bagageArray = value; }
+        public BagageItem[] BagageArray 
+        { 
+            get => _bagageArray; 
+            set 
+            {
+                _bagageArray = value;
+                OnPropertyChanged();
+            }
+        }
         public int BagageArrayIndex { get => _bagageArrayIndex; set => _bagageArrayIndex = value; }
         public bool IsOpen { get => _isOpen; set => _isOpen = value; }
 

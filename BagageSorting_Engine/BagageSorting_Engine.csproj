@@ -41,26 +41,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseNotificationClass.cs" />
     <Compile Include="Controller_CheckIn.cs" />
     <Compile Include="Controller_Gates.cs" />
-    <Compile Include="BagageFactory.cs" />
-    <Compile Include="BagageItem.cs" />
-    <Compile Include="CheckIn.cs" />
+    <Compile Include="Factories\BagageFactory.cs" />
+    <Compile Include="Factories\GenerateNewPassengerBagage.cs" />
+    <Compile Include="Models\BagageItem.cs" />
+    <Compile Include="Models\CheckIn.cs" />
     <Compile Include="TransportersAndSorters\CheckInToConveyor.cs" />
-    <Compile Include="ConveyorBelt.cs" />
+    <Compile Include="Models\ConveyorBelt.cs" />
     <Compile Include="TransportersAndSorters\ConveyorToGates.cs" />
-    <Compile Include="DestinationNames.cs" />
-    <Compile Include="Gate.cs" />
+    <Compile Include="Factories\DestinationNames.cs" />
+    <Compile Include="Models\Gate.cs" />
     <Compile Include="TransportersAndSorters\GateToPlane.cs" />
-    <Compile Include="IncomingPassengers.cs" />
+    <Compile Include="Models\IncomingPassengers.cs" />
     <Compile Include="Interfaces.cs" />
-    <Compile Include="PassengerNames.cs" />
+    <Compile Include="Factories\PassengerNames.cs" />
     <Compile Include="TransportersAndSorters\PassengersToCheckIn.cs" />
-    <Compile Include="PlaneFactory.cs" />
-    <Compile Include="PlaneItem.cs" />
+    <Compile Include="Factories\PlaneFactory.cs" />
+    <Compile Include="Models\PlaneItem.cs" />
     <Compile Include="ViewModels\ProgramSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Random.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

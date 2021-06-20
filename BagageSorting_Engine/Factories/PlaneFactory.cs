@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BagageSorting_Engine.Models;
 
-namespace BagageSorting_Engine
+namespace BagageSorting_Engine.Factories
 {
     class PlaneFactory
     {

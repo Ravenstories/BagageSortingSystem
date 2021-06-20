@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BagageSorting_Engine
+namespace BagageSorting_Engine.Models
 {
-    public class BagageItem
+    public class BagageItem : BaseNotificationClass
     {
         private int passengerNumber;
         private string name;

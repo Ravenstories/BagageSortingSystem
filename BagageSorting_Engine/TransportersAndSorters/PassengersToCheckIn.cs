@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Windows;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using BagageSorting_Engine.Models;
 
 namespace BagageSorting_Engine.TransportersAndSorters
 {
-    
-    class PassengersToCheckIn : IStartProcess, IItemsAtLocation
+    class PassengersToCheckIn : BaseNotificationClass, IStartProcess, IItemsAtLocation
     {
         public void StartProcess()
         {
+            
+            IncomingPassengers incomingPassengers = new IncomingPassengers();
+            incomingPassengers.AddBagageToList();
             while (true)
             {
-                IncomingPassengers incomingPassengers = new IncomingPassengers();
 
                 Thread.Sleep(Random.rndNum.Next(2000, 10000));
                 SortToCheckIn(incomingPassengers.PassengersToCheckInList);
@@ -35,6 +39,9 @@ namespace BagageSorting_Engine.TransportersAndSorters
 
                 itemToMove = bagage.FirstOrDefault();
                 bagage.Remove(itemToMove);
+                OnPropertyChanged();
+                
+               
 
                 Monitor.PulseAll(IncomingPassengers.PassengerLock);
             }
