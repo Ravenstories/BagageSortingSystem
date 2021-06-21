@@ -7,12 +7,13 @@ namespace BagageSorting_Engine.TransportersAndSorters
     
     class ConveyorToGates : IStartProcess, IMoveArray, IItemsAtLocation, ISortArray
     {
+        ConveyorBelt conveyorBelt = new ConveyorBelt();
         public void StartProcess()
         {
             while (true)
             {
                 Thread.Sleep(Random.rndNum.Next(2000, 10000));
-                Sorting(ConveyorBelt.Conveyor);
+                Sorting(conveyorBelt.Conveyor);
                 Thread.Sleep(Random.rndNum.Next(2000, 10000));
 
             }

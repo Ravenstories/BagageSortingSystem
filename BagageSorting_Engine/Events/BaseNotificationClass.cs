@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace BagageSorting_Engine
+namespace BagageSorting_Engine.Events
 {
-    public class BaseNotificationClass : INotifyPropertyChanged
+    public class BaseNotificationClass : EventArgs, INotifyPropertyChanged
     {
         // Event handler - Notifies when a member gets updated and sends the updatated value to view(Listener). 
 

@@ -11,6 +11,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
     
     class CheckInToConveyor : IStartProcess
     {
+        ConveyorBelt conveyorBelt = new ConveyorBelt();
         private CheckIn checkIn; 
         public CheckInToConveyor(CheckIn checkIn)
         {
@@ -23,7 +24,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
             {
             }*/
             Thread.Sleep(Random.rndNum.Next(2000, 10000));
-            Transport(ConveyorBelt.Conveyor);
+            Transport(conveyorBelt.Conveyor);
             Thread.Sleep(Random.rndNum.Next(2000, 10000));
 
         }

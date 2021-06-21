@@ -5,43 +5,48 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using BagageSorting_Engine.Models;
+using BagageSorting_Engine.Events;
+using BagageSorting_Engine.ViewModels;
+using System.Diagnostics;
 
 namespace BagageSorting_Engine.TransportersAndSorters
 {
-    class PassengersToCheckIn : BaseNotificationClass, IStartProcess, IItemsAtLocation
+    public class PassengersToCheckIn : BaseNotificationClass, IStartProcess, IItemsAtLocation
     {
+        public event EventHandler BagageMoved;
+
         public void StartProcess()
         {
             
             IncomingPassengers incomingPassengers = new IncomingPassengers();
-            incomingPassengers.AddBagageToList();
+            //incomingPassengers.AddBagageToList();
             while (true)
             {
 
                 Thread.Sleep(Random.rndNum.Next(2000, 10000));
-                SortToCheckIn(incomingPassengers.PassengersToCheckInList);
+                SortToCheckIn(ProgramSession.PassengerList);
                 Thread.Sleep(Random.rndNum.Next(2000, 10000));
 
             }
         }
 
-        public void SortToCheckIn(List<BagageItem> bagage)
+        public void SortToCheckIn(TrulyObservableCollection<BagageItem> bagage)
         {
             //Lock one object at the time an move a component. 
             BagageItem itemToMove = null;
 
             lock (IncomingPassengers.PassengerLock) 
             {
-                if (bagage.FirstOrDefault() == null)
+                if (bagage.Count() == 0)
                 {
                     Monitor.Wait(IncomingPassengers.PassengerLock);
+                    
                 }
 
                 itemToMove = bagage.FirstOrDefault();
-                bagage.Remove(itemToMove);
-                OnPropertyChanged();
                 
-               
+                BagageMoved?.Invoke(this, new ConveyorEventArgs(ProgramSession.PassengerList, itemToMove));
+                Debug.WriteLine(itemToMove.Name + " have moved to checkIn");
 
                 Monitor.PulseAll(IncomingPassengers.PassengerLock);
             }
@@ -49,21 +54,9 @@ namespace BagageSorting_Engine.TransportersAndSorters
             //Sorting the bagage to a random CheckIn, to simulate people arriving at different gates.
             CheckIn checkIn = Controller_CheckIn.CheckInArray[Random.rndNum.Next(0, Controller_CheckIn.CheckInArray.Length)];
 
-            lock (checkIn.CheckInLock)
+           
+            if (checkIn.IsOpen == true)
             {
-                while (!checkIn.AddToBagageArray(itemToMove))
-                {
-                    Monitor.Wait(checkIn.CheckInLock);
-                }
-
-                Monitor.PulseAll(checkIn.CheckInLock);
-            }
-            /*if (checkIn.IsOpen == true)
-            {
-            }
-            else
-            {
-                checkIn = ArrayOfCheckIns.CheckInArray[0];
                 lock (checkIn.CheckInLock)
                 {
                     while (!checkIn.AddToBagageArray(itemToMove))
@@ -72,10 +65,11 @@ namespace BagageSorting_Engine.TransportersAndSorters
                     }
                     Monitor.PulseAll(checkIn.CheckInLock);
                 }
-                if (checkIn.IsOpen == true)
-                {
             }
-                }*/
+            else
+            {
+                Thread.Sleep(2000);
+            }
 
             Thread.Sleep(100);
         }

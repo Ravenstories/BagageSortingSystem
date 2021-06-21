@@ -41,12 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseNotificationClass.cs" />
+    <Compile Include="Events\BaseNotificationClass.cs" />
     <Compile Include="Controller_CheckIn.cs" />
     <Compile Include="Controller_Gates.cs" />
+    <Compile Include="Events\ConveyorEventArgs.cs" />
     <Compile Include="Events\PassengerEventArgs.cs" />
     <Compile Include="Factories\BagageFactory.cs" />
-    <Compile Include="Factories\GenerateNewPassengerBagage.cs" />
     <Compile Include="Models\BagageItem.cs" />
     <Compile Include="Models\CheckIn.cs" />
     <Compile Include="TransportersAndSorters\CheckInToConveyor.cs" />

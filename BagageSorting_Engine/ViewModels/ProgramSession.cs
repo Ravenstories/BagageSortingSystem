@@ -6,14 +6,15 @@ using System.Threading;
 using BagageSorting_Engine.TransportersAndSorters;
 using BagageSorting_Engine.Factories;
 using BagageSorting_Engine.Models;
+using BagageSorting_Engine.Events;
 
 namespace BagageSorting_Engine.ViewModels
 {
     public class ProgramSession : BaseNotificationClass
     {
         static IncomingPassengers incomingPassengers = new IncomingPassengers();
-        GenerateNewPassengerBagage generateNewBagage = new GenerateNewPassengerBagage();
-        ConveyorBelt conveyorBelt = new ConveyorBelt();
+        BagageFactory bagageFactory = new BagageFactory();
+        static ConveyorBelt conveyorBelt = new ConveyorBelt();
         Controller_CheckIn arrayOfCheckIns = new Controller_CheckIn();
         Controller_Gates arrayOfGates = new Controller_Gates();
 
@@ -25,13 +26,15 @@ namespace BagageSorting_Engine.ViewModels
                 incomingPassengers = value;
             } 
         }
-        internal GenerateNewPassengerBagage GenerateNewBagage { get => generateNewBagage; set => generateNewBagage = value; }
-        public ConveyorBelt Current_ConveyorBelt { get => conveyorBelt; set => conveyorBelt = value; }
+        BagageFactory BagageFactory { get => bagageFactory; set => bagageFactory = value; }
+        public static ConveyorBelt Current_ConveyorBelt { get => conveyorBelt; set => conveyorBelt = value; }
         public Controller_CheckIn Current_Controller_CheckIn { get => arrayOfCheckIns; set => arrayOfCheckIns = value; }
         public Controller_Gates Current_Controller_Gate { get => arrayOfGates; set => arrayOfGates = value; }
 
         
-        public static TrulyObservableCollection<BagageItem> PassengerList = new TrulyObservableCollection<BagageItem>(Current_IncomingPassengers.PassengersToCheckInList);
+        public static TrulyObservableCollection<BagageItem> PassengerList = new TrulyObservableCollection<BagageItem>(Current_IncomingPassengers.PassengerList);
+        public static ObservableCollection<BagageItem> Conveyor = new ObservableCollection<BagageItem>(Current_ConveyorBelt.Conveyor);
+
 
 
         public void StartSession()
@@ -54,14 +57,35 @@ namespace BagageSorting_Engine.ViewModels
             
 
             //Thread for random generating Bagage
-            Thread generateRandomBagage = new Thread(new ThreadStart(GenerateNewBagage.GenerateRandomBagage));
+            Thread createRandomBagage = new Thread(() => CreateBagage());
 
             //Start the threads 
-            //passengerToCheckInThread.Start();
+            passengerToCheckInThread.Start();
             sortConveyorToGatesThread.Start();
-            generateRandomBagage.Start();
+            createRandomBagage.Start();
 
         }
+
+
+        public event EventHandler BagageCreated;
+        private void CreateBagage()
+        {
+            System.Random rndNmb = new System.Random();
+            while (true)
+            {
+                Thread.Sleep(rndNmb.Next(500, 5000));
+                lock (IncomingPassengers.PassengerLock)
+                {
+                    BagageItem bagageItem = BagageFactory.CreateRandomBagage();
+                    BagageCreated?.Invoke(this, new PassengerEventArgs(PassengerList, bagageItem));
+
+                    
+                    Monitor.PulseAll(IncomingPassengers.PassengerLock);
+
+                }
+            }
+        }
+
 
         public void OpenCheckIn()
         {
@@ -104,6 +128,7 @@ namespace BagageSorting_Engine.ViewModels
                 Controller_Gates.ArrayCounter--;
             }
         }
+
 
 
 

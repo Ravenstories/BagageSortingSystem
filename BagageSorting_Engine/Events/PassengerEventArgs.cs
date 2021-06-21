@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using BagageSorting_Engine.Models;
+using System.Collections.ObjectModel;
 
 namespace BagageSorting_Engine.Events
 {
     public class PassengerEventArgs : EventArgs
     {
-        public List<BagageItem> Passenger { get; }
+        public TrulyObservableCollection<BagageItem> PassengerList { get; }
+        public BagageItem BagageItem { get; }
 
-        public PassengerEventArgs(List<BagageItem> passenger)
+        public PassengerEventArgs(TrulyObservableCollection<BagageItem> passenger, BagageItem bagageItem)
         {
-            Passenger = passenger;
+            PassengerList = passenger;
+            BagageItem = bagageItem;
         }
+        
     }
 }

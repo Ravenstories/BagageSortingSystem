@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using BagageSorting_Engine.Events;
 using BagageSorting_Engine.Factories;
 
 namespace BagageSorting_Engine.Models
@@ -15,29 +16,28 @@ namespace BagageSorting_Engine.Models
         public static object PassengerLock = new object();
 
         //List to contain all passengers
-        private static List<BagageItem> passengersToCheckInList = new List<BagageItem>();
-        public List<BagageItem> PassengersToCheckInList
+        private static List<BagageItem> passengerList = new List<BagageItem>();
+        public List<BagageItem> PassengerList
         { 
-            get => passengersToCheckInList;
+            get => passengerList;
             set 
             { 
-                passengersToCheckInList = value;
-                OnPropertyChanged(nameof(PassengersToCheckInList));
+                passengerList = value;
             }
         }
-        public event EventHandler PassengerToCheckInListChanged;
+
         //List of premade Bagage so the system have something to start with
         public void AddBagageToList()
         {
-            PassengersToCheckInList.Add(BagageFactory.GetBagageItem(11111));
-            PassengersToCheckInList.Add(BagageFactory.GetBagageItem(11112));
-            PassengersToCheckInList.Add(BagageFactory.GetBagageItem(11113));
-            PassengersToCheckInList.Add(BagageFactory.GetBagageItem(11114));
-            PassengersToCheckInList.Add(BagageFactory.GetBagageItem(11115));
-            PassengersToCheckInList.Add(BagageFactory.GetBagageItem(11116));
-            PassengersToCheckInList.Add(BagageFactory.GetBagageItem(11117));
-            PassengersToCheckInList.Add(BagageFactory.GetBagageItem(11118));
-            PassengersToCheckInList.Add(BagageFactory.GetBagageItem(11119));
+            PassengerList.Add(BagageFactory.GetBagageItem(11111));
+            PassengerList.Add(BagageFactory.GetBagageItem(11112));
+            PassengerList.Add(BagageFactory.GetBagageItem(11113));
+            PassengerList.Add(BagageFactory.GetBagageItem(11114));
+            PassengerList.Add(BagageFactory.GetBagageItem(11115));
+            PassengerList.Add(BagageFactory.GetBagageItem(11116));
+            PassengerList.Add(BagageFactory.GetBagageItem(11117));
+            PassengerList.Add(BagageFactory.GetBagageItem(11118));
+            PassengerList.Add(BagageFactory.GetBagageItem(11119));
         }
 
         

@@ -31,13 +31,13 @@
 
         <TextBlock Grid.Column="1" Grid.Row="1" FontSize="18" Grid.ColumnSpan="2">Bagage Sorting</TextBlock>
         <TextBlock Grid.Column="1" Grid.Row="2" FontSize="11" Margin="10">Passengers</TextBlock>
-        <DataGrid ItemsSource="{Binding PassengerList}" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="1"  Grid.Row="3" Grid.RowSpan="5" Margin="5">
+
+        <DataGrid x:Name="PassengerList" DataContext="ObservableCollection" AutoGenerateColumns="True" HeadersVisibility="Column"  Grid.Column="1"  Grid.Row="3" Grid.RowSpan="5" Margin="5">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly ="True" />
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="Start" Content="Start" Grid.Column="1" Grid.Row="7" Margin="5" Click="Start_Click"></Button>
-
         
         <Button x:Name="CheckInPlusButton" Click="OnClick_OpenCheckIn" Grid.Column="2" Grid.Row="2" Content="+" Width="20" Height="20" HorizontalAlignment="Center" Margin="5" ></Button>
         <Button x:Name="CheckInMinusButton" Click="OnClick_CloseCheckIn" Grid.Column="2" Grid.Row="2" Content="-" Width="20" Height="20" HorizontalAlignment="Center" Margin="95,0,30,0" ></Button>
@@ -47,9 +47,7 @@
                 <DataGridTextColumn Header="Name" Binding="{Binding Name }"/>
             </DataGrid.Columns>
         </DataGrid>
-         
-        
-
+             
         <TextBlock Grid.Column="3" Grid.Row="2" FontSize="11" Margin="10">Conveyour/Sorter</TextBlock>
         <DataGrid ItemsSource="{Binding Current_ConveyorBelt.Conveyor.IsFixedSize}" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="3"  Grid.Row="3" Grid.RowSpan="5" Margin="5">
             <DataGrid.Columns>
@@ -67,7 +65,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Column="5" Grid.Row="2" FontSize="11" Margin="10">Plane</TextBlock>
-        <DataGrid ItemsSource="{Binding Current_IncomingPassengers.PassengersToCheckInList}" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="5"  Grid.Row="3" Margin="5">
+        <DataGrid ItemsSource="{Binding PassengerList}" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="5"  Grid.Row="3" Margin="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
             </DataGrid.Columns>
