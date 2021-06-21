@@ -25,7 +25,6 @@ namespace WPFUI
         private ProgramSession programSession = new ProgramSession();
         public MainWindow()
         {
-            programSession.StartSession();
             InitializeComponent();
 
             DataContext = programSession;
@@ -48,6 +47,9 @@ namespace WPFUI
             programSession.CloseGate();
         }
 
-        
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+            programSession.StartSession();
+        }
     }
 }

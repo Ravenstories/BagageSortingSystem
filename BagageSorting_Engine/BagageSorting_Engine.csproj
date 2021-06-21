@@ -44,6 +44,7 @@
     <Compile Include="BaseNotificationClass.cs" />
     <Compile Include="Controller_CheckIn.cs" />
     <Compile Include="Controller_Gates.cs" />
+    <Compile Include="Events\PassengerEventArgs.cs" />
     <Compile Include="Factories\BagageFactory.cs" />
     <Compile Include="Factories\GenerateNewPassengerBagage.cs" />
     <Compile Include="Models\BagageItem.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="TransportersAndSorters\PassengersToCheckIn.cs" />
     <Compile Include="Factories\PlaneFactory.cs" />
     <Compile Include="Models\PlaneItem.cs" />
+    <Compile Include="TrulyObservableCollection.cs" />
     <Compile Include="ViewModels\ProgramSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Random.cs" />

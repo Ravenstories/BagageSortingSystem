@@ -35,12 +35,3 @@ namespace BagageSorting_Engine.Factories
         }
     }
 }
-
-            
-             
-            
-            
-            
-            
-            
-             

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using BagageSorting_Engine.Models;
+using BagageSorting_Engine.Events;
 
 namespace BagageSorting_Engine.Factories
 {
     class GenerateNewPassengerBagage : IncomingPassengers
     {
+        public event EventHandler UpdatePassengerList;
         //Function that keeps generating random Bagage
         public void GenerateRandomBagage()
         {
@@ -29,6 +31,9 @@ namespace BagageSorting_Engine.Factories
                         bagageNumber,
                         0, 0, 0, 0, 0
                         ));
+
+                    UpdatePassengerList?.Invoke(this, new PassengerEventArgs(PassengersToCheckInList));
+                    OnPropertyChanged(nameof(PassengersToCheckInList));
                     Console.WriteLine(passengerName + " have checkedIn");
                     passengerCounter++;
                     bagageNumber++;

@@ -22,10 +22,10 @@ namespace BagageSorting_Engine.Models
             set 
             { 
                 passengersToCheckInList = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(PassengersToCheckInList));
             }
         }
-
+        public event EventHandler PassengerToCheckInListChanged;
         //List of premade Bagage so the system have something to start with
         public void AddBagageToList()
         {

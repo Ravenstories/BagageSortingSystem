@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Threading;
 using BagageSorting_Engine.TransportersAndSorters;
 using BagageSorting_Engine.Factories;
@@ -8,24 +11,28 @@ namespace BagageSorting_Engine.ViewModels
 {
     public class ProgramSession : BaseNotificationClass
     {
-        IncomingPassengers incomingPassengers = new IncomingPassengers();
+        static IncomingPassengers incomingPassengers = new IncomingPassengers();
         GenerateNewPassengerBagage generateNewBagage = new GenerateNewPassengerBagage();
         ConveyorBelt conveyorBelt = new ConveyorBelt();
         Controller_CheckIn arrayOfCheckIns = new Controller_CheckIn();
         Controller_Gates arrayOfGates = new Controller_Gates();
-        public IncomingPassengers Current_IncomingPassengers 
+
+        public static IncomingPassengers Current_IncomingPassengers 
         { 
             get => incomingPassengers; 
             set 
             {
                 incomingPassengers = value;
-                OnPropertyChanged();
             } 
         }
         internal GenerateNewPassengerBagage GenerateNewBagage { get => generateNewBagage; set => generateNewBagage = value; }
         public ConveyorBelt Current_ConveyorBelt { get => conveyorBelt; set => conveyorBelt = value; }
         public Controller_CheckIn Current_Controller_CheckIn { get => arrayOfCheckIns; set => arrayOfCheckIns = value; }
         public Controller_Gates Current_Controller_Gate { get => arrayOfGates; set => arrayOfGates = value; }
+
+        
+        public static TrulyObservableCollection<BagageItem> PassengerList = new TrulyObservableCollection<BagageItem>(Current_IncomingPassengers.PassengersToCheckInList);
+
 
         public void StartSession()
         {
@@ -50,7 +57,7 @@ namespace BagageSorting_Engine.ViewModels
             Thread generateRandomBagage = new Thread(new ThreadStart(GenerateNewBagage.GenerateRandomBagage));
 
             //Start the threads 
-            passengerToCheckInThread.Start();
+            //passengerToCheckInThread.Start();
             sortConveyorToGatesThread.Start();
             generateRandomBagage.Start();
 
@@ -99,7 +106,7 @@ namespace BagageSorting_Engine.ViewModels
         }
 
 
-        ///UI Create a method for gates and check ins that can open and close them with user input. Make a boolean check on them to stop their while loop. 
+
         
     }
         
