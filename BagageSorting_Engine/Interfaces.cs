@@ -21,7 +21,7 @@ namespace BagageSorting_Engine
     }
     public interface ISortArray
     {
-        void Sorting(BagageItem[] conveyor);
+        void GrapItemFromConveyor(BagageItem[] conveyor);
     }
     public interface IMoveArray
     {

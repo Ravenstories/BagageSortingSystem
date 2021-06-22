@@ -20,7 +20,8 @@ namespace BagageSorting_Engine.TransportersAndSorters
             this.checkIn = checkIn;
         }
 
-        ProgramSession session = new ProgramSession();
+        //Needed if view has to fire event. 
+        //ProgramSession session = new ProgramSession();
 
         public void StartProcess()
         {
@@ -63,15 +64,12 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 ConveyorBelt.ConveyorCounter++;
 
                 //session.ItemMovedToConveyor(itemToMove);
-               
 
                 ItemsAtLocation(conveyor);
-
                 //ItemsAtLocation(ProgramSession.Conveyor);
                 
                 Monitor.PulseAll(ConveyorBelt.ConveyorLock);
                 Thread.Sleep(100);
-
 
             }
         }
@@ -86,7 +84,6 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 }
             }
             Debug.WriteLine("\n");
-
         }
 
         public void ItemsAtLocation(ObservableCollection<BagageItem> conveyorArray)

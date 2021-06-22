@@ -130,14 +130,15 @@ namespace BagageSorting_Engine.ViewModels
 
         public void OpenCheckIn()
         {
-            Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen = true;
-
-            IsOpenEvent.Invoke(this, new CheckInOpenEvent(Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].CheckInNumber, Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen));
-
-
             if (Controller_CheckIn.ArrayCounter < Controller_CheckIn.CheckInArray.Length)
             {
+
+                Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen = true;
+
+                IsOpenEvent.Invoke(this, new CheckInOpenEvent(Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].CheckInNumber, Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen));
+                
                 Debug.WriteLine(Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen);
+                
                 Controller_CheckIn.ArrayCounter++;
             }
             else
@@ -148,6 +149,7 @@ namespace BagageSorting_Engine.ViewModels
         public void CloseCheckIn()
         {
             Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen = false;
+            
             IsOpenEvent.Invoke(this, new CheckInOpenEvent(Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].CheckInNumber, Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen));
 
             if (Controller_CheckIn.ArrayCounter != 0)

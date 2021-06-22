@@ -8,22 +8,31 @@ namespace BagageSorting_Engine.TransportersAndSorters
     public class ConveyorToGates : IStartProcess, IMoveArray, IItemsAtLocation, ISortArray
     {
         ConveyorBelt conveyorBelt = new ConveyorBelt();
+        BagageItem itemToMove = null;
         public void StartProcess()
         {
             while (true)
             {
                 //Refactor to loop if item to move is null. 
                 Thread.Sleep(Random.rndNum.Next(2000, 10000));
-                Sorting(conveyorBelt.Conveyor);
+                GrapItemFromConveyor(conveyorBelt.Conveyor);
+
+                if (itemToMove == null)
+                {
+                    Thread.Sleep(2000);
+                    GrapItemFromConveyor(conveyorBelt.Conveyor);
+                }
+
+                MoveItemToGate(itemToMove);
+                
                 Thread.Sleep(Random.rndNum.Next(2000, 10000));
 
             }
         }
 
-        public void Sorting(BagageItem[] conveyor)
+        public void GrapItemFromConveyor(BagageItem[] conveyor)
         {
             //Lock one object at the time an move a component. 
-            BagageItem itemToMove = null;
 
             lock (ConveyorBelt.ConveyorLock)
             {
@@ -37,10 +46,14 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 ConveyorBelt.ConveyorCounter--;
 
                 Monitor.PulseAll(ConveyorBelt.ConveyorLock);
+                 
             }
 
             //System.NullReferenceExeption
-            
+        }
+
+        public void MoveItemToGate(BagageItem itemToMove)
+        {
             Gate gate = Controller_Gates.GateArray[itemToMove.GateNumber];
 
             lock (gate.GateLock)
@@ -54,6 +67,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
             }
 
             Thread.Sleep(100);
+
         }
 
 
