@@ -17,6 +17,7 @@ namespace BagageSorting_Engine.Models
         //Variables 
         private CheckInToConveyor sortCheckIn;
         private BagageItem[] _bagageArray = new BagageItem[50];
+        private int _checkInNumber;
         private int _bagageArrayIndex = 0;
         private bool _isOpen = false;
 
@@ -27,11 +28,19 @@ namespace BagageSorting_Engine.Models
             set 
             {
                 _bagageArray = value;
-                OnPropertyChanged();
             }
         }
         public int BagageArrayIndex { get => _bagageArrayIndex; set => _bagageArrayIndex = value; }
-        public bool IsOpen { get => _isOpen; set => _isOpen = value; }
+        public bool IsOpen 
+        { 
+            get => _isOpen;
+            set 
+            { 
+                _isOpen = value;
+            } 
+        }
+
+        public int CheckInNumber { get => _checkInNumber; set => _checkInNumber = value; }
 
         //Constructor
         public CheckIn()

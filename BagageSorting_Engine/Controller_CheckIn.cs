@@ -20,6 +20,7 @@ namespace BagageSorting_Engine
             for (int i = 0; i < CheckInArray.Length; i++)
             {
                 CheckInArray[i] = new CheckIn();
+                CheckInArray[i].CheckInNumber = i;
                 CheckInArray[i].StartThread();
             }
         }

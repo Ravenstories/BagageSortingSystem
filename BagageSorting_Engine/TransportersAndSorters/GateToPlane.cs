@@ -4,17 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using BagageSorting_Engine.Models;
+using BagageSorting_Engine.ViewModels;
+
 
 namespace BagageSorting_Engine.TransportersAndSorters
-
 {
-    class GateToPlane
+    public class GateToPlane
     {
         private Gate gate;
         public GateToPlane(Gate gate)
         {
             this.gate = gate;
         }
+
+        ProgramSession session = new ProgramSession();
+
 
         public void StartProcess()
         {
@@ -39,6 +43,12 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 }
 
                 itemToMove = gate.RemoveFromBagageArray();
+
+                //Global CheckOut List Here
+
+                //Event Here
+                session.ItemMovedToCheckOutList(itemToMove);
+
                 Monitor.PulseAll(gate.GateLock);
             }
             

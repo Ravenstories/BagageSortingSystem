@@ -5,13 +5,14 @@ using BagageSorting_Engine.Models;
 namespace BagageSorting_Engine.TransportersAndSorters
 {
     
-    class ConveyorToGates : IStartProcess, IMoveArray, IItemsAtLocation, ISortArray
+    public class ConveyorToGates : IStartProcess, IMoveArray, IItemsAtLocation, ISortArray
     {
         ConveyorBelt conveyorBelt = new ConveyorBelt();
         public void StartProcess()
         {
             while (true)
             {
+                //Refactor to loop if item to move is null. 
                 Thread.Sleep(Random.rndNum.Next(2000, 10000));
                 Sorting(conveyorBelt.Conveyor);
                 Thread.Sleep(Random.rndNum.Next(2000, 10000));
@@ -38,8 +39,9 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 Monitor.PulseAll(ConveyorBelt.ConveyorLock);
             }
 
-            Gate gate = Controller_Gates.GateArray[itemToMove.GateNumber];
+            //System.NullReferenceExeption
             
+            Gate gate = Controller_Gates.GateArray[itemToMove.GateNumber];
 
             lock (gate.GateLock)
             {
@@ -52,9 +54,9 @@ namespace BagageSorting_Engine.TransportersAndSorters
             }
 
             Thread.Sleep(100);
-
-
         }
+
+
         public void ItemsAtLocation(BagageItem[] locationArray)
         {
             for (int i = 0; i < locationArray.Length; i++)

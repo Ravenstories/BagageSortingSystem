@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BagageSorting_Engine.Events;
+using BagageSorting_Engine.ViewModels;
 
 namespace BagageSorting_Engine.Models
-{
+{ 
+    
     class PlaneItem
     {
+        public static List<BagageItem> CheckedOutList = new List<BagageItem>();
+
         private int flightNumber;
         private int gateNumber;
         private string destination;
@@ -61,5 +66,7 @@ namespace BagageSorting_Engine.Models
         {
             return new PlaneItem(FlightNumber, GateNumber, Destination, TimeEnterGate, TimeSorted, TimeExitGate);
         }
+
+        
     }
 }

@@ -7,6 +7,7 @@ using BagageSorting_Engine.TransportersAndSorters;
 using BagageSorting_Engine.Factories;
 using BagageSorting_Engine.Models;
 using BagageSorting_Engine.Events;
+using System.Diagnostics;
 
 namespace BagageSorting_Engine.ViewModels
 {
@@ -15,6 +16,8 @@ namespace BagageSorting_Engine.ViewModels
         static IncomingPassengers incomingPassengers = new IncomingPassengers();
         BagageFactory bagageFactory = new BagageFactory();
         static ConveyorBelt conveyorBelt = new ConveyorBelt();
+        static OutGoingPassengers outGoing = new OutGoingPassengers();
+
         Controller_CheckIn arrayOfCheckIns = new Controller_CheckIn();
         Controller_Gates arrayOfGates = new Controller_Gates();
 
@@ -26,14 +29,19 @@ namespace BagageSorting_Engine.ViewModels
                 incomingPassengers = value;
             } 
         }
-        BagageFactory BagageFactory { get => bagageFactory; set => bagageFactory = value; }
         public static ConveyorBelt Current_ConveyorBelt { get => conveyorBelt; set => conveyorBelt = value; }
+        public static OutGoingPassengers Current_OutGoing { get => outGoing; set => outGoing = value; }
+        BagageFactory BagageFactory { get => bagageFactory; set => bagageFactory = value; }
+        
         public Controller_CheckIn Current_Controller_CheckIn { get => arrayOfCheckIns; set => arrayOfCheckIns = value; }
         public Controller_Gates Current_Controller_Gate { get => arrayOfGates; set => arrayOfGates = value; }
 
-        
+
         public static TrulyObservableCollection<BagageItem> PassengerList = new TrulyObservableCollection<BagageItem>(Current_IncomingPassengers.PassengerList);
+
         public static ObservableCollection<BagageItem> Conveyor = new ObservableCollection<BagageItem>(Current_ConveyorBelt.Conveyor);
+        
+        public static TrulyObservableCollection<BagageItem> CheckedOutList = new TrulyObservableCollection<BagageItem>(Current_OutGoing.OutGoingPassengerList);
 
 
 
@@ -66,8 +74,15 @@ namespace BagageSorting_Engine.ViewModels
 
         }
 
-
+        //Events
+        public event EventHandler IsOpenEvent;
         public event EventHandler BagageCreated;
+        public event EventHandler BagageMovedFromPassengerList;
+        public event EventHandler BagageMovedToCheckOutList;
+        public event EventHandler MovedToConveyor;
+
+
+        //From BagageFactory
         private void CreateBagage()
         {
             System.Random rndNmb = new System.Random();
@@ -86,28 +101,62 @@ namespace BagageSorting_Engine.ViewModels
             }
         }
 
+        //From PlaneItem
+        public void ItemMovedToCheckOutList(BagageItem bagageItem)
+        {
+            lock (OutGoingPassengers.OutGoingLock)
+            {
+                BagageMovedToCheckOutList?.Invoke(this, new PassengerEventArgs(CheckedOutList, bagageItem));
+
+                Monitor.PulseAll(OutGoingPassengers.OutGoingLock);
+            }
+        }
+
+        //From CheckInToConveyor
+        public void ItemMovedToConveyor(BagageItem bagageItem)
+        {
+            MovedToConveyor?.Invoke(this, new ConveyorEventArgs(Conveyor, bagageItem));
+            ConveyorBelt.ConveyorCounter++;
+
+            Debug.WriteLine(bagageItem.Name + "Should be in conveyor");
+        }
+
+        //From PassengerToCheckIn
+        public void RemoveItemFromPassengerList(BagageItem bagageItem)
+        {
+            BagageMovedFromPassengerList?.Invoke(this, new PassengerEventArgs(PassengerList, bagageItem));
+        }
+
 
         public void OpenCheckIn()
         {
             Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen = true;
+
+            IsOpenEvent.Invoke(this, new CheckInOpenEvent(Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].CheckInNumber, Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen));
+
+
             if (Controller_CheckIn.ArrayCounter < Controller_CheckIn.CheckInArray.Length)
             {
+                Debug.WriteLine(Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen);
                 Controller_CheckIn.ArrayCounter++;
             }
             else
             {
-                //Throw max reached message
+                Debug.WriteLine("Max number of checkIns reached");
             }
         }
         public void CloseCheckIn()
         {
             Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen = false;
+            IsOpenEvent.Invoke(this, new CheckInOpenEvent(Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].CheckInNumber, Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen));
+
             if (Controller_CheckIn.ArrayCounter != 0)
             {
                 Controller_CheckIn.ArrayCounter--;
 
             }
         }
+
         public void OpenGate()
         {
             Controller_Gates.GateArray[Controller_Gates.ArrayCounter].IsOpen = true;

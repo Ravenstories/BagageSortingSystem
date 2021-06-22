@@ -10,12 +10,12 @@ namespace BagageSorting_Engine.Events
 {
     public class ConveyorEventArgs : EventArgs
     {
-        public ObservableCollection<BagageItem> PassengerList { get; }
+        public ObservableCollection<BagageItem> Conveyor { get; }
         public BagageItem BagageItem { get; }
 
-        public ConveyorEventArgs(ObservableCollection<BagageItem> passengerList, BagageItem bagageItem)
+        public ConveyorEventArgs(ObservableCollection<BagageItem> conveyor, BagageItem bagageItem)
         {
-            PassengerList = passengerList;
+            Conveyor = conveyor;
             BagageItem = bagageItem;
         }
     }

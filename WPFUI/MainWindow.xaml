@@ -7,6 +7,7 @@
         d:DataContext="{d:DesignInstance viewModels:ProgramSession}"
         mc:Ignorable="d"
         Title="Bagage Sorting" Height="450" Width="800">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -32,30 +33,87 @@
         <TextBlock Grid.Column="1" Grid.Row="1" FontSize="18" Grid.ColumnSpan="2">Bagage Sorting</TextBlock>
         <TextBlock Grid.Column="1" Grid.Row="2" FontSize="11" Margin="10">Passengers</TextBlock>
 
-        <DataGrid x:Name="PassengerList" DataContext="ObservableCollection" AutoGenerateColumns="True" HeadersVisibility="Column"  Grid.Column="1"  Grid.Row="3" Grid.RowSpan="5" Margin="5">
+        <DataGrid x:Name="PassengerList" AutoGenerateColumns="false" HeadersVisibility="Column"  Grid.Column="1"  Grid.Row="3" Grid.RowSpan="5" Margin="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly ="True" />
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="Start" Content="Start" Grid.Column="1" Grid.Row="7" Margin="5" Click="Start_Click"></Button>
+
+        <!--#Region CheckIns-->
         
         <Button x:Name="CheckInPlusButton" Click="OnClick_OpenCheckIn" Grid.Column="2" Grid.Row="2" Content="+" Width="20" Height="20" HorizontalAlignment="Center" Margin="5" ></Button>
         <Button x:Name="CheckInMinusButton" Click="OnClick_CloseCheckIn" Grid.Column="2" Grid.Row="2" Content="-" Width="20" Height="20" HorizontalAlignment="Center" Margin="95,0,30,0" ></Button>
         <TextBlock Grid.Column="2" Grid.Row="2" FontSize="11" Margin="10">Check Ins</TextBlock>
-        <DataGrid ItemsSource="{Binding Current_Controller_CheckIn.CheckInArray[0].BagageArray.IsFixedSize}" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="3" Margin="5">
+        <DataGrid x:Name="CheckInOne" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="3" Margin="5"  Visibility="Collapsed">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name }"/>
             </DataGrid.Columns>
         </DataGrid>
-             
-        <TextBlock Grid.Column="3" Grid.Row="2" FontSize="11" Margin="10">Conveyour/Sorter</TextBlock>
-        <DataGrid ItemsSource="{Binding Current_ConveyorBelt.Conveyor.IsFixedSize}" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="3"  Grid.Row="3" Grid.RowSpan="5" Margin="5">
+
+        <DataGrid x:Name="CheckInTwo" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="4" Margin="5"  Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name }"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid x:Name="CheckInThree" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="5" Margin="5"  Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name }"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid x:Name="CheckInFour" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="6" Margin="5"  Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name }"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid x:Name="CheckInFive" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="7" Grid.RowSpan="5" Margin="5" Visibility="Collapsed">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
             </DataGrid.Columns>
         </DataGrid>
-        
-        
+
+        <DataGrid x:Name="CheckInSix" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="8" Grid.RowSpan="5" Margin="5" Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid x:Name="CheckInSeven" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="9" Grid.RowSpan="5" Margin="5" Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid x:Name="CheckInEight" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="10" Grid.RowSpan="5" Margin="5" Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid x:Name="CheckInNine" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="11" Grid.RowSpan="5" Margin="5" Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid x:Name="CheckInTen" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="12" Grid.RowSpan="5" Margin="5" Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!--#endregion-->
+
+        <TextBlock Grid.Column="3" Grid.Row="2" FontSize="11" Margin="10">Conveyour/Sorter</TextBlock>
+        <DataGrid x:Name="Conveyor" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="3"  Grid.Row="3" Grid.RowSpan="5" Margin="5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
         <Button x:Name="GatePlusButton" Click="OnClick_OpenGate" Grid.Column="4" Grid.Row="2" Content="+" Width="20" Height="20" HorizontalAlignment="Center" Margin="0,0,30,0" ></Button>
         <Button x:Name="GateMinusButton" Click="OnClick_CloseGate" Grid.Column="4" Grid.Row="2" Content="-" Width="20" Height="20" HorizontalAlignment="Center" Margin="65,0,30,0" ></Button>
         <TextBlock  Grid.Column="4" Grid.Row="2" FontSize="11" Margin="10">Gate</TextBlock>
@@ -64,8 +122,9 @@
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
             </DataGrid.Columns>
         </DataGrid>
+        
         <TextBlock Grid.Column="5" Grid.Row="2" FontSize="11" Margin="10">Plane</TextBlock>
-        <DataGrid ItemsSource="{Binding PassengerList}" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="5"  Grid.Row="3" Margin="5">
+        <DataGrid x:Name="PlanePassengerList" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="5"  Grid.Row="3" Margin="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
             </DataGrid.Columns>

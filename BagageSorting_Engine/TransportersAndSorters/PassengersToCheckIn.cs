@@ -11,10 +11,9 @@ using System.Diagnostics;
 
 namespace BagageSorting_Engine.TransportersAndSorters
 {
-    public class PassengersToCheckIn : BaseNotificationClass, IStartProcess, IItemsAtLocation
+    public class PassengersToCheckIn : BaseNotificationClass, IStartProcess
     {
-        public event EventHandler BagageMoved;
-
+        ProgramSession session = new ProgramSession();
         public void StartProcess()
         {
             
@@ -44,9 +43,12 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 }
 
                 itemToMove = bagage.FirstOrDefault();
-                
-                BagageMoved?.Invoke(this, new ConveyorEventArgs(ProgramSession.PassengerList, itemToMove));
-                Debug.WriteLine(itemToMove.Name + " have moved to checkIn");
+
+                //Event
+
+                session.RemoveItemFromPassengerList(itemToMove);
+
+                //Debug.WriteLine(itemToMove.Name + " have moved to checkIn");
 
                 Monitor.PulseAll(IncomingPassengers.PassengerLock);
             }
@@ -64,6 +66,8 @@ namespace BagageSorting_Engine.TransportersAndSorters
                         Monitor.Wait(checkIn.CheckInLock);
                     }
                     Monitor.PulseAll(checkIn.CheckInLock);
+                    
+                    //ItemsAtLocation(bagage);
                 }
             }
             else
@@ -74,13 +78,13 @@ namespace BagageSorting_Engine.TransportersAndSorters
             Thread.Sleep(100);
         }
 
-        public void ItemsAtLocation(BagageItem[] conveyorArray)
+        public void ItemsAtLocation(TrulyObservableCollection<BagageItem> bagage)
         {
-            for (int i = 0; i < conveyorArray.Length; i++)
+            for (int i = 0; i < bagage.Count; i++)
             {
-                if (conveyorArray[i] != null)
+                if (bagage[i] != null)
                 {
-                    Console.WriteLine(conveyorArray[i].Name + ", " + conveyorArray[i].PassengerNumber);
+                    Debug.WriteLine(bagage[i].Name + ", " + bagage[i].PassengerNumber);
                 }
             }
         }

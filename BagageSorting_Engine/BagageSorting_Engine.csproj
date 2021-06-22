@@ -44,11 +44,13 @@
     <Compile Include="Events\BaseNotificationClass.cs" />
     <Compile Include="Controller_CheckIn.cs" />
     <Compile Include="Controller_Gates.cs" />
+    <Compile Include="Events\CheckInOpenEvent.cs" />
     <Compile Include="Events\ConveyorEventArgs.cs" />
     <Compile Include="Events\PassengerEventArgs.cs" />
     <Compile Include="Factories\BagageFactory.cs" />
     <Compile Include="Models\BagageItem.cs" />
     <Compile Include="Models\CheckIn.cs" />
+    <Compile Include="Models\OutGoingPassengers.cs" />
     <Compile Include="TransportersAndSorters\CheckInToConveyor.cs" />
     <Compile Include="Models\ConveyorBelt.cs" />
     <Compile Include="TransportersAndSorters\ConveyorToGates.cs" />
