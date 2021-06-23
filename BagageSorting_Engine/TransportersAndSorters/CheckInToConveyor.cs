@@ -15,6 +15,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
 
         ConveyorBelt conveyorBelt = new ConveyorBelt();
         private CheckIn checkIn; 
+        BagageItem itemToMove = null;
         public CheckInToConveyor(CheckIn checkIn)
         {
             this.checkIn = checkIn;
@@ -28,16 +29,24 @@ namespace BagageSorting_Engine.TransportersAndSorters
             /*while (checkIn.IsOpen == true)
             {
             }*/
+            //Refactor to mimic Conveyor to gate
+            
             Thread.Sleep(Random.rndNum.Next(2000, 10000));
-            Transport(conveyorBelt.Conveyor);
-            Thread.Sleep(Random.rndNum.Next(2000, 10000));
+            GrapItemFromCheckIn();
+
+            if (itemToMove == null)
+            {
+                Thread.Sleep(2000);
+                GrapItemFromCheckIn();
+            }
+            
+            MoveItemToConveyor(conveyorBelt.Conveyor);
+            
 
         }
 
-        public void Transport(BagageItem[] conveyor)
+        public void GrapItemFromCheckIn()
         {
-            BagageItem itemToMove = null;
-            
             lock (checkIn.CheckInLock)
             {
                 if (checkIn.BagageArray[0] == null)
@@ -48,7 +57,10 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 itemToMove = checkIn.RemoveFromBagageArray();
                 Monitor.PulseAll(checkIn.CheckInLock);
             }
+        }
 
+        public void MoveItemToConveyor(BagageItem[] conveyor)
+        {
             lock (ConveyorBelt.ConveyorLock)
             {
                 // This might be very redundant
@@ -59,15 +71,18 @@ namespace BagageSorting_Engine.TransportersAndSorters
 
                 Debug.WriteLine(itemToMove.Name + " Is trying to be moved to Conveyor");
 
-                //Event
+
+                //Add Bagage To Conveyor
                 conveyorBelt.Conveyor[ConveyorBelt.ConveyorCounter] = itemToMove;
                 ConveyorBelt.ConveyorCounter++;
 
                 //session.ItemMovedToConveyor(itemToMove);
 
+                //Shows items at Conveyor Location
+
                 ItemsAtLocation(conveyor);
                 //ItemsAtLocation(ProgramSession.Conveyor);
-                
+
                 Monitor.PulseAll(ConveyorBelt.ConveyorLock);
                 Thread.Sleep(100);
 

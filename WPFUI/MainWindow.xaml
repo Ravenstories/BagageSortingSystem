@@ -6,7 +6,7 @@
         xmlns:viewModels="clr-namespace:BagageSorting_Engine.ViewModels;assembly=BagageSorting_Engine"
         d:DataContext="{d:DesignInstance viewModels:ProgramSession}"
         mc:Ignorable="d"
-        Title="Bagage Sorting" Height="450" Width="800">
+        Title="Bagage Sorting" Height="600" Width="1000">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -20,91 +20,67 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
+            
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Column="1" Grid.Row="1" FontSize="18" Grid.ColumnSpan="2">Bagage Sorting</TextBlock>
         <TextBlock Grid.Column="1" Grid.Row="2" FontSize="11" Margin="10">Passengers</TextBlock>
 
-        <DataGrid x:Name="PassengerList" AutoGenerateColumns="false" HeadersVisibility="Column"  Grid.Column="1"  Grid.Row="3" Grid.RowSpan="5" Margin="5">
+        <DataGrid x:Name="PassengerList" AutoGenerateColumns="true" HeadersVisibility="Column"  Grid.Column="1"  Grid.Row="3" Grid.RowSpan="10" Margin="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly ="True" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="Start" Content="Start" Grid.Column="1" Grid.Row="7" Margin="5" Click="Start_Click"></Button>
+        <Button x:Name="Start" Content="Start" Grid.Column="1" Grid.Row="13" Margin="5" Click="Start_Click"></Button>
 
         <!--#Region CheckIns-->
         
-        <Button x:Name="CheckInPlusButton" Click="OnClick_OpenCheckIn" Grid.Column="2" Grid.Row="2" Content="+" Width="20" Height="20" HorizontalAlignment="Center" Margin="5" ></Button>
-        <Button x:Name="CheckInMinusButton" Click="OnClick_CloseCheckIn" Grid.Column="2" Grid.Row="2" Content="-" Width="20" Height="20" HorizontalAlignment="Center" Margin="95,0,30,0" ></Button>
+        <Button x:Name="CheckInPlusButton" Click="OnClick_OpenCheckIn" Grid.Column="2" Grid.Row="2" Content="+" Width="30" Height="30" HorizontalAlignment="Center" Margin="5" ></Button>
+        <Button x:Name="CheckInMinusButton" Click="OnClick_CloseCheckIn" Grid.Column="2" Grid.Row="2" Content="-" Width="30" Height="30" HorizontalAlignment="Center" Margin="120,0,30,0" ></Button>
         <TextBlock Grid.Column="2" Grid.Row="2" FontSize="11" Margin="10">Check Ins</TextBlock>
-        <DataGrid x:Name="CheckInOne" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="3" Margin="5"  Visibility="Collapsed">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name }"/>
-            </DataGrid.Columns>
-        </DataGrid>
 
-        <DataGrid x:Name="CheckInTwo" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="4" Margin="5"  Visibility="Collapsed">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name }"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Label x:Name="CheckInOne" Content="CheckIn One" Grid.Column="2"  Grid.Row="3" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
-        <DataGrid x:Name="CheckInThree" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="5" Margin="5"  Visibility="Collapsed">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name }"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Label x:Name="CheckInTwo" Content="CheckIn Two" Grid.Column="2"  Grid.Row="4" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
-        <DataGrid x:Name="CheckInFour" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="6" Margin="5"  Visibility="Collapsed">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name }"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Label x:Name="CheckInThree" Content="CheckIn Three" Grid.Column="2"  Grid.Row="5" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
-        <DataGrid x:Name="CheckInFive" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="7" Grid.RowSpan="5" Margin="5" Visibility="Collapsed">
+        <Label x:Name="CheckInFour" Content="CheckIn Four" Grid.Column="2"  Grid.Row="6" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+
+        <Label x:Name="CheckInFive" Content="CheckIn Five" Grid.Column="2"  Grid.Row="7" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+
+        <Label x:Name="CheckInSix" Content="CheckIn Six" Grid.Column="2"  Grid.Row="8" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+
+        <Label x:Name="CheckInSeven" Content="CheckIn Seven" Grid.Column="2"  Grid.Row="9" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+
+        <Label x:Name="CheckInEight" Content="CheckIn Eight" Grid.Column="2"  Grid.Row="10" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+
+        <Label x:Name="CheckInNine" Content="CheckIn Nine" Grid.Column="2"  Grid.Row="11" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        
+        <Label x:Name="CheckInTen" Content="CheckIn Ten" Grid.Column="2"  Grid.Row="12" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+       
+        <!--
+        <DataGrid x:Name="CheckInTen" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="12" Margin="5" Visibility="Collapsed">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
             </DataGrid.Columns>
         </DataGrid>
-
-        <DataGrid x:Name="CheckInSix" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="8" Grid.RowSpan="5" Margin="5" Visibility="Collapsed">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <DataGrid x:Name="CheckInSeven" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="9" Grid.RowSpan="5" Margin="5" Visibility="Collapsed">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <DataGrid x:Name="CheckInEight" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="10" Grid.RowSpan="5" Margin="5" Visibility="Collapsed">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <DataGrid x:Name="CheckInNine" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="11" Grid.RowSpan="5" Margin="5" Visibility="Collapsed">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <DataGrid x:Name="CheckInTen" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="12" Grid.RowSpan="5" Margin="5" Visibility="Collapsed">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
+        -->
         <!--#endregion-->
 
         <TextBlock Grid.Column="3" Grid.Row="2" FontSize="11" Margin="10">Conveyour/Sorter</TextBlock>
@@ -124,7 +100,7 @@
         </DataGrid>
         
         <TextBlock Grid.Column="5" Grid.Row="2" FontSize="11" Margin="10">Plane</TextBlock>
-        <DataGrid x:Name="PlanePassengerList" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="5"  Grid.Row="3" Margin="5">
+        <DataGrid x:Name="PlanePassengerList" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="5" Grid.RowSpan="10"  Grid.Row="3" Margin="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
             </DataGrid.Columns>

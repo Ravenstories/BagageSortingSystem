@@ -12,12 +12,12 @@ namespace BagageSorting_Engine.Events
 {
     public class PassengerEventArgs : EventArgs
     {
-        public TrulyObservableCollection<BagageItem> PassengerList { get; }
+        //public TrulyObservableCollection<BagageItem> PassengerList { get; }
         public BagageItem BagageItem { get; }
 
-        public PassengerEventArgs(TrulyObservableCollection<BagageItem> passenger, BagageItem bagageItem)
+        public PassengerEventArgs(BagageItem bagageItem)
         {
-            PassengerList = passenger;
+            //PassengerList = passenger;
             BagageItem = bagageItem;
         }
         

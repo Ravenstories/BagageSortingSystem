@@ -19,6 +19,7 @@ using BagageSorting_Engine.Events;
 using BagageSorting_Engine.ViewModels;
 using BagageSorting_Engine.TransportersAndSorters;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace WPFUI
 {
@@ -29,6 +30,7 @@ namespace WPFUI
     {
         private ProgramSession programSession = new ProgramSession();
         private ConveyorBelt conveyorBelt = new ConveyorBelt();
+        private IncomingPassengers incomingPassengers = new IncomingPassengers();
         public MainWindow()
         {
             InitializeComponent();
@@ -36,7 +38,7 @@ namespace WPFUI
             DataContext = programSession;
 
             programSession.BagageCreated += OnBagageCreated;
-            programSession.BagageMovedFromPassengerList += BagageLeftPassengerList;
+            incomingPassengers.BagageMovedFromPassengerList += BagageLeftPassengerList;
             programSession.BagageMovedToCheckOutList += BagageMovedToCheckOut;
             programSession.MovedToConveyor += BagageMovedToConveyor;
             
@@ -51,8 +53,8 @@ namespace WPFUI
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
-                    PassengerList.ItemsSource = ((PassengerEventArgs)e).PassengerList;
-                    ProgramSession.PassengerList.Add(((PassengerEventArgs)e).BagageItem);
+                    PassengerList.ItemsSource = programSession.PassengerList;
+                    programSession.PassengerList.Add(((PassengerEventArgs)e).BagageItem);
                 }));
             }
         }
@@ -60,12 +62,18 @@ namespace WPFUI
         //Should remove an elemnt from Passenger List - Doesn't Work
         private void BagageLeftPassengerList(object sender, EventArgs e)
         {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            if (e is PassengerEventArgs)
             {
-                PassengerList.ItemsSource = ((PassengerEventArgs)e).PassengerList;
-                ProgramSession.PassengerList.Remove(((PassengerEventArgs)e).BagageItem);
 
-            }));
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
+                {
+                    Debug.WriteLine(((PassengerEventArgs)e).BagageItem.Name);
+                    PassengerList.ItemsSource = programSession.PassengerList;
+                    programSession.PassengerList.Remove(((PassengerEventArgs)e).BagageItem);
+
+                }));
+                
+            }
         }
 
         //Should add an element to the conveyor - Doesn't work
@@ -91,13 +99,14 @@ namespace WPFUI
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
-                    PlanePassengerList.ItemsSource = ((PassengerEventArgs)e).PassengerList;
+                    PlanePassengerList.ItemsSource = ProgramSession.CheckedOutList;
                     ProgramSession.CheckedOutList.Add(((PassengerEventArgs)e).BagageItem);
 
                 }));
             }
         }
         
+
 
         //Opens and closes CheckIns
         private void OnCheckIn(object sender, EventArgs e)

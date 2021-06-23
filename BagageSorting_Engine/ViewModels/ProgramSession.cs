@@ -35,9 +35,18 @@ namespace BagageSorting_Engine.ViewModels
         
         public Controller_CheckIn Current_Controller_CheckIn { get => arrayOfCheckIns; set => arrayOfCheckIns = value; }
         public Controller_Gates Current_Controller_Gate { get => arrayOfGates; set => arrayOfGates = value; }
+       
+        private static TrulyObservableCollection<BagageItem> passengerList = new TrulyObservableCollection<BagageItem>(Current_IncomingPassengers.PassengerList);
+        public TrulyObservableCollection<BagageItem> PassengerList 
+        { 
+            get => passengerList;
+            set
+            {
+                passengerList = value;
+                OnPropertyChanged();
+            }
+        }
 
-
-        public static TrulyObservableCollection<BagageItem> PassengerList = new TrulyObservableCollection<BagageItem>(Current_IncomingPassengers.PassengerList);
 
         public static ObservableCollection<BagageItem> Conveyor = new ObservableCollection<BagageItem>(Current_ConveyorBelt.Conveyor);
         
@@ -60,7 +69,6 @@ namespace BagageSorting_Engine.ViewModels
 
             //Creating Gates and CheckIns and starts checkIn threads
             Current_Controller_CheckIn.CreateCheckIns();
-
             Current_Controller_Gate.CreateGates();
             
 
@@ -77,7 +85,6 @@ namespace BagageSorting_Engine.ViewModels
         //Events
         public event EventHandler IsOpenEvent;
         public event EventHandler BagageCreated;
-        public event EventHandler BagageMovedFromPassengerList;
         public event EventHandler BagageMovedToCheckOutList;
         public event EventHandler MovedToConveyor;
 
@@ -88,16 +95,18 @@ namespace BagageSorting_Engine.ViewModels
             System.Random rndNmb = new System.Random();
             while (true)
             {
-                Thread.Sleep(rndNmb.Next(500, 5000));
                 lock (IncomingPassengers.PassengerLock)
                 {
                     BagageItem bagageItem = BagageFactory.CreateRandomBagage();
-                    BagageCreated?.Invoke(this, new PassengerEventArgs(PassengerList, bagageItem));
+
+                    Current_IncomingPassengers.PassengerList.Add(bagageItem);
+                    BagageCreated?.Invoke(this, new PassengerEventArgs(bagageItem));
 
                     
                     Monitor.PulseAll(IncomingPassengers.PassengerLock);
 
                 }
+                Thread.Sleep(rndNmb.Next(500, 9000));
             }
         }
 
@@ -106,7 +115,7 @@ namespace BagageSorting_Engine.ViewModels
         {
             lock (OutGoingPassengers.OutGoingLock)
             {
-                BagageMovedToCheckOutList?.Invoke(this, new PassengerEventArgs(CheckedOutList, bagageItem));
+                BagageMovedToCheckOutList?.Invoke(this, new PassengerEventArgs(bagageItem));
 
                 Monitor.PulseAll(OutGoingPassengers.OutGoingLock);
             }
@@ -120,14 +129,8 @@ namespace BagageSorting_Engine.ViewModels
 
             Debug.WriteLine(bagageItem.Name + "Should be in conveyor");
         }
-
-        //From PassengerToCheckIn
-        public void RemoveItemFromPassengerList(BagageItem bagageItem)
-        {
-            BagageMovedFromPassengerList?.Invoke(this, new PassengerEventArgs(PassengerList, bagageItem));
-        }
-
-
+        
+        
         public void OpenCheckIn()
         {
             if (Controller_CheckIn.ArrayCounter < Controller_CheckIn.CheckInArray.Length)
@@ -143,7 +146,7 @@ namespace BagageSorting_Engine.ViewModels
             }
             else
             {
-                Debug.WriteLine("Max number of checkIns reached");
+                Debug.WriteLine("Max number of Check Ins reached");
             }
         }
         public void CloseCheckIn()
