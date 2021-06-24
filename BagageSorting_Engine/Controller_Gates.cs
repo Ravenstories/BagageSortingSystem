@@ -20,7 +20,7 @@ namespace BagageSorting_Engine
             {
                 GateArray[i] = new Gate();
                 GateArray[i].GateNumber = i;
-                GateArray[i].StartThread();
+                
             }
         }
 

@@ -4,31 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using BagageSorting_Engine.Models;
-using BagageSorting_Engine.ViewModels;
+using BagageSorting_Engine.Events;
 
 
 namespace BagageSorting_Engine.TransportersAndSorters
 {
     public class GateToPlane
     {
+        //Event Handler
+        public event EventHandler BagageMovedToCheckOutList;
+
         private Gate gate;
         public GateToPlane(Gate gate)
         {
             this.gate = gate;
         }
 
-        ProgramSession session = new ProgramSession();
-
-
-        public void StartProcess()
-        {
-            /*while (gate.IsOpen == true)
-            {}*/
-            Thread.Sleep(Random.rndNum.Next(2000, 10000));
-            Transport();
-            Thread.Sleep(Random.rndNum.Next(2000, 10000));
-
-        }
+        
 
         public void Transport()
         {
@@ -47,7 +39,8 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 //Global CheckOut List Here
 
                 //Event Here
-                session.ItemMovedToCheckOutList(itemToMove);
+                BagageMovedToCheckOutList?.Invoke(this, new PassengerEventArgs(itemToMove));
+
 
                 Monitor.PulseAll(gate.GateLock);
             }

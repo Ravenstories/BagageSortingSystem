@@ -38,8 +38,8 @@ namespace WPFUI
             DataContext = programSession;
 
             programSession.BagageCreated += OnBagageCreated;
-            incomingPassengers.BagageMovedFromPassengerList += BagageLeftPassengerList;
-            programSession.BagageMovedToCheckOutList += BagageMovedToCheckOut;
+            programSession.ItemRemovedFromList += BagageLeftPassengerList;
+            //programSession.BagageMovedToCheckOutList += BagageMovedToCheckOut;
             programSession.MovedToConveyor += BagageMovedToConveyor;
             
             programSession.IsOpenEvent += OnCheckIn;
@@ -59,7 +59,7 @@ namespace WPFUI
             }
         }
 
-        //Should remove an elemnt from Passenger List - Doesn't Work
+        //Should remove an elemnt from Passenger List
         private void BagageLeftPassengerList(object sender, EventArgs e)
         {
             if (e is PassengerEventArgs)
@@ -75,6 +75,9 @@ namespace WPFUI
                 
             }
         }
+
+
+
 
         //Should add an element to the conveyor - Doesn't work
         private void BagageMovedToConveyor(object sender, EventArgs e)
@@ -218,6 +221,8 @@ namespace WPFUI
                     break;
             }
         }
+
+
 
         private void OnClick_OpenCheckIn(object sender, RoutedEventArgs e)
         {

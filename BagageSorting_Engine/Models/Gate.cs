@@ -57,11 +57,6 @@ namespace BagageSorting_Engine.Models
 
         }
 
-        //Start Threads
-        public void StartThread()
-        {
-            Thread gateToPlaneThread = new Thread(new ThreadStart(gateToPlane.StartProcess));
-            gateToPlaneThread.Start();
-        }
+        
     }
 }

@@ -13,7 +13,8 @@ namespace BagageSorting_Engine.Models
     public class IncomingPassengers : BaseNotificationClass
     {
         //Events
-        public event EventHandler BagageMovedFromPassengerList;
+        public event EventHandler ItemAddedToList;
+
 
         //Lock
         public static object PassengerLock = new object();
@@ -36,13 +37,15 @@ namespace BagageSorting_Engine.Models
         public void AddBagageToList(BagageItem itemToMove)
         {
             PassengerList.Add(itemToMove);
+
+            ItemAddedToList?.Invoke(this, new PassengerEventArgs(itemToMove));
+
         }
 
         public void RemoveBagageFromList(BagageItem itemToMove)
         {
             PassengerList.Remove(itemToMove);
 
-            BagageMovedFromPassengerList?.Invoke(this, new PassengerEventArgs(itemToMove));
 
         }
 
