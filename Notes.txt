@@ -1,0 +1,2 @@
+Check if static Gate.GateLock interferes with sorting
+Check if outgoing lock is needed

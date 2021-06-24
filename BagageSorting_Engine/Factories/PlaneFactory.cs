@@ -12,12 +12,13 @@ namespace BagageSorting_Engine.Factories
         private static List<PlaneItem> _planeItemsList = new List<PlaneItem>();
         internal static List<PlaneItem> PlaneItemsList { get => _planeItemsList; set => _planeItemsList = value; }
 
+        static Controller_Gates gateController = new Controller_Gates();
         
 
         //Creates Planes equal to the number of gates available. 
         static PlaneFactory()
         {
-            for (int i = 0; i < Controller_Gates.GateArray.Length; i++)
+            for (int i = 0; i < gateController.GateArray.Length; i++)
             {
                 if (DestinationNames.ArrayOfDestinations[i] != null)
                 {

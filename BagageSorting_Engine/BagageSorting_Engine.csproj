@@ -44,7 +44,7 @@
     <Compile Include="Events\BaseNotificationClass.cs" />
     <Compile Include="Controller_CheckIn.cs" />
     <Compile Include="Controller_Gates.cs" />
-    <Compile Include="Events\CheckInOpenEvent.cs" />
+    <Compile Include="Events\OpenClosedEvent.cs" />
     <Compile Include="Events\ConveyorEventArgs.cs" />
     <Compile Include="Events\PassengerEventArgs.cs" />
     <Compile Include="Factories\BagageFactory.cs" />

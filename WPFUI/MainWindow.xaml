@@ -74,13 +74,6 @@
         
         <Label x:Name="CheckInTen" Content="CheckIn Ten" Grid.Column="2"  Grid.Row="12" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
        
-        <!--
-        <DataGrid x:Name="CheckInTen" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="2"  Grid.Row="12" Margin="5" Visibility="Collapsed">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        -->
         <!--#endregion-->
 
         <TextBlock Grid.Column="3" Grid.Row="2" FontSize="11" Margin="10">Conveyour/Sorter</TextBlock>
@@ -90,15 +83,35 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button x:Name="GatePlusButton" Click="OnClick_OpenGate" Grid.Column="4" Grid.Row="2" Content="+" Width="20" Height="20" HorizontalAlignment="Center" Margin="0,0,30,0" ></Button>
-        <Button x:Name="GateMinusButton" Click="OnClick_CloseGate" Grid.Column="4" Grid.Row="2" Content="-" Width="20" Height="20" HorizontalAlignment="Center" Margin="65,0,30,0" ></Button>
-        <TextBlock  Grid.Column="4" Grid.Row="2" FontSize="11" Margin="10">Gate</TextBlock>
-        <DataGrid ItemsSource="{Binding Current_Controller_Gate.GateArray[0].BagageArray.IsFixedSize}" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="4"  Grid.Row="3" Margin="5">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <!--#Region Gates-->
+        <Button x:Name="GatePlusButton" Click="OnClick_OpenGate" Grid.Column="4" Grid.Row="2" Content="+" Width="30" Height="30" HorizontalAlignment="Center" Margin="0,0,30,0" ></Button>
+        <Button x:Name="GateMinusButton" Click="OnClick_CloseGate" Grid.Column="4" Grid.Row="2" Content="-" Width="30" Height="30" HorizontalAlignment="Center" Margin="90,0,30,0" ></Button>
         
+        <TextBlock  Grid.Column="4" Grid.Row="2" FontSize="11" Margin="10">Gate</TextBlock>
+        
+        <Label x:Name="GateOne"     Content="Gate One" Grid.Column="4"  Grid.Row="3" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+                       
+        <Label x:Name="GateTwo"     Content="Gate Two" Grid.Column="4"  Grid.Row="4" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+                       
+        <Label x:Name="GateThree"   Content="Gate Three" Grid.Column="4"  Grid.Row="5" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+                       
+        <Label x:Name="GateFour"    Content="Gate Four" Grid.Column="4"  Grid.Row="6" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+                       
+        <Label x:Name="GateFive"    Content="Gate Five" Grid.Column="4"  Grid.Row="7" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+                       
+        <Label x:Name="GateSix"     Content="Gate Six" Grid.Column="4"  Grid.Row="8" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+                       
+        <Label x:Name="GateSeven"   Content="Gate Seven" Grid.Column="4"  Grid.Row="9" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+                       
+        <Label x:Name="GateEight"   Content="Gate Eight" Grid.Column="4"  Grid.Row="10" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+                       
+        <Label x:Name="GateNine"    Content="Gate Nine" Grid.Column="4"  Grid.Row="11" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+                       
+        <Label x:Name="GateTen"     Content="Gate Ten" Grid.Column="4"  Grid.Row="12" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+
+        <!--#endregion-->
+
+
         <TextBlock Grid.Column="5" Grid.Row="2" FontSize="11" Margin="10">Plane</TextBlock>
         <DataGrid x:Name="PlanePassengerList" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="5" Grid.RowSpan="10"  Grid.Row="3" Margin="5">
             <DataGrid.Columns>

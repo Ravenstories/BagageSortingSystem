@@ -5,65 +5,51 @@ using BagageSorting_Engine.Models;
 namespace BagageSorting_Engine.TransportersAndSorters
 {
     
-    public class ConveyorToGates : IStartProcess, IMoveArray, IItemsAtLocation, ISortArray
+    public class ConveyorToGates
     {
-        ConveyorBelt conveyorBelt = new ConveyorBelt();
-        BagageItem itemToMove = null;
-        public void StartProcess()
-        {
-            while (true)
-            {
-                //Refactor to loop if item to move is null. 
-                Thread.Sleep(Random.rndNum.Next(2000, 10000));
-                GrapItemFromConveyor(conveyorBelt.Conveyor);
+        static Controller_Gates gateController = new Controller_Gates();
+        
 
-                if (itemToMove == null)
-                {
-                    Thread.Sleep(2000);
-                    GrapItemFromConveyor(conveyorBelt.Conveyor);
-                }
-
-                MoveItemToGate(itemToMove);
-                
-                Thread.Sleep(Random.rndNum.Next(2000, 10000));
-
-            }
-        }
-
-        public void GrapItemFromConveyor(BagageItem[] conveyor)
+        public static BagageItem GrapItemFromConveyor()
         {
             //Lock one object at the time an move a component. 
 
             lock (ConveyorBelt.ConveyorLock)
             {
-                if (conveyor[0] == null)
+                if (ConveyorBelt.Conveyor[0] == null)
                 {
                     Monitor.Wait(ConveyorBelt.ConveyorLock);
                 }
                 
-                itemToMove = conveyor[0];
-                MoveArray(conveyor);
+                BagageItem itemToMove = ConveyorBelt.Conveyor[0];
+                
+                //MoveArray();
+
+                //Move Array
+                for (int i = 1; i < ConveyorBelt.Conveyor.Length; i++)
+                {
+                    ConveyorBelt.Conveyor[i - 1] = ConveyorBelt.Conveyor[i];
+                }
+                ConveyorBelt.Conveyor[ConveyorBelt.Conveyor.Length - 1] = null;
                 ConveyorBelt.ConveyorCounter--;
 
-                Monitor.PulseAll(ConveyorBelt.ConveyorLock);
-                 
-            }
 
-            //System.NullReferenceExeption
+                return itemToMove;
+            }
         }
 
-        public void MoveItemToGate(BagageItem itemToMove)
+        public static void MoveItemToGate(BagageItem itemToMove)
         {
-            Gate gate = Controller_Gates.GateArray[itemToMove.GateNumber];
+            Gate gate = gateController.GateArray[itemToMove.GateNumber];
 
-            lock (gate.GateLock)
+            lock (Gate.GateLock)
             {
                 while (!gate.AddToBagageArray(itemToMove))
                 {
-                    Monitor.Wait(gate.GateLock);
+                    Monitor.Wait(Gate.GateLock);
                 }
                 
-                Monitor.PulseAll(gate.GateLock);
+                Monitor.PulseAll(Gate.GateLock);
             }
 
             Thread.Sleep(100);
@@ -81,6 +67,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 }
             }
         }
+
         public BagageItem[] MoveArray(BagageItem[] locationArray)
         {
             for (int i = 1; i < locationArray.Length; i++)

@@ -11,39 +11,24 @@ namespace BagageSorting_Engine.TransportersAndSorters
 {
     public class GateToPlane
     {
-        //Event Handler
-        public event EventHandler BagageMovedToCheckOutList;
-
         private Gate gate;
         public GateToPlane(Gate gate)
         {
             this.gate = gate;
         }
 
-        
-
-        public void Transport()
+        public BagageItem Transport()
         {
-            BagageItem itemToMove = null;
-
+            BagageItem itemToMove;
             
-            lock (gate.GateLock)
+            if (gate.BagageArray[0] == null)
             {
-                if (gate.BagageArray[0] == null)
-                {
-                    Monitor.Wait(gate.GateLock);
-                }
-
-                itemToMove = gate.RemoveFromBagageArray();
-
-                //Global CheckOut List Here
-
-                //Event Here
-                BagageMovedToCheckOutList?.Invoke(this, new PassengerEventArgs(itemToMove));
-
-
-                Monitor.PulseAll(gate.GateLock);
+                Monitor.Wait(Gate.GateLock);
             }
+
+            itemToMove = gate.RemoveFromBagageArray();
+
+            return itemToMove;
             
         }
     }

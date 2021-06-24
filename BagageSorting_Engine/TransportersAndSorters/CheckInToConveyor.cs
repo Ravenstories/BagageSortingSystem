@@ -21,15 +21,8 @@ namespace BagageSorting_Engine.TransportersAndSorters
             this.checkIn = checkIn;
         }
 
-        //Needed if view has to fire event. 
-        //ProgramSession session = new ProgramSession();
-
         public void StartProcess()
         {
-            /*while (checkIn.IsOpen == true)
-            {
-            }*/
-            //Refactor to mimic Conveyor to gate
             
             Thread.Sleep(Random.rndNum.Next(2000, 10000));
             GrapItemFromCheckIn();
@@ -40,7 +33,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 GrapItemFromCheckIn();
             }
             
-            MoveItemToConveyor(conveyorBelt.Conveyor);
+            MoveItemToConveyor(ConveyorBelt.Conveyor);
             
 
         }
@@ -73,7 +66,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
 
 
                 //Add Bagage To Conveyor
-                conveyorBelt.Conveyor[ConveyorBelt.ConveyorCounter] = itemToMove;
+                ConveyorBelt.Conveyor[ConveyorBelt.ConveyorCounter] = itemToMove;
                 ConveyorBelt.ConveyorCounter++;
 
                 //session.ItemMovedToConveyor(itemToMove);

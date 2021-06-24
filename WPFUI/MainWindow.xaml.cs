@@ -30,7 +30,6 @@ namespace WPFUI
     {
         private ProgramSession programSession = new ProgramSession();
         private ConveyorBelt conveyorBelt = new ConveyorBelt();
-        private IncomingPassengers incomingPassengers = new IncomingPassengers();
         public MainWindow()
         {
             InitializeComponent();
@@ -39,10 +38,11 @@ namespace WPFUI
 
             programSession.BagageCreated += OnBagageCreated;
             programSession.ItemRemovedFromList += BagageLeftPassengerList;
-            //programSession.BagageMovedToCheckOutList += BagageMovedToCheckOut;
+            programSession.BagageMovedToCheckOutList += BagageMovedToCheckOut;
             programSession.MovedToConveyor += BagageMovedToConveyor;
             
-            programSession.IsOpenEvent += OnCheckIn;
+            programSession.CheckInOpenClosedEvent += CheckInOpenClose;
+            programSession.GateOpenClosedEvent += GateOpenClose;
 
         }
 
@@ -59,7 +59,7 @@ namespace WPFUI
             }
         }
 
-        //Should remove an elemnt from Passenger List
+        //Removes an elemnt from Passenger List
         private void BagageLeftPassengerList(object sender, EventArgs e)
         {
             if (e is PassengerEventArgs)
@@ -87,7 +87,7 @@ namespace WPFUI
             {
                 Conveyor.ItemsSource = ((ConveyorEventArgs)e).Conveyor;
 
-                conveyorBelt.Conveyor[ConveyorBelt.ConveyorCounter] = ((ConveyorEventArgs)e).BagageItem;
+                ConveyorBelt.Conveyor[ConveyorBelt.ConveyorCounter] = ((ConveyorEventArgs)e).BagageItem;
             
                 ProgramSession.Conveyor.Add(((ConveyorEventArgs)e).BagageItem);
 
@@ -111,14 +111,14 @@ namespace WPFUI
         
 
 
-        //Opens and closes CheckIns
-        private void OnCheckIn(object sender, EventArgs e)
+        //Opens and closes CheckIns and Gates
+        private void CheckInOpenClose(object sender, EventArgs e)
         {
             
-            switch (((CheckInOpenEvent)e).CheckInNumber)
+            switch (((OpenClosedEvent)e).Number)
             {
                 case 0:
-                    if (((CheckInOpenEvent)e).IsOpen == true)
+                    if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInOne.Visibility = Visibility.Visible;
                     }
@@ -128,7 +128,7 @@ namespace WPFUI
                     }
                     break;
                 case 1:
-                    if (((CheckInOpenEvent)e).IsOpen == true)
+                    if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInTwo.Visibility = Visibility.Visible;
                     }
@@ -138,7 +138,7 @@ namespace WPFUI
                     }
                     break;
                 case 2:
-                    if (((CheckInOpenEvent)e).IsOpen == true)
+                    if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInThree.Visibility = Visibility.Visible;
                     }
@@ -148,7 +148,7 @@ namespace WPFUI
                     }
                     break;
                 case 3:
-                    if (((CheckInOpenEvent)e).IsOpen == true)
+                    if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInFour.Visibility = Visibility.Visible;
                     }
@@ -158,7 +158,7 @@ namespace WPFUI
                     }
                     break;
                 case 4:
-                    if (((CheckInOpenEvent)e).IsOpen == true)
+                    if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInFive.Visibility = Visibility.Visible;
                     }
@@ -168,7 +168,7 @@ namespace WPFUI
                     }
                     break;
                 case 5:
-                    if (((CheckInOpenEvent)e).IsOpen == true)
+                    if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInSix.Visibility = Visibility.Visible;
                     }
@@ -178,7 +178,7 @@ namespace WPFUI
                     }
                     break;
                 case 6:
-                    if (((CheckInOpenEvent)e).IsOpen == true)
+                    if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInSeven.Visibility = Visibility.Visible;
                     }
@@ -188,7 +188,7 @@ namespace WPFUI
                     }
                     break;
                 case 7:
-                    if (((CheckInOpenEvent)e).IsOpen == true)
+                    if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInEight.Visibility = Visibility.Visible;
                     }
@@ -198,7 +198,7 @@ namespace WPFUI
                     }
                     break;
                 case 8:
-                    if (((CheckInOpenEvent)e).IsOpen == true)
+                    if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInNine.Visibility = Visibility.Visible;
                     }
@@ -208,7 +208,7 @@ namespace WPFUI
                     }
                     break;
                 case 9:
-                    if (((CheckInOpenEvent)e).IsOpen == true)
+                    if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInTen.Visibility = Visibility.Visible;
                     }
@@ -221,9 +221,117 @@ namespace WPFUI
                     break;
             }
         }
+        private void GateOpenClose(object sender, EventArgs e)
+        {
 
+            switch (((OpenClosedEvent)e).Number)
+            {
+                case 0:
+                    if (((OpenClosedEvent)e).OpenClosed == true)
+                    {
+                        GateOne.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GateOne.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+                case 1:
+                    if (((OpenClosedEvent)e).OpenClosed == true)
+                    {
+                        GateTwo.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GateTwo.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+                case 2:
+                    if (((OpenClosedEvent)e).OpenClosed == true)
+                    {
+                        GateThree.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GateThree.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+                case 3:
+                    if (((OpenClosedEvent)e).OpenClosed == true)
+                    {
+                        GateFour.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GateFour.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+                case 4:
+                    if (((OpenClosedEvent)e).OpenClosed == true)
+                    {
+                        GateFive.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GateFive.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+                case 5:
+                    if (((OpenClosedEvent)e).OpenClosed == true)
+                    {
+                        GateSix.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GateSix.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+                case 6:
+                    if (((OpenClosedEvent)e).OpenClosed == true)
+                    {
+                        GateSeven.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GateSeven.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+                case 7:
+                    if (((OpenClosedEvent)e).OpenClosed == true)
+                    {
+                        GateEight.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GateEight.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+                case 8:
+                    if (((OpenClosedEvent)e).OpenClosed == true)
+                    {
+                        GateNine.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GateNine.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+                case 9:
+                    if (((OpenClosedEvent)e).OpenClosed == true)
+                    {
+                        GateTen.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GateTen.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
 
-
+        //Buttons to close CheckIns and Gates
         private void OnClick_OpenCheckIn(object sender, RoutedEventArgs e)
         {
             programSession.OpenCheckIn();

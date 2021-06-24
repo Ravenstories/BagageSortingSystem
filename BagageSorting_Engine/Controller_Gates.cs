@@ -10,9 +10,10 @@ namespace BagageSorting_Engine
     public class Controller_Gates
     {
         private static Gate[] gateArray = new Gate[10];
-        public static Gate[] GateArray { get => gateArray; set => gateArray = value; }
+        public Gate[] GateArray { get => gateArray; set => gateArray = value; }
+
         private static int _arrayCounter = 0;
-        public static int ArrayCounter { get => _arrayCounter; set => _arrayCounter = value; }
+        public int ArrayCounter { get => _arrayCounter; set => _arrayCounter = value; }
 
         public void CreateGates()
         {
