@@ -10,7 +10,7 @@ namespace BagageSorting_Engine
     public class Controller_CheckIn
     {
         private static CheckIn[] checkInArray = new CheckIn[10];
-        public static CheckIn[] CheckInArray { get => checkInArray; set => checkInArray = value; }
+        public CheckIn[] CheckInArray { get => checkInArray; set => checkInArray = value; }
         private static int _arrayCounter = 0;
         public static int ArrayCounter { get => _arrayCounter; set => _arrayCounter = value; }
 
@@ -21,7 +21,6 @@ namespace BagageSorting_Engine
             {
                 CheckInArray[i] = new CheckIn();
                 CheckInArray[i].CheckInNumber = i;
-                CheckInArray[i].StartThread();
             }
         }
 

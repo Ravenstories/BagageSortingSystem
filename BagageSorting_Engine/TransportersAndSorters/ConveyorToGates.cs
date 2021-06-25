@@ -8,7 +8,6 @@ namespace BagageSorting_Engine.TransportersAndSorters
     public class ConveyorToGates
     {
         static Controller_Gates gateController = new Controller_Gates();
-        
 
         public static BagageItem GrapItemFromConveyor()
         {
@@ -42,14 +41,14 @@ namespace BagageSorting_Engine.TransportersAndSorters
         {
             Gate gate = gateController.GateArray[itemToMove.GateNumber];
 
-            lock (Gate.GateLock)
+            lock (gate.GateLock)
             {
                 while (!gate.AddToBagageArray(itemToMove))
                 {
-                    Monitor.Wait(Gate.GateLock);
+                    Monitor.Wait(gate.GateLock);
                 }
                 
-                Monitor.PulseAll(Gate.GateLock);
+                Monitor.PulseAll(gate.GateLock);
             }
 
             Thread.Sleep(100);

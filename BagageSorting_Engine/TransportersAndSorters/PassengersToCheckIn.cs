@@ -12,28 +12,23 @@ namespace BagageSorting_Engine.TransportersAndSorters
 {
     public class PassengersToCheckIn : BaseNotificationClass
     {
-        public IncomingPassengers incomingPassengers = new IncomingPassengers();
+        IncomingPassengers incomingPassengers = new IncomingPassengers();
+        Controller_CheckIn controller_CheckIn = new Controller_CheckIn(); 
 
         public BagageItem GrabItemFromPassengerList()
         {
             //Lock one object at the time an move a component. 
             
-            BagageItem itemToMove = null;
+            BagageItem itemToMove;
 
             if (incomingPassengers.PassengerList.Count() == 0)
             {
                     Monitor.Wait(IncomingPassengers.PassengerLock);
-
             }
 
             itemToMove = incomingPassengers.PassengerList.FirstOrDefault();
 
-            
-
             return itemToMove;
-
-            //Debug.WriteLine(itemToMove.Name + " have moved to checkIn");
-
             
         }
 
@@ -42,7 +37,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
          {
 
             //Sorting the bagage to a random CheckIn, to simulate people arriving at different gates.
-            CheckIn checkIn = Controller_CheckIn.CheckInArray[Random.rndNum.Next(0, Controller_CheckIn.CheckInArray.Length)];
+            CheckIn checkIn = controller_CheckIn.CheckInArray[Random.rndNum.Next(0, controller_CheckIn.CheckInArray.Length)];
 
            
             if (checkIn.IsOpen == true)

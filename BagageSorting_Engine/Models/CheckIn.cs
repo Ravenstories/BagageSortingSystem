@@ -15,11 +15,11 @@ namespace BagageSorting_Engine.Models
         public object CheckInLock = new object();
 
         //Variables 
-        private CheckInToConveyor sortCheckIn;
         private BagageItem[] _bagageArray = new BagageItem[50];
         private int _checkInNumber;
         private int _bagageArrayIndex = 0;
         private bool _isOpen = false;
+        public CheckInToConveyor checkInToConveyor;
 
         //Properties
         public BagageItem[] BagageArray 
@@ -45,8 +45,7 @@ namespace BagageSorting_Engine.Models
         //Constructor
         public CheckIn()
         {
-            //Thread
-            sortCheckIn = new CheckInToConveyor(this);
+            checkInToConveyor = new CheckInToConveyor(this);
         }
 
         //Methods
@@ -74,10 +73,5 @@ namespace BagageSorting_Engine.Models
 
         }
 
-        public void StartThread()
-        {
-            Thread checkInSortingThread = new Thread(new ThreadStart(sortCheckIn.StartProcess));
-            checkInSortingThread.Start();
-        }
     }
 }

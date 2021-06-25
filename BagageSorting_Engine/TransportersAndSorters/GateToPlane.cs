@@ -23,10 +23,12 @@ namespace BagageSorting_Engine.TransportersAndSorters
             
             if (gate.BagageArray[0] == null)
             {
-                Monitor.Wait(Gate.GateLock);
+                Monitor.Wait(gate.GateLock);
             }
 
             itemToMove = gate.RemoveFromBagageArray();
+
+
 
             return itemToMove;
             

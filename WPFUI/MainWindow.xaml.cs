@@ -39,22 +39,25 @@ namespace WPFUI
             programSession.BagageCreated += OnBagageCreated;
             programSession.ItemRemovedFromList += BagageLeftPassengerList;
             programSession.BagageMovedToCheckOutList += BagageMovedToCheckOut;
+
             programSession.MovedToConveyor += BagageMovedToConveyor;
+            programSession.MovedFromConveyor += BagageMovedFromConveyor;
             
             programSession.CheckInOpenClosedEvent += CheckInOpenClose;
             programSession.GateOpenClosedEvent += GateOpenClose;
 
         }
 
+
         //Add's a random bagage to a list that random sorts to check in. 
         private void OnBagageCreated(object sender, EventArgs e)
         {
-            if (e is PassengerEventArgs)
+            if (e is BagageEventArgs)
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
                     PassengerList.ItemsSource = programSession.PassengerList;
-                    programSession.PassengerList.Add(((PassengerEventArgs)e).BagageItem);
+                    programSession.PassengerList.Add(((BagageEventArgs)e).BagageItem);
                 }));
             }
         }
@@ -62,14 +65,14 @@ namespace WPFUI
         //Removes an elemnt from Passenger List
         private void BagageLeftPassengerList(object sender, EventArgs e)
         {
-            if (e is PassengerEventArgs)
+            if (e is BagageEventArgs)
             {
 
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
                 {
-                    Debug.WriteLine(((PassengerEventArgs)e).BagageItem.Name);
+                    Debug.WriteLine(((BagageEventArgs)e).BagageItem.Name);
                     PassengerList.ItemsSource = programSession.PassengerList;
-                    programSession.PassengerList.Remove(((PassengerEventArgs)e).BagageItem);
+                    programSession.PassengerList.Remove(((BagageEventArgs)e).BagageItem);
 
                 }));
                 
@@ -82,28 +85,45 @@ namespace WPFUI
         //Should add an element to the conveyor - Doesn't work
         private void BagageMovedToConveyor(object sender, EventArgs e)
         {
-
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            if (e is ConveyorEventArgs)
             {
-                Conveyor.ItemsSource = ((ConveyorEventArgs)e).Conveyor;
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    ConveyorList.ItemsSource = programSession.Conveyor;
 
-                ConveyorBelt.Conveyor[ConveyorBelt.ConveyorCounter] = ((ConveyorEventArgs)e).BagageItem;
-            
-                ProgramSession.Conveyor.Add(((ConveyorEventArgs)e).BagageItem);
+                    programSession.Conveyor.Add(((ConveyorEventArgs)e).BagageItem);
 
-            }));
+                }));
+            }
+        }
+
+
+        private void BagageMovedFromConveyor(object sender, EventArgs e)
+        {
+            if (e is ConveyorEventArgs)
+            {
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    ConveyorList.ItemsSource = programSession.Conveyor; //Might be redundant
+
+                    //ConveyorBelt.Conveyor[ConveyorBelt.ConveyorCounter] = ((ConveyorEventArgs)e).BagageItem;
+
+                    programSession.Conveyor.Remove(((ConveyorEventArgs)e).BagageItem);
+
+                }));
+            }
         }
 
         
         //Move Item To A Global CheckOut List - Haven't checked if working yet
         private void BagageMovedToCheckOut(object sender, EventArgs e)
         {
-            if (e is PassengerEventArgs)
+            if (e is BagageEventArgs)
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
                     PlanePassengerList.ItemsSource = ProgramSession.CheckedOutList;
-                    ProgramSession.CheckedOutList.Add(((PassengerEventArgs)e).BagageItem);
+                    ProgramSession.CheckedOutList.Add(((BagageEventArgs)e).BagageItem);
 
                 }));
             }

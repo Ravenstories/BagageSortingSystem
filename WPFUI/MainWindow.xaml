@@ -77,7 +77,7 @@
         <!--#endregion-->
 
         <TextBlock Grid.Column="3" Grid.Row="2" FontSize="11" Margin="10">Conveyour/Sorter</TextBlock>
-        <DataGrid x:Name="Conveyor" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="3"  Grid.Row="3" Grid.RowSpan="5" Margin="5">
+        <DataGrid x:Name="ConveyorList" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="3"  Grid.Row="3" Grid.RowSpan="10" Margin="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
             </DataGrid.Columns>

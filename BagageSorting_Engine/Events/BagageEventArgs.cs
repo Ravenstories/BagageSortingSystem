@@ -10,14 +10,13 @@ using System.Collections.ObjectModel;
 
 namespace BagageSorting_Engine.Events
 {
-    public class PassengerEventArgs : EventArgs
+    public class BagageEventArgs : EventArgs
     {
         //public TrulyObservableCollection<BagageItem> PassengerList { get; }
         public BagageItem BagageItem { get; }
 
-        public PassengerEventArgs(BagageItem bagageItem)
+        public BagageEventArgs(BagageItem bagageItem)
         {
-            //PassengerList = passenger;
             BagageItem = bagageItem;
         }
         

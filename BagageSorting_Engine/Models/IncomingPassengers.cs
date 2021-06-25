@@ -38,7 +38,7 @@ namespace BagageSorting_Engine.Models
         {
             PassengerList.Add(itemToMove);
 
-            ItemAddedToList?.Invoke(this, new PassengerEventArgs(itemToMove));
+            ItemAddedToList?.Invoke(this, new BagageEventArgs(itemToMove));
 
         }
 

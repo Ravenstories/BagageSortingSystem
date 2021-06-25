@@ -10,76 +10,54 @@ using BagageSorting_Engine.ViewModels;
 
 namespace BagageSorting_Engine.TransportersAndSorters
 {
-    public class CheckInToConveyor : IStartProcess
+    public class CheckInToConveyor 
     {
 
-        ConveyorBelt conveyorBelt = new ConveyorBelt();
         private CheckIn checkIn; 
-        BagageItem itemToMove = null;
+        BagageItem itemToMove;
         public CheckInToConveyor(CheckIn checkIn)
         {
             this.checkIn = checkIn;
         }
 
-        public void StartProcess()
+        public BagageItem GrapItemFromCheckIn()
         {
             
-            Thread.Sleep(Random.rndNum.Next(2000, 10000));
-            GrapItemFromCheckIn();
 
-            if (itemToMove == null)
+            if (checkIn.BagageArray[0] == null)
             {
-                Thread.Sleep(2000);
-                GrapItemFromCheckIn();
+                Monitor.Wait(checkIn.CheckInLock);
             }
-            
-            MoveItemToConveyor(ConveyorBelt.Conveyor);
-            
 
+            itemToMove = checkIn.RemoveFromBagageArray();
+            return itemToMove;
+            
         }
 
-        public void GrapItemFromCheckIn()
+        public void MoveItemToConveyor(BagageItem itemToMove)
         {
-            lock (checkIn.CheckInLock)
+            
+            // This might be very redundant
+            if (this.itemToMove == null)
             {
-                if (checkIn.BagageArray[0] == null)
-                {
-                    Monitor.Wait(checkIn.CheckInLock);
-                }
-
-                itemToMove = checkIn.RemoveFromBagageArray();
-                Monitor.PulseAll(checkIn.CheckInLock);
+                Monitor.Wait(ConveyorBelt.ConveyorLock);
             }
-        }
 
-        public void MoveItemToConveyor(BagageItem[] conveyor)
-        {
-            lock (ConveyorBelt.ConveyorLock)
-            {
-                // This might be very redundant
-                if (itemToMove == null)
-                {
-                    Monitor.Wait(ConveyorBelt.ConveyorLock);
-                }
-
-                Debug.WriteLine(itemToMove.Name + " Is trying to be moved to Conveyor");
+            Debug.WriteLine(this.itemToMove.Name + " Is trying to be moved to Conveyor");
 
 
-                //Add Bagage To Conveyor
-                ConveyorBelt.Conveyor[ConveyorBelt.ConveyorCounter] = itemToMove;
-                ConveyorBelt.ConveyorCounter++;
+            //Add Bagage To Conveyor
+            ConveyorBelt.Conveyor[ConveyorBelt.ConveyorCounter] = this.itemToMove;
+            ConveyorBelt.ConveyorCounter++;
 
-                //session.ItemMovedToConveyor(itemToMove);
 
-                //Shows items at Conveyor Location
+            //Shows items at Conveyor Location
+            ItemsAtLocation(ConveyorBelt.Conveyor);
 
-                ItemsAtLocation(conveyor);
-                //ItemsAtLocation(ProgramSession.Conveyor);
+            Monitor.PulseAll(ConveyorBelt.ConveyorLock);
+            Thread.Sleep(100);
 
-                Monitor.PulseAll(ConveyorBelt.ConveyorLock);
-                Thread.Sleep(100);
-
-            }
+            
         }
         public void ItemsAtLocation(BagageItem[] conveyorArray)
         {
@@ -94,18 +72,6 @@ namespace BagageSorting_Engine.TransportersAndSorters
             Debug.WriteLine("\n");
         }
 
-        public void ItemsAtLocation(ObservableCollection<BagageItem> conveyorArray)
-        {
-            Debug.WriteLine("Items at observable conveyor: ");
-            for (int i = 0; i < conveyorArray.Count; i++)
-            {
-                if (conveyorArray[i] != null)
-                {
-                    Debug.WriteLine(conveyorArray[i].Name + ", " + conveyorArray[i].PassengerNumber);
-                }
-            }
-            Debug.WriteLine("\n");
-        }
     }
 }
 

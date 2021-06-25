@@ -10,7 +10,7 @@ namespace BagageSorting_Engine.Models
     public class Gate : IAddBagageToArray, IRemoveFromBagageArray
     {
         //Locks
-        public static object GateLock = new object();
+        public object GateLock = new object();
 
         //Variables
         private int _bagageArrayIndex = 0;
