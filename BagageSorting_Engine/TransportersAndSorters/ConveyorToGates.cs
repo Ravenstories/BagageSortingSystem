@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using BagageSorting_Engine.Models;
 
@@ -13,28 +15,20 @@ namespace BagageSorting_Engine.TransportersAndSorters
         {
             //Lock one object at the time an move a component. 
 
-            lock (ConveyorBelt.ConveyorLock)
+            
+            if (ConveyorBelt.Conveyor.FirstOrDefault()  != null)
             {
-                if (ConveyorBelt.Conveyor[0] == null)
-                {
-                    Monitor.Wait(ConveyorBelt.ConveyorLock);
-                }
-                
-                BagageItem itemToMove = ConveyorBelt.Conveyor[0];
-                
-                //MoveArray();
-
-                //Move Array
-                for (int i = 1; i < ConveyorBelt.Conveyor.Length; i++)
-                {
-                    ConveyorBelt.Conveyor[i - 1] = ConveyorBelt.Conveyor[i];
-                }
-                ConveyorBelt.Conveyor[ConveyorBelt.Conveyor.Length - 1] = null;
-                ConveyorBelt.ConveyorCounter--;
-
+                BagageItem itemToMove = ConveyorBelt.RemoveItem();
 
                 return itemToMove;
             }
+            else
+            {
+                    
+                return null;
+
+            }
+            
         }
 
         public static void MoveItemToGate(BagageItem itemToMove)

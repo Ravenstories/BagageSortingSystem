@@ -167,7 +167,7 @@ namespace BagageSorting_Engine.ViewModels
         }
 
 
-        //From CheckInToConveyor ////UNUSED
+        //From CheckInToConveyor 
         public void CheckInToConveyor(int i)
         {
             int arrayCounter = i - 1;
@@ -211,16 +211,20 @@ namespace BagageSorting_Engine.ViewModels
                 //Refactor to loop if item to move is null. 
                 Thread.Sleep(Random.rndNum.Next(2000, 10000));
 
-                BagageItem itemToMove = ConveyorToGates.GrapItemFromConveyor();
+                lock (ConveyorBelt.ConveyorLock)
+                {
+                    BagageItem itemToMove = ConveyorToGates.GrapItemFromConveyor();
 
-                if (itemToMove != null)
-                {
-                    ConveyorToGates.MoveItemToGate(itemToMove);
-                    MovedFromConveyor?.Invoke(this, new ConveyorEventArgs(itemToMove));
-                }
-                else
-                {
-                    Thread.Sleep(Random.rndNum.Next(1000, 2000));
+                    if (itemToMove == null)
+                    {
+                        Monitor.Wait(ConveyorBelt.ConveyorLock);
+                        itemToMove = ConveyorToGates.GrapItemFromConveyor();
+                    }
+                    else if(Current_Controller_Gate.GateArray[itemToMove.GateNumber].IsOpen == true && itemToMove != null)
+                    {
+                        ConveyorToGates.MoveItemToGate(itemToMove);
+                        MovedFromConveyor?.Invoke(this, new BagageEventArgs(itemToMove));
+                    }
                 }
             }
         }

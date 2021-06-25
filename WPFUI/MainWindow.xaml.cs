@@ -85,13 +85,13 @@ namespace WPFUI
         //Should add an element to the conveyor - Doesn't work
         private void BagageMovedToConveyor(object sender, EventArgs e)
         {
-            if (e is ConveyorEventArgs)
+            if (e is BagageEventArgs)
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
                     ConveyorList.ItemsSource = programSession.Conveyor;
 
-                    programSession.Conveyor.Add(((ConveyorEventArgs)e).BagageItem);
+                    programSession.Conveyor.Add(((BagageEventArgs)e).BagageItem);
 
                 }));
             }
@@ -100,7 +100,7 @@ namespace WPFUI
 
         private void BagageMovedFromConveyor(object sender, EventArgs e)
         {
-            if (e is ConveyorEventArgs)
+            if (e is BagageEventArgs)
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
@@ -108,7 +108,7 @@ namespace WPFUI
 
                     //ConveyorBelt.Conveyor[ConveyorBelt.ConveyorCounter] = ((ConveyorEventArgs)e).BagageItem;
 
-                    programSession.Conveyor.Remove(((ConveyorEventArgs)e).BagageItem);
+                    programSession.Conveyor.Remove(((BagageEventArgs)e).BagageItem);
 
                 }));
             }

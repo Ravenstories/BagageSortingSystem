@@ -45,7 +45,6 @@
     <Compile Include="Controller_CheckIn.cs" />
     <Compile Include="Controller_Gates.cs" />
     <Compile Include="Events\OpenClosedEvent.cs" />
-    <Compile Include="Events\ConveyorEventArgs.cs" />
     <Compile Include="Events\BagageEventArgs.cs" />
     <Compile Include="Factories\BagageFactory.cs" />
     <Compile Include="Models\BagageItem.cs" />

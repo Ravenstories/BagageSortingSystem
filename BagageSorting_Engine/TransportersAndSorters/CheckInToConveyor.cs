@@ -47,12 +47,10 @@ namespace BagageSorting_Engine.TransportersAndSorters
 
 
             //Add Bagage To Conveyor
-            ConveyorBelt.Conveyor[ConveyorBelt.ConveyorCounter] = this.itemToMove;
-            ConveyorBelt.ConveyorCounter++;
-
+            ConveyorBelt.Conveyor.Add(this.itemToMove);
 
             //Shows items at Conveyor Location
-            ItemsAtLocation(ConveyorBelt.Conveyor);
+            //ItemsAtLocation(ConveyorBelt.Conveyor);
 
             Monitor.PulseAll(ConveyorBelt.ConveyorLock);
             Thread.Sleep(100);
