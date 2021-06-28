@@ -39,7 +39,5 @@ namespace BagageSorting_Engine.Models
         {
             PassengerList.Remove(itemToMove);
         }
-
-
     }
 }

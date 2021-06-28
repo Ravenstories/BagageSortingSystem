@@ -13,60 +13,51 @@ namespace BagageSorting_Engine.TransportersAndSorters
     public class PassengersToCheckIn : BaseNotificationClass
     {
         IncomingPassengers incomingPassengers = new IncomingPassengers();
-        Controller_CheckIn controller_CheckIn = new Controller_CheckIn(); 
+        Controller_CheckIn controller_CheckIn = new Controller_CheckIn();
+        IncomingPassengers IncomingPassengers { get => incomingPassengers; set => incomingPassengers = value; }
+        Controller_CheckIn Controller_CheckIn { get => controller_CheckIn; set => controller_CheckIn = value; }
 
         public BagageItem GrabItemFromPassengerList()
         {
             //Lock one object at the time an move a component. 
             
-            BagageItem itemToMove;
-
-            if (incomingPassengers.PassengerList.Count() == 0)
+            BagageItem itemToMove = null;
+            if (IncomingPassengers.PassengerList.Count() == 0)
             {
-                    Monitor.Wait(IncomingPassengers.PassengerLock);
+                Monitor.PulseAll(IncomingPassengers.PassengerLock);
+                Monitor.Wait(IncomingPassengers.PassengerLock);
             }
-
-            itemToMove = incomingPassengers.PassengerList.FirstOrDefault();
-
+            itemToMove = IncomingPassengers.PassengerList.FirstOrDefault();
             return itemToMove;
-            
         }
 
-
-         public bool MoveToCheckIn(BagageItem itemToMove)
-         {
-
+        public bool MoveToCheckIn(BagageItem itemToMove)
+        {
             //Sorting the bagage to a random CheckIn, to simulate people arriving at different gates.
-            CheckIn checkIn = controller_CheckIn.CheckInArray[Random.rndNum.Next(0, controller_CheckIn.CheckInArray.Length)];
-
+            CheckIn checkIn = Controller_CheckIn.CheckInArray[Random.rndNum.Next(0, Controller_CheckIn.CheckInArray.Length)];
            
-            if (checkIn.IsOpen == true)
+            if (checkIn.IsOpen)
             {
                 lock (checkIn.CheckInLock)
                 {
                     while (!checkIn.AddToBagageArray(itemToMove))
                     {
+                        Monitor.PulseAll(checkIn.CheckInLock);
                         Monitor.Wait(checkIn.CheckInLock);
                     }
                     Monitor.PulseAll(checkIn.CheckInLock);
-
-                    //Event
-                    incomingPassengers.RemoveBagageFromList(itemToMove);
+                    IncomingPassengers.RemoveBagageFromList(itemToMove);
                 }
 
                 Debug.WriteLine(itemToMove.Name + " have moved to Check In " + checkIn.CheckInNumber);
-                
                 return checkIn.IsOpen;
             }
             else
             {
-                Thread.Sleep(2000);
-
                 return checkIn.IsOpen;
             }
-         }
-    }      
-            
+        }
+    }
 }
 
 

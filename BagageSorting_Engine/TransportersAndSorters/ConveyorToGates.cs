@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using BagageSorting_Engine.Models;
@@ -15,20 +16,15 @@ namespace BagageSorting_Engine.TransportersAndSorters
         {
             //Lock one object at the time an move a component. 
 
-            
-            if (ConveyorBelt.Conveyor.FirstOrDefault()  != null)
+            BagageItem itemToMove = null;
+            while (ConveyorBelt.Conveyor.Count == 0)
             {
-                BagageItem itemToMove = ConveyorBelt.RemoveItem();
-
-                return itemToMove;
+                Monitor.PulseAll(ConveyorBelt.ConveyorLock);
+                Monitor.Wait(ConveyorBelt.ConveyorLock);
             }
-            else
-            {
-                    
-                return null;
-
-            }
-            
+            itemToMove = ConveyorBelt.Conveyor.Dequeue();
+            Monitor.PulseAll(ConveyorBelt.ConveyorLock);
+            return itemToMove;
         }
 
         public static void MoveItemToGate(BagageItem itemToMove)
@@ -39,36 +35,14 @@ namespace BagageSorting_Engine.TransportersAndSorters
             {
                 while (!gate.AddToBagageArray(itemToMove))
                 {
+                    Monitor.PulseAll(gate.GateLock);
                     Monitor.Wait(gate.GateLock);
                 }
-                
+                itemToMove.TimeSorted = DateTime.Now;
+                Debug.WriteLine(itemToMove.Name + " should be at gate " + itemToMove.GateNumber);
                 Monitor.PulseAll(gate.GateLock);
             }
-
             Thread.Sleep(100);
-
-        }
-
-
-        public void ItemsAtLocation(BagageItem[] locationArray)
-        {
-            for (int i = 0; i < locationArray.Length; i++)
-            {
-                if (locationArray[i] != null)
-                {
-                    Console.WriteLine(locationArray[i].Name + ", " + locationArray[i].PassengerNumber);
-                }
-            }
-        }
-
-        public BagageItem[] MoveArray(BagageItem[] locationArray)
-        {
-            for (int i = 1; i < locationArray.Length; i++)
-            {
-                locationArray[i - 1] = locationArray[i];
-            }
-            locationArray[locationArray.Length - 1] = null;
-            return locationArray;
         }
     }
 }

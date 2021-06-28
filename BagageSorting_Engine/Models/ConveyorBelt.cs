@@ -15,18 +15,17 @@ namespace BagageSorting_Engine.Models
         public static object ConveyorLock = new object();
 
         //Conveyor One
-        private static List<BagageItem> _conveyor = new List<BagageItem>();
-        public static List<BagageItem> Conveyor { get => _conveyor; set => _conveyor = value; }
+        private static Queue<BagageItem> _conveyor = new Queue<BagageItem>();
+        public static Queue<BagageItem> Conveyor { get => _conveyor; set => _conveyor = value; }
 
         private static int _conveyorCounter = 0;
         public static int ConveyorCounter { get => _conveyorCounter; set => _conveyorCounter = value; }
 
         
-        public static BagageItem RemoveItem()
+        public static void RemoveItem(BagageItem itemToMove)
         {
-            BagageItem itemToMove = Conveyor.FirstOrDefault();
-            Conveyor.RemoveAt(0);
-            return itemToMove;
+            //Conveyor.Dequeue(itemToMove);
+            
         }
 
     }

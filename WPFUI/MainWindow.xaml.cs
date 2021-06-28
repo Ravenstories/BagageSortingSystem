@@ -28,26 +28,23 @@ namespace WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ProgramSession programSession = new ProgramSession();
-        private ConveyorBelt conveyorBelt = new ConveyorBelt();
+        private ViewModel viewModel = new ViewModel();
         public MainWindow()
         {
             InitializeComponent();
 
-            DataContext = programSession;
+            DataContext = viewModel;
 
-            programSession.BagageCreated += OnBagageCreated;
-            programSession.ItemRemovedFromList += BagageLeftPassengerList;
-            programSession.BagageMovedToCheckOutList += BagageMovedToCheckOut;
+            viewModel.BagageCreatedAndMovedToList += OnBagageCreated;
+            viewModel.BagageRemovedFromPassengerList += BagageLeftPassengerList;
+            viewModel.BagageMovedToCheckOutList += BagageMovedToCheckOut;
 
-            programSession.MovedToConveyor += BagageMovedToConveyor;
-            programSession.MovedFromConveyor += BagageMovedFromConveyor;
+            viewModel.MovedToConveyor += BagageMovedToConveyor;
+            viewModel.MovedFromConveyor += BagageMovedFromConveyor;
             
-            programSession.CheckInOpenClosedEvent += CheckInOpenClose;
-            programSession.GateOpenClosedEvent += GateOpenClose;
-
+            viewModel.CheckInOpenClosedEvent += CheckInOpenClose;
+            viewModel.GateOpenClosedEvent += GateOpenClose;
         }
-
 
         //Add's a random bagage to a list that random sorts to check in. 
         private void OnBagageCreated(object sender, EventArgs e)
@@ -56,79 +53,60 @@ namespace WPFUI
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
-                    PassengerList.ItemsSource = programSession.PassengerList;
-                    programSession.PassengerList.Add(((BagageEventArgs)e).BagageItem);
+                    PassengerList.ItemsSource = viewModel.PassengerList;
+                    viewModel.PassengerList.Add(((BagageEventArgs)e).BagageItem);
                 }));
             }
         }
-
         //Removes an elemnt from Passenger List
         private void BagageLeftPassengerList(object sender, EventArgs e)
         {
             if (e is BagageEventArgs)
             {
-
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
                 {
-                    Debug.WriteLine(((BagageEventArgs)e).BagageItem.Name);
-                    PassengerList.ItemsSource = programSession.PassengerList;
-                    programSession.PassengerList.Remove(((BagageEventArgs)e).BagageItem);
-
+                    PassengerList.ItemsSource = viewModel.PassengerList;
+                    viewModel.PassengerList.Remove(((BagageEventArgs)e).BagageItem);
                 }));
                 
             }
         }
-
-
-
-
-        //Should add an element to the conveyor - Doesn't work
+        //Add an element to the conveyor
         private void BagageMovedToConveyor(object sender, EventArgs e)
         {
             if (e is BagageEventArgs)
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
-                    ConveyorList.ItemsSource = programSession.Conveyor;
-
-                    programSession.Conveyor.Add(((BagageEventArgs)e).BagageItem);
+                    ConveyorList.ItemsSource = ViewModel.Conveyor;
+                    ViewModel.Conveyor.Add(((BagageEventArgs)e).BagageItem);
 
                 }));
             }
         }
-
-
         private void BagageMovedFromConveyor(object sender, EventArgs e)
         {
             if (e is BagageEventArgs)
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
-                    ConveyorList.ItemsSource = programSession.Conveyor; //Might be redundant
-
-                    //ConveyorBelt.Conveyor[ConveyorBelt.ConveyorCounter] = ((ConveyorEventArgs)e).BagageItem;
-
-                    programSession.Conveyor.Remove(((BagageEventArgs)e).BagageItem);
-
+                    ViewModel.Conveyor.Remove(((BagageEventArgs)e).BagageItem);
                 }));
             }
         }
-
-        
-        //Move Item To A Global CheckOut List - Haven't checked if working yet
+        //Move Item To A Global CheckOut List 
         private void BagageMovedToCheckOut(object sender, EventArgs e)
         {
             if (e is BagageEventArgs)
             {
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
                 {
-                    PlanePassengerList.ItemsSource = ProgramSession.CheckedOutList;
-                    ProgramSession.CheckedOutList.Add(((BagageEventArgs)e).BagageItem);
+                    PlanePassengerList.ItemsSource = ViewModel.CheckedOutList;
+                    ViewModel.CheckedOutList.Add(((BagageEventArgs)e).BagageItem);
 
                 }));
             }
         }
-        
 
 
         //Opens and closes CheckIns and Gates
@@ -140,6 +118,16 @@ namespace WPFUI
                 case 0:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
+                        CheckInZero.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        CheckInZero.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+                case 1:
+                    if (((OpenClosedEvent)e).OpenClosed == true)
+                    {
                         CheckInOne.Visibility = Visibility.Visible;
                     }
                     else
@@ -147,7 +135,7 @@ namespace WPFUI
                         CheckInOne.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 1:
+                case 2:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInTwo.Visibility = Visibility.Visible;
@@ -157,7 +145,7 @@ namespace WPFUI
                         CheckInTwo.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 2:
+                case 3:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInThree.Visibility = Visibility.Visible;
@@ -167,7 +155,7 @@ namespace WPFUI
                         CheckInThree.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 3:
+                case 4:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInFour.Visibility = Visibility.Visible;
@@ -177,7 +165,7 @@ namespace WPFUI
                         CheckInFour.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 4:
+                case 5:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInFive.Visibility = Visibility.Visible;
@@ -187,7 +175,7 @@ namespace WPFUI
                         CheckInFive.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 5:
+                case 6:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInSix.Visibility = Visibility.Visible;
@@ -197,7 +185,7 @@ namespace WPFUI
                         CheckInSix.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 6:
+                case 7:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInSeven.Visibility = Visibility.Visible;
@@ -207,7 +195,7 @@ namespace WPFUI
                         CheckInSeven.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 7:
+                case 8:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInEight.Visibility = Visibility.Visible;
@@ -217,7 +205,7 @@ namespace WPFUI
                         CheckInEight.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 8:
+                case 9:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         CheckInNine.Visibility = Visibility.Visible;
@@ -225,16 +213,6 @@ namespace WPFUI
                     else
                     {
                         CheckInNine.Visibility = Visibility.Collapsed;
-                    }
-                    break;
-                case 9:
-                    if (((OpenClosedEvent)e).OpenClosed == true)
-                    {
-                        CheckInTen.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        CheckInTen.Visibility = Visibility.Collapsed;
                     }
                     break;
                 default:
@@ -249,6 +227,16 @@ namespace WPFUI
                 case 0:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
+                        GateZero.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        GateZero.Visibility = Visibility.Collapsed;
+                    }
+                    break;
+                case 1:
+                    if (((OpenClosedEvent)e).OpenClosed == true)
+                    {
                         GateOne.Visibility = Visibility.Visible;
                     }
                     else
@@ -256,7 +244,7 @@ namespace WPFUI
                         GateOne.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 1:
+                case 2:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         GateTwo.Visibility = Visibility.Visible;
@@ -266,7 +254,7 @@ namespace WPFUI
                         GateTwo.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 2:
+                case 3:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         GateThree.Visibility = Visibility.Visible;
@@ -276,7 +264,7 @@ namespace WPFUI
                         GateThree.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 3:
+                case 4:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         GateFour.Visibility = Visibility.Visible;
@@ -286,7 +274,7 @@ namespace WPFUI
                         GateFour.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 4:
+                case 5:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         GateFive.Visibility = Visibility.Visible;
@@ -296,7 +284,7 @@ namespace WPFUI
                         GateFive.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 5:
+                case 6:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         GateSix.Visibility = Visibility.Visible;
@@ -306,7 +294,7 @@ namespace WPFUI
                         GateSix.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 6:
+                case 7:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         GateSeven.Visibility = Visibility.Visible;
@@ -316,7 +304,7 @@ namespace WPFUI
                         GateSeven.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 7:
+                case 8:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         GateEight.Visibility = Visibility.Visible;
@@ -326,7 +314,7 @@ namespace WPFUI
                         GateEight.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 8:
+                case 9:
                     if (((OpenClosedEvent)e).OpenClosed == true)
                     {
                         GateNine.Visibility = Visibility.Visible;
@@ -336,43 +324,38 @@ namespace WPFUI
                         GateNine.Visibility = Visibility.Collapsed;
                     }
                     break;
-                case 9:
-                    if (((OpenClosedEvent)e).OpenClosed == true)
-                    {
-                        GateTen.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        GateTen.Visibility = Visibility.Collapsed;
-                    }
-                    break;
                 default:
                     break;
             }
         }
 
+
         //Buttons to close CheckIns and Gates
         private void OnClick_OpenCheckIn(object sender, RoutedEventArgs e)
         {
-            programSession.OpenCheckIn();
+            viewModel.OpenCheckIn();
         }
         private void OnClick_CloseCheckIn(object sender, RoutedEventArgs e)
         {
-            programSession.CloseCheckIn();
+            viewModel.CloseCheckIn();
         }
         private void OnClick_OpenGate(object sender, RoutedEventArgs e)
         {
-            programSession.OpenGate();
+            viewModel.OpenGate();
         }
         private void OnClick_CloseGate(object sender, RoutedEventArgs e)
         {
-            programSession.CloseGate();
+            viewModel.CloseGate();
         }
 
         //Start Button
-        private void Start_Click(object sender, RoutedEventArgs e)
+        private void OnClick_Start(object sender, RoutedEventArgs e)
         {
-            programSession.StartSession();
+            viewModel.StartViewModel();
+            CheckInPlusButton.Visibility = Visibility.Visible;
+            CheckInMinusButton.Visibility = Visibility.Visible;
+            GatePlusButton.Visibility = Visibility.Visible;
+            GateMinusButton.Visibility = Visibility.Visible;
         }
     }
 }

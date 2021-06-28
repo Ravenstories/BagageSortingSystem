@@ -16,7 +16,7 @@ namespace BagageSorting_Engine.Models
         private int _bagageArrayIndex = 0;
         private int _gateNumber;
         private bool _isOpen = false;
-        private BagageItem[] _bagageArray = new BagageItem[50];
+        private BagageItem[] _bagageArray = new BagageItem[10];
         public GateToPlane gateToPlane;
 
         //Properties

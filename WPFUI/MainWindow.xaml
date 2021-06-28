@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:BagageSorting_Engine.ViewModels;assembly=BagageSorting_Engine"
-        d:DataContext="{d:DesignInstance viewModels:ProgramSession}"
+        d:DataContext="{d:DesignInstance viewModels:ViewModel}"
         mc:Ignorable="d"
-        Title="Bagage Sorting" Height="600" Width="1000">
+        Title="Bagage Sorting" Height="600" Width="1200">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,11 +16,12 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             
             <RowDefinition Height="40"/>
@@ -46,74 +47,76 @@
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly ="True" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="Start" Content="Start" Grid.Column="1" Grid.Row="13" Margin="5" Click="Start_Click"></Button>
+        <Button x:Name="Start" Content="Start" Grid.Column="1" Grid.Row="13" Margin="5" Click="OnClick_Start"></Button>
 
         <!--#Region CheckIns-->
-        
-        <Button x:Name="CheckInPlusButton" Click="OnClick_OpenCheckIn" Grid.Column="2" Grid.Row="2" Content="+" Width="30" Height="30" HorizontalAlignment="Center" Margin="5" ></Button>
-        <Button x:Name="CheckInMinusButton" Click="OnClick_CloseCheckIn" Grid.Column="2" Grid.Row="2" Content="-" Width="30" Height="30" HorizontalAlignment="Center" Margin="120,0,30,0" ></Button>
+
+        <Button x:Name="CheckInPlusButton" Click="OnClick_OpenCheckIn" Grid.Column="2" Grid.Row="2" Content="+" Width="40" Height="40" HorizontalAlignment="Center" Margin="20,0,30,0" Visibility="Collapsed" ></Button>
+        <Button x:Name="CheckInMinusButton" Click="OnClick_CloseCheckIn" Grid.Column="2" Grid.Row="2" Content="-" Width="40" Height="40" HorizontalAlignment="Center" Margin="120,0,20,0" Visibility="Collapsed"></Button>
         <TextBlock Grid.Column="2" Grid.Row="2" FontSize="11" Margin="10">Check Ins</TextBlock>
 
-        <Label x:Name="CheckInOne" Content="CheckIn One" Grid.Column="2"  Grid.Row="3" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="CheckInZero" Content="CheckIn Zero" Grid.Column="2"  Grid.Row="3" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
-        <Label x:Name="CheckInTwo" Content="CheckIn Two" Grid.Column="2"  Grid.Row="4" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="CheckInOne" Content="CheckIn One" Grid.Column="2"  Grid.Row="4" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
-        <Label x:Name="CheckInThree" Content="CheckIn Three" Grid.Column="2"  Grid.Row="5" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="CheckInTwo" Content="CheckIn Two" Grid.Column="2"  Grid.Row="5" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
-        <Label x:Name="CheckInFour" Content="CheckIn Four" Grid.Column="2"  Grid.Row="6" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="CheckInThree" Content="CheckIn Three" Grid.Column="2"  Grid.Row="6" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
-        <Label x:Name="CheckInFive" Content="CheckIn Five" Grid.Column="2"  Grid.Row="7" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="CheckInFour" Content="CheckIn Four" Grid.Column="2"  Grid.Row="7" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
-        <Label x:Name="CheckInSix" Content="CheckIn Six" Grid.Column="2"  Grid.Row="8" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="CheckInFive" Content="CheckIn Five" Grid.Column="2"  Grid.Row="8" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
-        <Label x:Name="CheckInSeven" Content="CheckIn Seven" Grid.Column="2"  Grid.Row="9" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="CheckInSix" Content="CheckIn Six" Grid.Column="2"  Grid.Row="9" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
-        <Label x:Name="CheckInEight" Content="CheckIn Eight" Grid.Column="2"  Grid.Row="10" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="CheckInSeven" Content="CheckIn Seven" Grid.Column="2"  Grid.Row="10" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
-        <Label x:Name="CheckInNine" Content="CheckIn Nine" Grid.Column="2"  Grid.Row="11" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="CheckInEight" Content="CheckIn Eight" Grid.Column="2"  Grid.Row="11" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
         
-        <Label x:Name="CheckInTen" Content="CheckIn Ten" Grid.Column="2"  Grid.Row="12" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="CheckInNine" Content="CheckIn Nine" Grid.Column="2"  Grid.Row="12" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
        
         <!--#endregion-->
 
         <TextBlock Grid.Column="3" Grid.Row="2" FontSize="11" Margin="10">Conveyour/Sorter</TextBlock>
-        <DataGrid x:Name="ConveyorList" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="3"  Grid.Row="3" Grid.RowSpan="10" Margin="5">
+        <DataGrid x:Name="ConveyorList" AutoGenerateColumns="true" HeadersVisibility="Column" Grid.Column="3"  Grid.Row="3" Grid.RowSpan="10" Margin="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
             </DataGrid.Columns>
         </DataGrid>
 
         <!--#Region Gates-->
-        <Button x:Name="GatePlusButton" Click="OnClick_OpenGate" Grid.Column="4" Grid.Row="2" Content="+" Width="30" Height="30" HorizontalAlignment="Center" Margin="0,0,30,0" ></Button>
-        <Button x:Name="GateMinusButton" Click="OnClick_CloseGate" Grid.Column="4" Grid.Row="2" Content="-" Width="30" Height="30" HorizontalAlignment="Center" Margin="90,0,30,0" ></Button>
+        <Button x:Name="GatePlusButton" Click="OnClick_OpenGate" Grid.Column="4" Grid.Row="2" Content="+" Width="40" Height="40" HorizontalAlignment="Center" Margin="0,0,30,0" Visibility="Collapsed"></Button>
+        <Button x:Name="GateMinusButton" Click="OnClick_CloseGate" Grid.Column="4" Grid.Row="2" Content="-" Width="40" Height="40" HorizontalAlignment="Center" Margin="100,0,20,0" Visibility="Collapsed"></Button>
         
         <TextBlock  Grid.Column="4" Grid.Row="2" FontSize="11" Margin="10">Gate</TextBlock>
         
-        <Label x:Name="GateOne"     Content="Gate One" Grid.Column="4"  Grid.Row="3" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="GateZero"     Content="Gate Zero" Grid.Column="4"  Grid.Row="3" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
                        
-        <Label x:Name="GateTwo"     Content="Gate Two" Grid.Column="4"  Grid.Row="4" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="GateOne"     Content="Gate One" Grid.Column="4"  Grid.Row="4" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
                        
-        <Label x:Name="GateThree"   Content="Gate Three" Grid.Column="4"  Grid.Row="5" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="GateTwo"   Content="Gate Two" Grid.Column="4"  Grid.Row="5" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
                        
-        <Label x:Name="GateFour"    Content="Gate Four" Grid.Column="4"  Grid.Row="6" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="GateThree"    Content="Gate Three" Grid.Column="4"  Grid.Row="6" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
                        
-        <Label x:Name="GateFive"    Content="Gate Five" Grid.Column="4"  Grid.Row="7" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="GateFour"    Content="Gate Four" Grid.Column="4"  Grid.Row="7" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
                        
-        <Label x:Name="GateSix"     Content="Gate Six" Grid.Column="4"  Grid.Row="8" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="GateFive"     Content="Gate Five" Grid.Column="4"  Grid.Row="8" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
                        
-        <Label x:Name="GateSeven"   Content="Gate Seven" Grid.Column="4"  Grid.Row="9" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="GateSix"   Content="Gate Six" Grid.Column="4"  Grid.Row="9" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
                        
-        <Label x:Name="GateEight"   Content="Gate Eight" Grid.Column="4"  Grid.Row="10" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="GateSeven"   Content="Gate Seven" Grid.Column="4"  Grid.Row="10" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
                        
-        <Label x:Name="GateNine"    Content="Gate Nine" Grid.Column="4"  Grid.Row="11" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="GateEight"    Content="Gate Eight" Grid.Column="4"  Grid.Row="11" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
                        
-        <Label x:Name="GateTen"     Content="Gate Ten" Grid.Column="4"  Grid.Row="12" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
+        <Label x:Name="GateNine"     Content="Gate Nine" Grid.Column="4"  Grid.Row="12" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
         <!--#endregion-->
 
 
-        <TextBlock Grid.Column="5" Grid.Row="2" FontSize="11" Margin="10">Plane</TextBlock>
-        <DataGrid x:Name="PlanePassengerList" AutoGenerateColumns="False" HeadersVisibility="Column" Grid.Column="5" Grid.RowSpan="10"  Grid.Row="3" Margin="5">
+        <TextBlock Grid.Column="5" Grid.Row="2" FontSize="11" Margin="10">Planes</TextBlock>
+
+        <TextBlock Grid.Column="6" Grid.Row="2" FontSize="11" Margin="10">Checked Out Bagage</TextBlock>
+        <DataGrid x:Name="PlanePassengerList" AutoGenerateColumns="true" HeadersVisibility="Column" Grid.Column="6" Grid.RowSpan="10"  Grid.Row="3" Margin="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
             </DataGrid.Columns>

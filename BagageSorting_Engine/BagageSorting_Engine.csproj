@@ -50,6 +50,8 @@
     <Compile Include="Models\BagageItem.cs" />
     <Compile Include="Models\CheckIn.cs" />
     <Compile Include="Models\OutGoingPassengers.cs" />
+    <Compile Include="Models\PlaneControl.cs" />
+    <Compile Include="Random.cs" />
     <Compile Include="TransportersAndSorters\CheckInToConveyor.cs" />
     <Compile Include="Models\ConveyorBelt.cs" />
     <Compile Include="TransportersAndSorters\ConveyorToGates.cs" />
@@ -62,10 +64,8 @@
     <Compile Include="TransportersAndSorters\PassengersToCheckIn.cs" />
     <Compile Include="Factories\PlaneFactory.cs" />
     <Compile Include="Models\PlaneItem.cs" />
-    <Compile Include="TrulyObservableCollection.cs" />
-    <Compile Include="ViewModels\ProgramSession.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Random.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

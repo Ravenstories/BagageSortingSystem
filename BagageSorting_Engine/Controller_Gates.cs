@@ -13,7 +13,7 @@ namespace BagageSorting_Engine
         public Gate[] GateArray { get => gateArray; set => gateArray = value; }
 
         private static int _arrayCounter = 0;
-        public int ArrayCounter { get => _arrayCounter; set => _arrayCounter = value; }
+        public static int ArrayCounter { get => _arrayCounter; set => _arrayCounter = value; }
 
         public void CreateGates()
         {

@@ -15,7 +15,7 @@ namespace BagageSorting_Engine.Models
         public object CheckInLock = new object();
 
         //Variables 
-        private BagageItem[] _bagageArray = new BagageItem[50];
+        private BagageItem[] _bagageArray = new BagageItem[1];
         private int _checkInNumber;
         private int _bagageArrayIndex = 0;
         private bool _isOpen = false;

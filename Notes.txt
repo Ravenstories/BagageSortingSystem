@@ -1,2 +1,7 @@
-Check if static Gate.GateLock interferes with sorting
-Check if outgoing lock is needed
+Check if static Gate.GateLock interferes with sorting - Done
+Check if outgoing lock is needed - Unsure
+
+CheckIn Experiences Bagage Loss, posibly Gates too
+Think it happens when it can't deliver and then it freezes
+
+Create flight plan and add planes to gate that will take off and return

@@ -15,9 +15,9 @@ namespace BagageSorting_Engine.Models
         private int bagageNumber;
         private int flightNumber;
         private int gateNumber;
-        private int timeCheckIn;
-        private int timeSorted;
-        private int timeBoarded;
+        private DateTime timeCheckIn;
+        private DateTime timeSorted;
+        private DateTime timeBoarded;
         public int PassengerNumber
         {
             get { return passengerNumber; }
@@ -48,24 +48,24 @@ namespace BagageSorting_Engine.Models
             get { return gateNumber; }
             set { gateNumber = value; }
         }
-        public int TimeCheckIn
+        public DateTime TimeCheckIn
         {
             get { return timeCheckIn; }
             set { timeCheckIn = value; }
         }
-        public int TimeSorted
+        public DateTime TimeSorted
         {
             get { return timeSorted; }
             set { timeSorted = value; }
         }
-        public int TimeBoarded
+        public DateTime TimeBoarded
         {
             get { return timeBoarded; }
             set { timeBoarded = value; }
         }
 
 
-        public BagageItem(int passengerNumber, string name, string destination, int bagageNumber, int flightNumber, int terminalNumber, int timeCheckIn, int timeSorted, int timeBoarded)
+        public BagageItem(int passengerNumber, string name, string destination, int bagageNumber, int flightNumber, int terminalNumber, DateTime timeCheckIn, DateTime timeSorted, DateTime timeBoarded)
         {
             PassengerNumber = passengerNumber;
             Name = name;

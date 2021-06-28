@@ -18,23 +18,21 @@ namespace BagageSorting_Engine.Factories
         //Creates Planes equal to the number of gates available. 
         static PlaneFactory()
         {
-            for (int i = 0; i < gateController.GateArray.Length; i++)
+            for (int i = 0; i < gateController.GateArray.Length + 10; i++)
             {
                 if (DestinationNames.ArrayOfDestinations[i] != null)
                 {
-                    BuildPlaneItem(10000+i, i, DestinationNames.ArrayOfDestinations[i], 0, 0, 0);
+                    BuildPlaneItem(10000+i, i, DestinationNames.ArrayOfDestinations[i], DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
                 }
                 else
                 {
                     //Random Destination
-                    System.Random rndPlane = new System.Random();
-                    BuildPlaneItem(10000 + i, i, DestinationNames.ArrayOfDestinations[rndPlane.Next(0, DestinationNames.ArrayOfDestinations.Length)], 0, 0, 0);
+                    BuildPlaneItem(10000 + i, i, DestinationNames.ArrayOfDestinations[Random.rndNum.Next(0, DestinationNames.ArrayOfDestinations.Length)], DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
                 }
             }
-
         }
 
-        private static void BuildPlaneItem(int flightNumber, int gateNumber, string destination, int timeEnterGate, int timeSorted, int timeExitGate)
+        private static void BuildPlaneItem(int flightNumber, int gateNumber, string destination, DateTime timeEnterGate, DateTime timeSorted, DateTime timeExitGate)
         {
             PlaneItemsList.Add(new PlaneItem(flightNumber, gateNumber, destination, timeEnterGate, timeSorted, timeExitGate));
         }

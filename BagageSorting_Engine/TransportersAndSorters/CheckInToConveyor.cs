@@ -12,7 +12,6 @@ namespace BagageSorting_Engine.TransportersAndSorters
 {
     public class CheckInToConveyor 
     {
-
         private CheckIn checkIn; 
         BagageItem itemToMove;
         public CheckInToConveyor(CheckIn checkIn)
@@ -22,41 +21,33 @@ namespace BagageSorting_Engine.TransportersAndSorters
 
         public BagageItem GrapItemFromCheckIn()
         {
-            
-
-            if (checkIn.BagageArray[0] == null)
+            while (checkIn.BagageArray[0] == null)
             {
+                Monitor.PulseAll(checkIn.CheckInLock);
                 Monitor.Wait(checkIn.CheckInLock);
             }
 
             itemToMove = checkIn.RemoveFromBagageArray();
+            Monitor.PulseAll(checkIn.CheckInLock);
             return itemToMove;
-            
         }
 
         public void MoveItemToConveyor(BagageItem itemToMove)
         {
-            
-            // This might be very redundant
-            if (this.itemToMove == null)
+            while (this.itemToMove == null)
             {
+                Monitor.PulseAll(ConveyorBelt.ConveyorLock);
                 Monitor.Wait(ConveyorBelt.ConveyorLock);
             }
 
-            Debug.WriteLine(this.itemToMove.Name + " Is trying to be moved to Conveyor");
-
-
             //Add Bagage To Conveyor
-            ConveyorBelt.Conveyor.Add(this.itemToMove);
-
-            //Shows items at Conveyor Location
-            //ItemsAtLocation(ConveyorBelt.Conveyor);
-
+            itemToMove.TimeCheckIn = DateTime.Now;
+            ConveyorBelt.Conveyor.Enqueue(itemToMove);
+            Debug.WriteLine(itemToMove.Name + "Should be in conveyor");
             Monitor.PulseAll(ConveyorBelt.ConveyorLock);
-            Thread.Sleep(100);
-
-            
         }
+
+        //Legacy Code to check items on conveyor
         public void ItemsAtLocation(BagageItem[] conveyorArray)
         {
             Debug.WriteLine("Items at static conveyor: ");
@@ -69,7 +60,6 @@ namespace BagageSorting_Engine.TransportersAndSorters
             }
             Debug.WriteLine("\n");
         }
-
     }
 }
 
