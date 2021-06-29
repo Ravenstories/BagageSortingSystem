@@ -45,11 +45,8 @@
         <TextBlock Grid.Column="1" Grid.Row="1" FontSize="18" Grid.ColumnSpan="2">Bagage Sorting</TextBlock>
         <TextBlock Grid.Column="1" Grid.Row="2" FontSize="11" Margin="10">Passengers</TextBlock>
 
-        <DataGrid x:Name="PassengerList" AutoGenerateColumns="true" HeadersVisibility="Column"  Grid.Column="1"  Grid.Row="3" Grid.RowSpan="10" Margin="5">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly ="True" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <DataGrid x:Name="PassengerList" AutoGenerateColumns="true" HeadersVisibility="Column"  Grid.Column="1"  Grid.Row="3" Grid.RowSpan="10" Margin="5"/>
+
         <Button x:Name="Start" Content="Start" Grid.Column="1" Grid.Row="13" Margin="5" Click="OnClick_Start"></Button>
 
         <!--#Region CheckIns-->
@@ -72,11 +69,7 @@
         <!--#endregion-->
 
         <TextBlock Grid.Column="3" Grid.Row="2" FontSize="11" Margin="10">Conveyour/Sorter</TextBlock>
-        <DataGrid x:Name="ConveyorList" AutoGenerateColumns="true" HeadersVisibility="Column" Grid.Column="3"  Grid.Row="3" Grid.RowSpan="10" Margin="5">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <DataGrid x:Name="ConveyorList" AutoGenerateColumns="true" HeadersVisibility="Column" Grid.Column="3"  Grid.Row="3" Grid.RowSpan="10" Margin="5"/>
 
         <!--#Region Gates-->
         <Button x:Name="GatePlusButton" Click="OnClick_OpenGate" Grid.Column="4" Grid.Row="2" Content="+" Width="40" Height="40" HorizontalAlignment="Center" Margin="0,0,30,0" Visibility="Collapsed"></Button>
@@ -101,17 +94,15 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Flight Number" Binding="{Binding FlightNumber}"/>
                 <DataGridTextColumn Header="Destination" Binding="{Binding Destination}"/>
+                <DataGridTextColumn Header="TimeEnterGate" Binding="{Binding TimeEnterGate}"/>
+                <DataGridTextColumn Header="TimeExitGate" Binding="{Binding TimeExitGate}"/>
             </DataGrid.Columns>
         </DataGrid>
 
         <TextBlock Grid.Column="5" Grid.Row="2" FontSize="11" Margin="10">Planes</TextBlock>
 
         <TextBlock Grid.Column="6" Grid.Row="2" FontSize="11" Margin="10">Checked Out Bagage</TextBlock>
-        <DataGrid x:Name="PlanePassengerList" AutoGenerateColumns="true" HeadersVisibility="Column" Grid.Column="6" Grid.RowSpan="10"  Grid.Row="3" Margin="5">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <DataGrid x:Name="PlanePassengerList" AutoGenerateColumns="true" HeadersVisibility="Column" Grid.Column="6" Grid.RowSpan="10"  Grid.Row="3" Margin="5"/>
 
         <Button x:Name="Exit" Content="Exit" Grid.Column="6" Grid.Row="13" Margin="5" Click="OnClick_Exit"></Button>
 

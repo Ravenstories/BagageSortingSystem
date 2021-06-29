@@ -4,6 +4,12 @@ Check if outgoing lock is needed - Unsure
 CheckIn Experiences Bagage Loss, posibly Gates too
 Think it happens when it can't deliver and then it freezes
 
-Create flight plan and add planes to gate that will take off and return
+Create flight plan and add planes to gate that will take off and return - done
 
-TryCatches have been inserted to try and find a rare deadlock, so far unsuccesful
+TryCatches have been inserted to try and find a rare deadlock, so far unsuccesful - Maybe its solved?
+
+Add destination and gates to bagage at checkin
+
+Sometimes a bagage gets stuck in Conveyor, dont know why
+
+

@@ -113,7 +113,6 @@ namespace BagageSorting_Engine.ViewModels
         }
 
         #region Methods - Not clean, tjeck how much code can be moved to models
-
         
         //Create passenger bagage and moves them to a random check in. 
         private void CreateBagage()
@@ -131,6 +130,7 @@ namespace BagageSorting_Engine.ViewModels
                 Thread.Sleep(rndNmb.Next(500, 9000));
             }
         }
+        
         //Moving Passengers from the passenger list to a random checkin
         private void PassengerToCheckIn()
         {
@@ -158,6 +158,7 @@ namespace BagageSorting_Engine.ViewModels
                 Thread.Sleep(Random.rndNum.Next(500, 1000));
             }
         }
+        
         //From CheckInToConveyor 
         public void CheckInToConveyor(int i) 
         {
@@ -211,6 +212,8 @@ namespace BagageSorting_Engine.ViewModels
                 Thread.Sleep(Random.rndNum.Next(1000, 3000));
             }
         }
+        
+        //From ConveyorToGate 
         public void ConveyorToGates()
         {
             while (true)
@@ -242,10 +245,12 @@ namespace BagageSorting_Engine.ViewModels
                 Thread.Sleep(Random.rndNum.Next(200, 2000));
             }
         }
+        
         //Moves Passenger to checkout list when properly checked out. 
         public void GateToCheckOut(int i)
         {
             int arrayCounter = i - 1;
+            Thread.Sleep(Random.rndNum.Next(20, 2000));
             PlaneItem plane = planeController.PlaneToGate();
             Debug.WriteLine(plane.FlightNumber + " has entered the airport");
             PlaneEvent.Invoke(this, new PlaneEventArgs(plane));
@@ -257,23 +262,30 @@ namespace BagageSorting_Engine.ViewModels
                 {
                     PlaneEvent.Invoke(this, new PlaneEventArgs(plane));
                     Debug.WriteLine(plane.FlightNumber + " has left the airport");
+                    
                     Current_Controller_Gate.GateArray[arrayCounter].IsOpen = false;
+                    
                     Thread.Sleep(Random.rndNum.Next(2000, 8000));
+                    
                     plane = planeController.PlaneToGate();
                     plane.GateNumber = Current_Controller_Gate.GateArray[arrayCounter].GateNumber;
+                    
                     Current_Controller_Gate.GateArray[arrayCounter].IsOpen = true;
+                    
                     Debug.WriteLine(plane.FlightNumber + " has entered the airport");
                     PlaneEvent.Invoke(this, new PlaneEventArgs(plane));
                 }
 
                 Thread.Sleep(Random.rndNum.Next(500, 2000));
                 BagageItem itemToMove = null;
+
                 lock (Current_Controller_Gate.GateArray[arrayCounter].GateLock)
                 {
-                    if (! Current_Controller_Gate.GateArray[arrayCounter].IsOpen || Current_Controller_Gate.GateArray[arrayCounter].BagageArray[0] == null || !PlaneController.CheckPlanePresence(plane))
+                    if (! Current_Controller_Gate.GateArray[arrayCounter].IsOpen || !PlaneController.CheckPlanePresence(plane))
                     {
                         Monitor.PulseAll(Current_Controller_Gate.GateArray[arrayCounter].GateLock);
-                        Monitor.Wait(Current_Controller_Gate.GateArray[arrayCounter].GateLock);
+                        Thread.Sleep(1000);
+                        //Monitor.Wait(Current_Controller_Gate.GateArray[arrayCounter].GateLock);
                     }
                     else
                     {
@@ -282,6 +294,7 @@ namespace BagageSorting_Engine.ViewModels
                         Monitor.PulseAll(Current_Controller_Gate.GateArray[arrayCounter].GateLock);
                     }
                 }
+
                 Thread.Sleep(Random.rndNum.Next(1000, 5000));
             }
         }
