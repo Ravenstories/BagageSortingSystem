@@ -6,7 +6,7 @@ Think it happens when it can't deliver and then it freezes
 
 Create flight plan and add planes to gate that will take off and return - done
 
-TryCatches have been inserted to try and find a rare deadlock, so far unsuccesful - Maybe its solved?
+TryCatches have been inserted to try and find a rare deadlock, so far unsuccesful - Maybe its solved? No it is definately not. 
 
 Add destination and gates to bagage at checkin
 

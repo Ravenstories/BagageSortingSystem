@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BagageSorting_Engine.Models;
 
@@ -21,10 +22,8 @@ namespace BagageSorting_Engine
             {
                 GateArray[i] = new Gate();
                 GateArray[i].GateNumber = i;
-                
+                Thread.Sleep(20);
             }
         }
-
-        
     }
 }
