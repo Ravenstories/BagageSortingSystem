@@ -9,13 +9,14 @@ using BagageSorting_Engine.ViewModels;
 namespace BagageSorting_Engine.Models
 { 
     
-    class PlaneItem
+    public class PlaneItem
     {
         public static List<BagageItem> CheckedOutList = new List<BagageItem>();
 
         private int flightNumber;
         private int gateNumber;
         private string destination;
+        private bool isPlaneAtGate;
         private DateTime timeEnterGate;
         private DateTime timeSorted;
         private DateTime timeExitGate;
@@ -35,6 +36,7 @@ namespace BagageSorting_Engine.Models
             get { return destination; }
             set { destination = value; } 
         }
+        public bool IsPlaneAtGate { get => isPlaneAtGate; set => isPlaneAtGate = value; }
         public DateTime TimeEnterGate
         {
             get { return timeEnterGate; }
@@ -52,11 +54,12 @@ namespace BagageSorting_Engine.Models
         }
 
 
-        public PlaneItem(int flightNumber, int gateNumber, string destination, DateTime timeEnterGate, DateTime timeSorted, DateTime timeExitGate)
+        public PlaneItem(int flightNumber, int gateNumber, string destination, bool isPlaneAtGate, DateTime timeEnterGate, DateTime timeSorted, DateTime timeExitGate)
         {
             FlightNumber = flightNumber;
             GateNumber = gateNumber;
             Destination = destination;
+            IsPlaneAtGate = isPlaneAtGate;
             TimeEnterGate = timeEnterGate;
             TimeSorted = timeSorted;
             TimeExitGate = timeExitGate;
@@ -64,7 +67,7 @@ namespace BagageSorting_Engine.Models
 
         public PlaneItem Clone()
         {
-            return new PlaneItem(FlightNumber, GateNumber, Destination, TimeEnterGate, TimeSorted, TimeExitGate);
+            return new PlaneItem(FlightNumber, GateNumber, Destination, IsPlaneAtGate, TimeEnterGate, TimeSorted, TimeExitGate);
         }
 
         

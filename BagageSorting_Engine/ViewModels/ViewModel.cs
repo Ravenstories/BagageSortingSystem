@@ -5,6 +5,7 @@ using BagageSorting_Engine.TransportersAndSorters;
 using BagageSorting_Engine.Factories;
 using BagageSorting_Engine.Models;
 using BagageSorting_Engine.Events;
+using System.Diagnostics;
 
 namespace BagageSorting_Engine.ViewModels
 {
@@ -32,8 +33,15 @@ namespace BagageSorting_Engine.ViewModels
         //Controllers of the CheckIn and Gate arrays. Used with accomponied threads to produce and consume. 
         Controller_CheckIn arrayOfCheckIns = new Controller_CheckIn();
         Controller_Gates arrayOfGates = new Controller_Gates();
+        Controller_Planes planeController = new Controller_Planes();
         Controller_CheckIn Current_Controller_CheckIn { get => arrayOfCheckIns; set => arrayOfCheckIns = value; }
         Controller_Gates Current_Controller_Gate { get => arrayOfGates; set => arrayOfGates = value; }
+        Controller_Planes PlaneController { get => planeController; set => planeController = value; }
+        #endregion
+
+        #region Planes and plane creation
+        PlaneFactory planeFactory = new PlaneFactory();
+        PlaneFactory PlaneFactory { get => planeFactory; set => planeFactory = value; }
         #endregion
 
         #region Observable Lists
@@ -45,7 +53,7 @@ namespace BagageSorting_Engine.ViewModels
         
         private static ObservableCollection<BagageItem> checkedOutList = new ObservableCollection<BagageItem>(Current_OutGoing.OutGoingPassengerList);
         public static ObservableCollection<BagageItem> CheckedOutList { get => checkedOutList; set => checkedOutList = value; }
-        
+
         #endregion
 
         #endregion
@@ -59,10 +67,14 @@ namespace BagageSorting_Engine.ViewModels
         public event EventHandler BagageMovedToCheckOutList;
         public event EventHandler CheckInOpenClosedEvent;
         public event EventHandler GateOpenClosedEvent;
+        public event EventHandler PlaneEvent;
         #endregion
 
         public void StartViewModel()
         {
+            //Building planes and add them to list, ready for use
+            PlaneFactory.AddPlanesToList();
+
             //Random sorting from Passengers to CheckIn
             Thread passengerToCheckInThread = new Thread(() => PassengerToCheckIn());
 
@@ -123,10 +135,10 @@ namespace BagageSorting_Engine.ViewModels
         private void PassengerToCheckIn()
         {
             BagageItem itemToMove;
-            
+
             while (true)
             {
-                Thread.Sleep(Random.rndNum.Next(500, 8000));
+                Thread.Sleep(Random.rndNum.Next(500, 7000));
                 lock (IncomingPassengers.PassengerLock)
                 {
                     itemToMove = Current_PassengersToCheckIn.GrabItemFromPassengerList();
@@ -143,6 +155,7 @@ namespace BagageSorting_Engine.ViewModels
                         BagageRemovedFromPassengerList?.Invoke(this, new BagageEventArgs(itemToMove));
                     }
                 }
+                Thread.Sleep(Random.rndNum.Next(500, 1000));
             }
         }
         //From CheckInToConveyor 
@@ -154,28 +167,46 @@ namespace BagageSorting_Engine.ViewModels
             {
                 BagageItem itemToMove = null;
 
-                lock (Current_Controller_CheckIn.CheckInArray[arrayCounter].CheckInLock)
+                Thread.Sleep(Random.rndNum.Next(1000, 2000));
+                try
                 {
-                    if (!Current_Controller_CheckIn.CheckInArray[arrayCounter].IsOpen || Current_Controller_CheckIn.CheckInArray[arrayCounter].BagageArray[0] == null)
+                    lock (Current_Controller_CheckIn.CheckInArray[arrayCounter].CheckInLock)
                     {
-                        Monitor.PulseAll(Current_Controller_CheckIn.CheckInArray[arrayCounter].CheckInLock);
-                        Monitor.Wait(Current_Controller_CheckIn.CheckInArray[arrayCounter].CheckInLock);
-                    }
-                    else
-                    {
-                        itemToMove = Current_Controller_CheckIn.CheckInArray[arrayCounter].checkInToConveyor.GrapItemFromCheckIn();
-                        Monitor.PulseAll(Current_Controller_CheckIn.CheckInArray[arrayCounter].CheckInLock);
+                        if (!Current_Controller_CheckIn.CheckInArray[arrayCounter].IsOpen)
+                        {
+                            Monitor.PulseAll(Current_Controller_CheckIn.CheckInArray[arrayCounter].CheckInLock);
+                            Monitor.Wait(Current_Controller_CheckIn.CheckInArray[arrayCounter].CheckInLock);
+                        }
+                        else
+                        {
+                            itemToMove = Current_Controller_CheckIn.CheckInArray[arrayCounter].checkInToConveyor.GrapItemFromCheckIn();
+                            Monitor.PulseAll(Current_Controller_CheckIn.CheckInArray[arrayCounter].CheckInLock);
+                        }
                     }
                 }
-
-                if (itemToMove != null)
+                catch (Exception e)
                 {
-                    lock (ConveyorBelt.ConveyorLock)
+                    Debug.WriteLine(e.Message);
+                    throw;
+                }
+                Thread.Sleep(Random.rndNum.Next(200, 500));
+
+                try
+                {
+                    if (itemToMove != null)
                     {
-                        Current_Controller_CheckIn.CheckInArray[arrayCounter].checkInToConveyor.MoveItemToConveyor(itemToMove);
-                        MovedToConveyor?.Invoke(this, new BagageEventArgs(itemToMove));
-                        Monitor.PulseAll(ConveyorBelt.ConveyorLock);
+                        lock (ConveyorBelt.ConveyorLock)
+                        {
+                            Current_Controller_CheckIn.CheckInArray[arrayCounter].checkInToConveyor.MoveItemToConveyor(itemToMove);
+                            MovedToConveyor?.Invoke(this, new BagageEventArgs(itemToMove));
+                            Monitor.PulseAll(ConveyorBelt.ConveyorLock);
+                        }
                     }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    throw;
                 }
                 Thread.Sleep(Random.rndNum.Next(1000, 3000));
             }
@@ -185,39 +216,61 @@ namespace BagageSorting_Engine.ViewModels
             while (true)
             {
                 BagageItem itemToMove = null;
-                Thread.Sleep(Random.rndNum.Next(200, 5000));
+                Thread.Sleep(Random.rndNum.Next(200, 2000));
 
                 lock (ConveyorBelt.ConveyorLock)
                 {
                     itemToMove = TransportersAndSorters.ConveyorToGates.GrapItemFromConveyor();
-
-                    if (! Current_Controller_Gate.GateArray[itemToMove.GateNumber].IsOpen || itemToMove == null)
+                    Thread.Sleep(Random.rndNum.Next(200, 1000));
+                    Monitor.PulseAll(ConveyorBelt.ConveyorLock);
+                }
+                
+                
+                lock (Current_Controller_Gate.GateArray[itemToMove.GateNumber].GateLock)
+                {
+                    if (!Current_Controller_Gate.GateArray[itemToMove.GateNumber].IsOpen)
                     {
-                        Monitor.PulseAll(ConveyorBelt.ConveyorLock);
-                        Monitor.Wait(ConveyorBelt.ConveyorLock);
+                        Monitor.PulseAll(Current_Controller_Gate.GateArray[itemToMove.GateNumber].GateLock);
+                        Monitor.Wait(Current_Controller_Gate.GateArray[itemToMove.GateNumber].GateLock);
                     }
                     else
                     {
                         TransportersAndSorters.ConveyorToGates.MoveItemToGate(itemToMove);
                         MovedFromConveyor?.Invoke(this, new BagageEventArgs(itemToMove));
-                        Monitor.PulseAll(ConveyorBelt.ConveyorLock);
                     }
                 }
+                Thread.Sleep(Random.rndNum.Next(200, 2000));
             }
         }
         //Moves Passenger to checkout list when properly checked out. 
         public void GateToCheckOut(int i)
         {
             int arrayCounter = i - 1;
+            PlaneItem plane = planeController.PlaneToGate();
+            Debug.WriteLine(plane.FlightNumber + " has entered the airport");
+            PlaneEvent.Invoke(this, new PlaneEventArgs(plane));
 
             while (true)
             {
-                Thread.Sleep(Random.rndNum.Next(500, 2000));
+                //Evaluates if there is a plane and if not a new will appear
+                if (!PlaneController.CheckPlanePresence(plane))
+                {
+                    PlaneEvent.Invoke(this, new PlaneEventArgs(plane));
+                    Debug.WriteLine(plane.FlightNumber + " has left the airport");
+                    Current_Controller_Gate.GateArray[arrayCounter].IsOpen = false;
+                    Thread.Sleep(Random.rndNum.Next(2000, 8000));
+                    plane = planeController.PlaneToGate();
+                    plane.GateNumber = Current_Controller_Gate.GateArray[arrayCounter].GateNumber;
+                    Current_Controller_Gate.GateArray[arrayCounter].IsOpen = true;
+                    Debug.WriteLine(plane.FlightNumber + " has entered the airport");
+                    PlaneEvent.Invoke(this, new PlaneEventArgs(plane));
+                }
 
+                Thread.Sleep(Random.rndNum.Next(500, 2000));
                 BagageItem itemToMove = null;
                 lock (Current_Controller_Gate.GateArray[arrayCounter].GateLock)
                 {
-                    if (! Current_Controller_Gate.GateArray[arrayCounter].IsOpen || Current_Controller_Gate.GateArray[arrayCounter].BagageArray[0] == null)
+                    if (! Current_Controller_Gate.GateArray[arrayCounter].IsOpen || Current_Controller_Gate.GateArray[arrayCounter].BagageArray[0] == null || !PlaneController.CheckPlanePresence(plane))
                     {
                         Monitor.PulseAll(Current_Controller_Gate.GateArray[arrayCounter].GateLock);
                         Monitor.Wait(Current_Controller_Gate.GateArray[arrayCounter].GateLock);
@@ -227,14 +280,14 @@ namespace BagageSorting_Engine.ViewModels
                         itemToMove = Current_Controller_Gate.GateArray[arrayCounter].gateToPlane.Transport();
                         BagageMovedToCheckOutList?.Invoke(this, new BagageEventArgs(itemToMove));
                         Monitor.PulseAll(Current_Controller_Gate.GateArray[arrayCounter].GateLock);
-                        Thread.Sleep(Random.rndNum.Next(1000, 5000));
                     }
                 }
+                Thread.Sleep(Random.rndNum.Next(1000, 5000));
             }
         }
 
+        # region CheckIns and Gates open and close Methods
 
-        //CheckIns and Gates open and close Methods
         public void OpenCheckIn()
         {
             if (Controller_CheckIn.ArrayCounter < Current_Controller_CheckIn.CheckInArray.Length)
@@ -243,16 +296,19 @@ namespace BagageSorting_Engine.ViewModels
                 Current_Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen = true;
 
                 CheckInOpenClosedEvent.Invoke(this, new OpenClosedEvent(Current_Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].CheckInNumber, Current_Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen));
+                
+                lock (Current_Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].CheckInLock)
+                {
+                    Monitor.PulseAll(Current_Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].CheckInLock);
+                }
 
                 if (Controller_CheckIn.ArrayCounter < Current_Controller_CheckIn.CheckInArray.Length -1)
                 {
                     Controller_CheckIn.ArrayCounter++;
-
                 }
-                
             }
-            
         }
+
         public void CloseCheckIn()
         {
             Current_Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen = false;
@@ -262,7 +318,6 @@ namespace BagageSorting_Engine.ViewModels
             if (Controller_CheckIn.ArrayCounter != 0)
             {
                 Controller_CheckIn.ArrayCounter--;
-
             }
         }
 
@@ -275,6 +330,12 @@ namespace BagageSorting_Engine.ViewModels
                 Current_Controller_Gate.GateArray[Controller_Gates.ArrayCounter].IsOpen = true;
                 
                 GateOpenClosedEvent.Invoke(this, new OpenClosedEvent(Current_Controller_Gate.GateArray[Controller_Gates.ArrayCounter].GateNumber, Current_Controller_Gate.GateArray[Controller_Gates.ArrayCounter].IsOpen));
+
+                lock (Current_Controller_Gate.GateArray[Controller_Gates.ArrayCounter].GateLock)
+                {
+                    Monitor.PulseAll(Current_Controller_Gate.GateArray[Controller_Gates.ArrayCounter].GateLock);
+                }
+
 
                 if (Controller_Gates.ArrayCounter < Current_Controller_Gate.GateArray.Length -1)
                 {
@@ -295,7 +356,8 @@ namespace BagageSorting_Engine.ViewModels
                 Controller_Gates.ArrayCounter--;
             }
         }
-        
+        #endregion Open and Close Gates and CheckIns
+
         #endregion
     }
 }

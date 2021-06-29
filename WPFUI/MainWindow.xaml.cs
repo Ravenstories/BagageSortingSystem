@@ -44,7 +44,28 @@ namespace WPFUI
             
             viewModel.CheckInOpenClosedEvent += CheckInOpenClose;
             viewModel.GateOpenClosedEvent += GateOpenClose;
+
+            viewModel.PlaneEvent += PlaneEvent;
         }
+
+        private void PlaneEvent(object sender, EventArgs e)
+        {
+            if (e is PlaneEventArgs)
+            {
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+                {
+                    if (((PlaneEventArgs)e).PlaneItem.IsPlaneAtGate == false)
+                    {
+                        Planes.Items.Remove(((PlaneEventArgs)e).PlaneItem);
+                    }
+                    else
+                    {
+                        Planes.Items.Add(((PlaneEventArgs)e).PlaneItem);
+                    }
+                }));
+            }
+        }
+
 
         //Add's a random bagage to a list that random sorts to check in. 
         private void OnBagageCreated(object sender, EventArgs e)
@@ -356,6 +377,11 @@ namespace WPFUI
             CheckInMinusButton.Visibility = Visibility.Visible;
             GatePlusButton.Visibility = Visibility.Visible;
             GateMinusButton.Visibility = Visibility.Visible;
+            Start.Visibility = Visibility.Collapsed;
+        }
+        private void OnClick_Exit(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(Environment.ExitCode);
         }
     }
 }

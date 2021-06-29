@@ -31,17 +31,15 @@ namespace BagageSorting_Engine.TransportersAndSorters
         {
             Gate gate = gateController.GateArray[itemToMove.GateNumber];
 
-            lock (gate.GateLock)
+            while (!gate.AddToBagageArray(itemToMove))
             {
-                while (!gate.AddToBagageArray(itemToMove))
-                {
-                    Monitor.PulseAll(gate.GateLock);
-                    Monitor.Wait(gate.GateLock);
-                }
-                itemToMove.TimeSorted = DateTime.Now;
-                Debug.WriteLine(itemToMove.Name + " should be at gate " + itemToMove.GateNumber);
                 Monitor.PulseAll(gate.GateLock);
+                Thread.Sleep(1000);
             }
+            itemToMove.TimeSorted = DateTime.Now;
+            Debug.WriteLine(itemToMove.Name + " should be at gate " + itemToMove.GateNumber);
+            Monitor.PulseAll(gate.GateLock);
+            
             Thread.Sleep(100);
         }
     }

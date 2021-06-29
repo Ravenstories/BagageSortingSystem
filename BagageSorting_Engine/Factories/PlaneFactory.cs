@@ -10,31 +10,32 @@ namespace BagageSorting_Engine.Factories
     class PlaneFactory
     {
         private static List<PlaneItem> _planeItemsList = new List<PlaneItem>();
-        internal static List<PlaneItem> PlaneItemsList { get => _planeItemsList; set => _planeItemsList = value; }
+        public static List<PlaneItem> PlaneItemsList { get => _planeItemsList; set => _planeItemsList = value; }
 
         static Controller_Gates gateController = new Controller_Gates();
         
 
-        //Creates Planes equal to the number of gates available. 
-        static PlaneFactory()
+        //Creates Planes equal to the number of gates available plus 10 extra. 
+        
+        public void AddPlanesToList()
         {
             for (int i = 0; i < gateController.GateArray.Length + 10; i++)
             {
-                if (DestinationNames.ArrayOfDestinations[i] != null)
+                if (i < DestinationNames.ArrayOfDestinations.Length)
                 {
-                    BuildPlaneItem(10000+i, i, DestinationNames.ArrayOfDestinations[i], DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
+                    BuildPlaneItem(10000 + i, i, DestinationNames.ArrayOfDestinations[i], true, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
                 }
                 else
                 {
                     //Random Destination
-                    BuildPlaneItem(10000 + i, i, DestinationNames.ArrayOfDestinations[Random.rndNum.Next(0, DestinationNames.ArrayOfDestinations.Length)], DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
+                    BuildPlaneItem(10000 + i, i, DestinationNames.ArrayOfDestinations[Random.rndNum.Next(0, DestinationNames.ArrayOfDestinations.Length)], true, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
                 }
             }
         }
 
-        private static void BuildPlaneItem(int flightNumber, int gateNumber, string destination, DateTime timeEnterGate, DateTime timeSorted, DateTime timeExitGate)
+        private static void BuildPlaneItem(int flightNumber, int gateNumber, string destination, bool isPlaneAtGate, DateTime timeEnterGate, DateTime timeSorted, DateTime timeExitGate)
         {
-            PlaneItemsList.Add(new PlaneItem(flightNumber, gateNumber, destination, timeEnterGate, timeSorted, timeExitGate));
+            PlaneItemsList.Add(new PlaneItem(flightNumber, gateNumber, destination, isPlaneAtGate, timeEnterGate, timeSorted, timeExitGate));
         }
 
         public static PlaneItem GetPlaneItem(int flightNumber)

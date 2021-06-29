@@ -9,6 +9,8 @@
         Title="Bagage Sorting" Height="600" Width="1200">
 
     <Grid>
+        
+        <!--#region Grid Definitions-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
@@ -38,7 +40,8 @@
             
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-
+        <!--#endregion-->
+        
         <TextBlock Grid.Column="1" Grid.Row="1" FontSize="18" Grid.ColumnSpan="2">Bagage Sorting</TextBlock>
         <TextBlock Grid.Column="1" Grid.Row="2" FontSize="11" Margin="10">Passengers</TextBlock>
 
@@ -56,23 +59,14 @@
         <TextBlock Grid.Column="2" Grid.Row="2" FontSize="11" Margin="10">Check Ins</TextBlock>
 
         <Label x:Name="CheckInZero" Content="CheckIn Zero" Grid.Column="2"  Grid.Row="3" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-
         <Label x:Name="CheckInOne" Content="CheckIn One" Grid.Column="2"  Grid.Row="4" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-
         <Label x:Name="CheckInTwo" Content="CheckIn Two" Grid.Column="2"  Grid.Row="5" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-
         <Label x:Name="CheckInThree" Content="CheckIn Three" Grid.Column="2"  Grid.Row="6" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-
         <Label x:Name="CheckInFour" Content="CheckIn Four" Grid.Column="2"  Grid.Row="7" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-
         <Label x:Name="CheckInFive" Content="CheckIn Five" Grid.Column="2"  Grid.Row="8" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-
         <Label x:Name="CheckInSix" Content="CheckIn Six" Grid.Column="2"  Grid.Row="9" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-
         <Label x:Name="CheckInSeven" Content="CheckIn Seven" Grid.Column="2"  Grid.Row="10" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-
         <Label x:Name="CheckInEight" Content="CheckIn Eight" Grid.Column="2"  Grid.Row="11" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-        
         <Label x:Name="CheckInNine" Content="CheckIn Nine" Grid.Column="2"  Grid.Row="12" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
        
         <!--#endregion-->
@@ -91,27 +85,24 @@
         <TextBlock  Grid.Column="4" Grid.Row="2" FontSize="11" Margin="10">Gate</TextBlock>
         
         <Label x:Name="GateZero"     Content="Gate Zero" Grid.Column="4"  Grid.Row="3" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-                       
         <Label x:Name="GateOne"     Content="Gate One" Grid.Column="4"  Grid.Row="4" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-                       
         <Label x:Name="GateTwo"   Content="Gate Two" Grid.Column="4"  Grid.Row="5" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-                       
         <Label x:Name="GateThree"    Content="Gate Three" Grid.Column="4"  Grid.Row="6" Margin="5"  Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-                       
         <Label x:Name="GateFour"    Content="Gate Four" Grid.Column="4"  Grid.Row="7" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-                       
         <Label x:Name="GateFive"     Content="Gate Five" Grid.Column="4"  Grid.Row="8" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-                       
         <Label x:Name="GateSix"   Content="Gate Six" Grid.Column="4"  Grid.Row="9" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-                       
         <Label x:Name="GateSeven"   Content="Gate Seven" Grid.Column="4"  Grid.Row="10" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-                       
         <Label x:Name="GateEight"    Content="Gate Eight" Grid.Column="4"  Grid.Row="11" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
-                       
         <Label x:Name="GateNine"     Content="Gate Nine" Grid.Column="4"  Grid.Row="12" Margin="5" Visibility="Collapsed" BorderBrush="Black" BorderThickness="2"/>
 
         <!--#endregion-->
 
+        <DataGrid x:Name="Planes" AutoGenerateColumns="true" HeadersVisibility="Column" Grid.Column="5" Grid.RowSpan="10"  Grid.Row="3" Margin="5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Flight Number" Binding="{Binding FlightNumber}"/>
+                <DataGridTextColumn Header="Destination" Binding="{Binding Destination}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <TextBlock Grid.Column="5" Grid.Row="2" FontSize="11" Margin="10">Planes</TextBlock>
 
@@ -121,7 +112,8 @@
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
             </DataGrid.Columns>
         </DataGrid>
-        
+
+        <Button x:Name="Exit" Content="Exit" Grid.Column="6" Grid.Row="13" Margin="5" Click="OnClick_Exit"></Button>
 
     </Grid>
 </Window>

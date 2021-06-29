@@ -9,7 +9,7 @@ using BagageSorting_Engine.Events;
 
 namespace BagageSorting_Engine.Models
 {
-    public class CheckIn : BaseNotificationClass, IAddBagageToArray, IRemoveFromBagageArray
+    public class CheckIn : IAddBagageToArray, IRemoveFromBagageArray
     {
         //Locks
         public object CheckInLock = new object();

@@ -21,30 +21,52 @@ namespace BagageSorting_Engine.TransportersAndSorters
 
         public BagageItem GrapItemFromCheckIn()
         {
-            while (checkIn.BagageArray[0] == null)
+            try
             {
-                Monitor.PulseAll(checkIn.CheckInLock);
-                Monitor.Wait(checkIn.CheckInLock);
-            }
+                while (checkIn.BagageArray[0] == null)
+                {
+                    Monitor.PulseAll(checkIn.CheckInLock);
+                    Monitor.Wait(checkIn.CheckInLock);
+                }
 
-            itemToMove = checkIn.RemoveFromBagageArray();
-            Monitor.PulseAll(checkIn.CheckInLock);
-            return itemToMove;
+                itemToMove = checkIn.RemoveFromBagageArray();
+                Debug.WriteLine(itemToMove.Name + " have been grabed from checkin " + checkIn.CheckInNumber + "\n");
+                Monitor.PulseAll(checkIn.CheckInLock);
+                return itemToMove;
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public void MoveItemToConveyor(BagageItem itemToMove)
         {
-            while (this.itemToMove == null)
+            try
             {
-                Monitor.PulseAll(ConveyorBelt.ConveyorLock);
-                Monitor.Wait(ConveyorBelt.ConveyorLock);
-            }
+                while (this.itemToMove == null)
+                {
+                    Monitor.PulseAll(ConveyorBelt.ConveyorLock);
+                    Monitor.Wait(ConveyorBelt.ConveyorLock);
+                }
 
-            //Add Bagage To Conveyor
-            itemToMove.TimeCheckIn = DateTime.Now;
-            ConveyorBelt.Conveyor.Enqueue(itemToMove);
-            Debug.WriteLine(itemToMove.Name + "Should be in conveyor");
-            Monitor.PulseAll(ConveyorBelt.ConveyorLock);
+                //Add Bagage To Conveyor
+                itemToMove.TimeCheckIn = DateTime.Now;
+                ConveyorBelt.Conveyor.Enqueue(itemToMove);
+                Debug.WriteLine(itemToMove.Name + "Should be in conveyor");
+                Monitor.PulseAll(ConveyorBelt.ConveyorLock);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                Debug.WriteLine(ThreadWaitReason.Unknown);
+                throw;
+            }
+            finally{
+                
+            }
         }
 
         //Legacy Code to check items on conveyor

@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace BagageSorting_Engine.TransportersAndSorters
 {
-    public class PassengersToCheckIn : BaseNotificationClass
+    public class PassengersToCheckIn
     {
         IncomingPassengers incomingPassengers = new IncomingPassengers();
         Controller_CheckIn controller_CheckIn = new Controller_CheckIn();
@@ -28,6 +28,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
                 Monitor.Wait(IncomingPassengers.PassengerLock);
             }
             itemToMove = IncomingPassengers.PassengerList.FirstOrDefault();
+            Monitor.PulseAll(IncomingPassengers.PassengerLock);
             return itemToMove;
         }
 
@@ -43,10 +44,10 @@ namespace BagageSorting_Engine.TransportersAndSorters
                     while (!checkIn.AddToBagageArray(itemToMove))
                     {
                         Monitor.PulseAll(checkIn.CheckInLock);
-                        Monitor.Wait(checkIn.CheckInLock);
+                        Thread.Sleep(1000);
                     }
-                    Monitor.PulseAll(checkIn.CheckInLock);
                     IncomingPassengers.RemoveBagageFromList(itemToMove);
+                    Monitor.PulseAll(checkIn.CheckInLock);
                 }
 
                 Debug.WriteLine(itemToMove.Name + " have moved to Check In " + checkIn.CheckInNumber);

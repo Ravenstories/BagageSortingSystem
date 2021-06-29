@@ -5,3 +5,5 @@ CheckIn Experiences Bagage Loss, posibly Gates too
 Think it happens when it can't deliver and then it freezes
 
 Create flight plan and add planes to gate that will take off and return
+
+TryCatches have been inserted to try and find a rare deadlock, so far unsuccesful

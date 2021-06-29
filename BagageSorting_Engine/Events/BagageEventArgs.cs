@@ -12,7 +12,6 @@ namespace BagageSorting_Engine.Events
 {
     public class BagageEventArgs : EventArgs
     {
-        //public TrulyObservableCollection<BagageItem> PassengerList { get; }
         public BagageItem BagageItem { get; }
 
         public BagageEventArgs(BagageItem bagageItem)

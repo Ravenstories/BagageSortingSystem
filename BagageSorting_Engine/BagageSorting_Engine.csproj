@@ -41,16 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\BaseNotificationClass.cs" />
     <Compile Include="Controller_CheckIn.cs" />
     <Compile Include="Controller_Gates.cs" />
     <Compile Include="Events\OpenClosedEvent.cs" />
     <Compile Include="Events\BagageEventArgs.cs" />
+    <Compile Include="Events\PlaneEventArgs.cs" />
     <Compile Include="Factories\BagageFactory.cs" />
     <Compile Include="Models\BagageItem.cs" />
     <Compile Include="Models\CheckIn.cs" />
     <Compile Include="Models\OutGoingPassengers.cs" />
-    <Compile Include="Models\PlaneControl.cs" />
+    <Compile Include="Controller_Planes.cs" />
     <Compile Include="Random.cs" />
     <Compile Include="TransportersAndSorters\CheckInToConveyor.cs" />
     <Compile Include="Models\ConveyorBelt.cs" />

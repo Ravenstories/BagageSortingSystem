@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BagageSorting_Engine.Models
 {
-    public class BagageItem : BaseNotificationClass
+    public class BagageItem
     {
         private int passengerNumber;
         private string name;

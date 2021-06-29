@@ -10,11 +10,10 @@ using BagageSorting_Engine.Factories;
 
 namespace BagageSorting_Engine.Models
 {
-    public class IncomingPassengers : BaseNotificationClass
+    public class IncomingPassengers
     {
         //Lock
         public static object PassengerLock = new object();
-
 
         //List to contain all passengers
         private static List<BagageItem> passengerList = new List<BagageItem>();
@@ -24,17 +23,14 @@ namespace BagageSorting_Engine.Models
             set 
             { 
                 passengerList = value;
-                OnPropertyChanged();
             }
         }
-
 
         //Methods to add or remove items
         public void AddBagageToList(BagageItem itemToMove)
         {
             PassengerList.Add(itemToMove);
         }
-
         public void RemoveBagageFromList(BagageItem itemToMove)
         {
             PassengerList.Remove(itemToMove);

@@ -56,7 +56,5 @@ namespace BagageSorting_Engine.Models
             return bagageItem;
 
         }
-
-        
     }
 }
