@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BagageSorting_Engine.Events;
-using BagageSorting_Engine.ViewModels;
 
 namespace BagageSorting_Engine.Models
 { 
-    
     public class PlaneItem
     {
         public static List<BagageItem> CheckedOutList = new List<BagageItem>();
@@ -53,7 +47,6 @@ namespace BagageSorting_Engine.Models
             set { timeExitGate = value; }
         }
 
-
         public PlaneItem(int flightNumber, int gateNumber, string destination, bool isPlaneAtGate, DateTime timeEnterGate, DateTime timeSorted, DateTime timeExitGate)
         {
             FlightNumber = flightNumber;
@@ -69,7 +62,5 @@ namespace BagageSorting_Engine.Models
         {
             return new PlaneItem(FlightNumber, GateNumber, Destination, IsPlaneAtGate, TimeEnterGate, TimeSorted, TimeExitGate);
         }
-
-        
     }
 }

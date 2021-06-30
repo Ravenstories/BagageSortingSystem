@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BagageSorting_Engine.Events;
-using System.Threading.Tasks;
 
 namespace BagageSorting_Engine.Models
 {

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BagageSorting_Engine.Events;
-using BagageSorting_Engine.ViewModels;
+﻿using System.Collections.Generic;
 
 namespace BagageSorting_Engine.Models
 {
@@ -21,13 +14,5 @@ namespace BagageSorting_Engine.Models
         private static int _conveyorCounter = 0;
         public static int ConveyorCounter { get => _conveyorCounter; set => _conveyorCounter = value; }
 
-        
-        public static void RemoveItem(BagageItem itemToMove)
-        {
-            //Conveyor.Dequeue(itemToMove);
-            
-        }
-
     }
-
 }

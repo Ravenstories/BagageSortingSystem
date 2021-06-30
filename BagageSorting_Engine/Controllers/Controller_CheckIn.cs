@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 using BagageSorting_Engine.Models;
 
 namespace BagageSorting_Engine.Controllers 
@@ -15,7 +10,6 @@ namespace BagageSorting_Engine.Controllers
         private static int _arrayCounter = 0;
         public static int ArrayCounter { get => _arrayCounter; set => _arrayCounter = value; }
 
-
         public void CreateCheckIns()
         {
             for (int i = 0; i < CheckInArray.Length; i++)
@@ -25,7 +19,5 @@ namespace BagageSorting_Engine.Controllers
                 Thread.Sleep(20);
             }
         }
-
-        
     }
 }

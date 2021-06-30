@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using BagageSorting_Engine.Models;
 using BagageSorting_Engine.Controllers;

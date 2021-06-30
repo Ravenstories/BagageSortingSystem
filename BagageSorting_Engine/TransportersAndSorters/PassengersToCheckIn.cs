@@ -1,14 +1,7 @@
-﻿using System;
-using System.Windows;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using BagageSorting_Engine.Models;
-using BagageSorting_Engine.Events;
-using System.Diagnostics;
 using BagageSorting_Engine.Controllers;
-
 
 namespace BagageSorting_Engine.TransportersAndSorters
 {

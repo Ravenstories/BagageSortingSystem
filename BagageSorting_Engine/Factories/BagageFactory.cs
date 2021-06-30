@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using BagageSorting_Engine.Models;
-using BagageSorting_Engine.Events;
 using System.Diagnostics;
 
 namespace BagageSorting_Engine.Factories
@@ -38,11 +35,10 @@ namespace BagageSorting_Engine.Factories
         //Function that keeps generating random Bagage
         static int passengerCounter = 11120;
         static int bagageNumber = 000010;
-        System.Random rndNmb = new System.Random();
 
         public BagageItem CreateRandomBagage()
         {
-            string passengerName = PassengerNames.ArrayOfNames[rndNmb.Next(0, PassengerNames.ArrayOfNames.Length)];
+            string passengerName = PassengerNames.ArrayOfNames[Random.rndNum.Next(0, PassengerNames.ArrayOfNames.Length)];
 
             Debug.WriteLine(passengerName + " have checkedIn");
 
@@ -53,7 +49,7 @@ namespace BagageSorting_Engine.Factories
             return new BagageItem(
                 passengerCounter,
                 passengerName,
-                DestinationNames.ArrayOfDestinations[rndNmb.Next(0, DestinationNames.ArrayOfDestinations.Length)],
+                DestinationNames.ArrayOfDestinations[Random.rndNum.Next(0, DestinationNames.ArrayOfDestinations.Length)],
                 bagageNumber,
 
                 //Flight Number

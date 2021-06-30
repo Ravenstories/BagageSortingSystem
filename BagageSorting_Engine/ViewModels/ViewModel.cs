@@ -241,7 +241,7 @@ namespace BagageSorting_Engine.ViewModels
             Thread.Sleep(Random.rndNum.Next(20, 2000));
 
             PlaneItem plane = planeController.PlaneToGate();
-            Debug.WriteLine(plane.FlightNumber + " has entered the airport");
+            //Debug.WriteLine(plane.FlightNumber + " has entered the airport");
             PlaneEvent.Invoke(this, new PlaneEventArgs(plane));
 
             while (true)
@@ -261,7 +261,7 @@ namespace BagageSorting_Engine.ViewModels
                     
                     Current_Controller_Gate.GateArray[arrayCounter].IsOpen = true;
                     
-                    Debug.WriteLine(plane.FlightNumber + " has entered the airport");
+                    //Debug.WriteLine(plane.FlightNumber + " has entered the airport");
                     PlaneEvent.Invoke(this, new PlaneEventArgs(plane));
                 }
 
@@ -278,12 +278,12 @@ namespace BagageSorting_Engine.ViewModels
                     }
                     else
                     {
+                        Thread.Sleep(Random.rndNum.Next(500, 2000));
                         itemToMove = Current_Controller_Gate.GateArray[arrayCounter].gateToPlane.MoveFromGateToPlane();
                         BagageMovedToCheckOutList?.Invoke(this, new BagageEventArgs(itemToMove));
                         Monitor.PulseAll(Current_Controller_Gate.GateArray[arrayCounter].GateLock);
                     }
                 }
-
                 Thread.Sleep(Random.rndNum.Next(1000, 5000));
             }
         }
@@ -294,9 +294,7 @@ namespace BagageSorting_Engine.ViewModels
         {
             if (Controller_CheckIn.ArrayCounter < Current_Controller_CheckIn.CheckInArray.Length)
             {
-
                 Current_Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen = true;
-
                 CheckInOpenClosedEvent.Invoke(this, new OpenClosedEvent(Current_Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].CheckInNumber, Current_Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].IsOpen));
                 
                 lock (Current_Controller_CheckIn.CheckInArray[Controller_CheckIn.ArrayCounter].CheckInLock)
@@ -341,7 +339,6 @@ namespace BagageSorting_Engine.ViewModels
                 {
                     Controller_Gates.ArrayCounter++;
                 }
-
             }
         }
         public void CloseGate()

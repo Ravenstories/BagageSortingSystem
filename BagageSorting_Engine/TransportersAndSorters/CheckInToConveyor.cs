@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Text;
 using System.Threading;
 using BagageSorting_Engine.Models;
-using BagageSorting_Engine.ViewModels;
 
 namespace BagageSorting_Engine.TransportersAndSorters
 {
