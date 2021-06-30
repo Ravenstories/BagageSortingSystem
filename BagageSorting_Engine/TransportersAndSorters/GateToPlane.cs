@@ -17,7 +17,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
             this.gate = gate;
         }
 
-        public BagageItem Transport()
+        public BagageItem MoveFromGateToPlane()
         {
             BagageItem itemToMove = null;
             
@@ -29,7 +29,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
 
             itemToMove = gate.RemoveFromBagageArray();
             itemToMove.TimeBoarded = DateTime.Now;
-            Debug.WriteLine(itemToMove.Name + "Have boarded a plane \n");
+            //Debug.WriteLine(itemToMove.Name + "Have boarded a plane \n");
             Monitor.PulseAll(gate.GateLock);
             return itemToMove;
         }

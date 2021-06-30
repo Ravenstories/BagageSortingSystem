@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BagageSorting_Engine.Models;
+using BagageSorting_Engine.Controllers;
+
 
 namespace BagageSorting_Engine.Factories
 {
@@ -16,7 +18,6 @@ namespace BagageSorting_Engine.Factories
         
 
         //Creates Planes equal to the number of gates available plus 10 extra. 
-        
         public void AddPlanesToList()
         {
             for (int i = 0; i < gateController.GateArray.Length + 10; i++)

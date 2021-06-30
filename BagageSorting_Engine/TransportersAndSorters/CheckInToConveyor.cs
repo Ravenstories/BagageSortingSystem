@@ -14,26 +14,23 @@ namespace BagageSorting_Engine.TransportersAndSorters
     {
         private CheckIn checkIn; 
         BagageItem itemToMove;
+
+        //Get the checkin that the thread works with
         public CheckInToConveyor(CheckIn checkIn)
         {
             this.checkIn = checkIn;
         }
 
-        public BagageItem GrapItemFromCheckIn()
+        //Grabs and item from checkin and store it in itemToMove and returns it.
+        public BagageItem GrabItemFromCheckIn()
         {
-
             while (checkIn.BagageArray[0] == null)
             {
                 Thread.Sleep(5000);
-                //Monitor.PulseAll(checkIn.CheckInLock);
-                Debug.WriteLine(checkIn.CheckInNumber + " GrapItemFromCheckIn Method is going to wait");
                 Monitor.Wait(checkIn.CheckInLock);
-                Debug.WriteLine(checkIn.CheckInNumber + " GrapItemFromCheckIn Method is done waiting");
-
             }
 
             itemToMove = checkIn.RemoveFromBagageArray();
-            Debug.WriteLine(itemToMove.Name + " have been grabed from checkin " + checkIn.CheckInNumber + "\n");
             Monitor.PulseAll(checkIn.CheckInLock);
             return itemToMove;
         }
@@ -49,7 +46,7 @@ namespace BagageSorting_Engine.TransportersAndSorters
             //Add Bagage To Conveyor
             itemToMove.TimeCheckIn = DateTime.Now;
             ConveyorBelt.Conveyor.Enqueue(itemToMove);
-            Debug.WriteLine(itemToMove.Name + "Should be in conveyor");
+            //Debug.WriteLine(itemToMove.Name + "Should be in conveyor");
             Monitor.PulseAll(ConveyorBelt.ConveyorLock);
         }
 

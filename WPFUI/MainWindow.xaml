@@ -26,16 +26,16 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
             
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
             
             <RowDefinition Height="20"/>
@@ -68,7 +68,7 @@
        
         <!--#endregion-->
 
-        <TextBlock Grid.Column="3" Grid.Row="2" FontSize="11" Margin="10">Conveyour/Sorter</TextBlock>
+        <TextBlock Grid.Column="3" Grid.Row="2" FontSize="11" Margin="10">Conveyor/Sorter</TextBlock>
         <DataGrid x:Name="ConveyorList" AutoGenerateColumns="true" HeadersVisibility="Column" Grid.Column="3"  Grid.Row="3" Grid.RowSpan="10" Margin="5"/>
 
         <!--#Region Gates-->

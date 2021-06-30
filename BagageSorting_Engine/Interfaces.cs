@@ -7,27 +7,12 @@ using BagageSorting_Engine.Models;
 
 namespace BagageSorting_Engine
 {
-    public interface IStartProcess
-    {
-        void StartProcess();
-    }
+    
     public interface IItemsAtLocation
     {
         void ItemsAtLocation(BagageItem[] conveyorArray);
     }
-    public interface ISortCheckIn
-    {
-        void SortCheckIn(BagageItem[] bagageList, BagageItem[] conveyor);
-    }
-    public interface ISortArray
-    {
-        void GrapItemFromConveyor(BagageItem[] conveyor);
-    }
-    public interface IMoveArray
-    {
-        BagageItem[] MoveArray(BagageItem[] conveyorArray);
-    }
-
+    
     public interface IAddBagageToArray
     {
         bool AddToBagageArray(BagageItem bagageItem);
