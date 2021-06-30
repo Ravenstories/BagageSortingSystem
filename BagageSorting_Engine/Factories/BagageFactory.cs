@@ -15,6 +15,7 @@ namespace BagageSorting_Engine.Factories
 
         static BagageFactory()
         {
+            //Legacy code, not getting used after random works.
             BuildBagageItem(11111, "Jane Janson",       "Copenhagen",   000001, 991234, 1, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
             BuildBagageItem(11112, "Benny Bentson",     "Helsinki",     000002, 992345, 2, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
             BuildBagageItem(11113, "Anders Anderson",   "New York",     000003, 993456, 3, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
@@ -35,7 +36,6 @@ namespace BagageSorting_Engine.Factories
         }
 
         //Function that keeps generating random Bagage
-
         static int passengerCounter = 11120;
         static int bagageNumber = 000010;
         System.Random rndNmb = new System.Random();
@@ -48,7 +48,8 @@ namespace BagageSorting_Engine.Factories
 
             passengerCounter++;
             bagageNumber++;
-                    
+            
+            //Needs to be reworked so that it gets gateNumber from plane destination
             return new BagageItem(
                 passengerCounter,
                 passengerName,

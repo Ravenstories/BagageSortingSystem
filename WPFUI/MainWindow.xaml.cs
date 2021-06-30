@@ -9,6 +9,7 @@ namespace WPFUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
+    /// Using a simple Mvvm idea with events instead of bindings.
     /// </summary>
     public partial class MainWindow : Window
     {

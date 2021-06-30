@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using BagageSorting_Engine.Models;
 
-namespace BagageSorting_Engine
+namespace BagageSorting_Engine.Controllers
 {
     public class Controller_Gates
     {

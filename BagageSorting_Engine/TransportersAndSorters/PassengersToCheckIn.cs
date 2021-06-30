@@ -7,6 +7,8 @@ using System.Threading;
 using BagageSorting_Engine.Models;
 using BagageSorting_Engine.Events;
 using System.Diagnostics;
+using BagageSorting_Engine.Controllers;
+
 
 namespace BagageSorting_Engine.TransportersAndSorters
 {
@@ -36,7 +38,11 @@ namespace BagageSorting_Engine.TransportersAndSorters
         {
             //Sorting the bagage to a random CheckIn, to simulate people arriving at different gates.
             CheckIn checkIn = Controller_CheckIn.CheckInArray[Random.rndNum.Next(0, Controller_CheckIn.CheckInArray.Length)];
-            //CheckIn checkIn = Controller_CheckIn.CheckInArray[0];
+            
+            if (checkIn.IsOpen == false)
+            {
+                checkIn = Controller_CheckIn.CheckInArray[0];
+            }
             
             if (checkIn.IsOpen)
             {
@@ -46,15 +52,11 @@ namespace BagageSorting_Engine.TransportersAndSorters
                     {
                         Thread.Sleep(5000);
                         Monitor.PulseAll(checkIn.CheckInLock);
-                        //Debug.WriteLine(checkIn.CheckInNumber + " is going to wait");
-                        //Monitor.Wait(checkIn.CheckInLock);
-                        //Debug.WriteLine(checkIn.CheckInNumber + " is done waiting");
+                        Monitor.Wait(checkIn.CheckInLock);
                     }
                     IncomingPassengers.RemoveBagageFromList(itemToMove);
                     Monitor.PulseAll(checkIn.CheckInLock);
                 }
-
-                Debug.WriteLine(itemToMove.Name + " have moved to Check In " + checkIn.CheckInNumber);
                 return checkIn.IsOpen;
             }
             else

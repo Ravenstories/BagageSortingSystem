@@ -8,6 +8,7 @@ namespace BagageSorting_Engine.Factories
 {
     class PassengerNames
     {
+        //Names for random generation of passenger bagage
         private static string[] arrayOfNames = {
 
             "Therese Neidert",
